@@ -1,0 +1,185 @@
+.apiTestContainer {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  width: 100%;
+  
+  .title {
+    font-size: 1.4rem;
+    color: #333;
+    margin-bottom: 1rem;
+  }
+  
+  .description {
+    margin-bottom: 1.5rem;
+    
+    p {
+      margin-bottom: 0.5rem;
+    }
+    
+    ul {
+      list-style-type: disc;
+      padding-left: 1.5rem;
+      
+      li {
+        margin-bottom: 0.5rem;
+        line-height: 1.4;
+      }
+    }
+  }
+  
+  .buttonGroup {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    
+    .apiButton {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s;
+      
+      &:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+      
+      &:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      
+      &.public {
+        background-color: #28a745;
+        &:hover:not(:disabled) {
+          background-color: #218838;
+        }
+      }
+      
+      &.protected {
+        background-color: #0070f3;
+        &:hover:not(:disabled) {
+          background-color: #0060df;
+        }
+      }
+      
+      &.admin {
+        background-color: #6f42c1;
+        &:hover:not(:disabled) {
+          background-color: #5e37a6;
+        }
+      }
+    }
+    
+    .resetButton {
+      padding: 0.75rem 1.25rem;
+      border: 1px solid #dee2e6;
+      background-color: white;
+      border-radius: 4px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      
+      &:hover:not(:disabled) {
+        background-color: #f8f9fa;
+      }
+    }
+  }
+  
+  .warning {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: #fff3cd;
+    border-left: 4px solid #ffc107;
+    color: #856404;
+  }
+  
+  .resultsContainer {
+    margin-top: 1.5rem;
+    
+    h3 {
+      margin-bottom: 1rem;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    
+    .resultCard {
+      margin-bottom: 1rem;
+      padding: 1rem;
+      border-radius: 6px;
+      position: relative;
+      overflow: hidden;
+      
+      &.success {
+        background-color: #f0fff4;
+        border: 1px solid #d4edda;
+      }
+      
+      &.error {
+        background-color: #fff5f5;
+        border: 1px solid #f8d7da;
+      }
+      
+      h4 {
+        margin-bottom: 1rem;
+        text-transform: capitalize;
+        font-size: 1.1rem;
+      }
+      
+      .statusBadge {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        padding: 0.3rem 0.6rem;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        
+        .success & {
+          background-color: #28a745;
+          color: white;
+        }
+        
+        .error & {
+          background-color: #dc3545;
+          color: white;
+        }
+      }
+      
+      .tokenRefreshed {
+        margin: 0.5rem 0;
+        padding: 0.5rem;
+        background-color: #cce5ff;
+        border-radius: 4px;
+        
+        p {
+          color: #004085;
+          font-weight: 500;
+          margin: 0;
+        }
+      }
+      
+      .resultData {
+        margin-top: 1rem;
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        white-space: pre-wrap;
+        overflow-x: auto;
+      }
+    }
+  }
+} 

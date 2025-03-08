@@ -1,21 +1,24 @@
 import type { Metadata } from "next";
+import { AuthProvider } from "@/app/components/auth/AuthContext";
 import "./globals.scss";
 
 export const metadata: Metadata = {
-  title: "My Next.js Project",
-  description: "내 개인 니즈에 맞춘 Next.js 프로젝트",
+    title: "My Blog - JWT Authentication",
+    description: "A personal tech blog with JWT authentication",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html lang="ko">
-      <body>
-        {children}
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en">
+            <body>
+                <AuthProvider>
+                    {children}
+                </AuthProvider>
+            </body>
+        </html>
+    );
 }

@@ -1,0 +1,111 @@
+.authButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 20px 0;
+  padding: 15px;
+  border-radius: 8px;
+  background-color: #f5f5f5;
+  width: 100%;
+  max-width: 400px;
+  
+  .userInfo {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    
+    .userName {
+      font-weight: bold;
+      font-size: 1.1rem;
+    }
+    
+    .userEmail {
+      font-size: 0.9rem;
+      color: #666;
+    }
+  }
+  
+  .tokenInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #eaeaea;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    
+    .tokenStatus {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      
+      .valid {
+        color: #4caf50;
+        font-weight: bold;
+      }
+      
+      .expired {
+        color: #f44336;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  .loginForm {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .input {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+    
+    &:focus {
+      outline: none;
+      border-color: #0070f3;
+    }
+  }
+  
+  .loginButton, 
+  .logoutButton {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    
+    &:disabled {
+      cursor: not-allowed;
+      opacity: 0.7;
+    }
+  }
+  
+  .loginButton {
+    background-color: #0070f3;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background-color: #0060df;
+    }
+  }
+  
+  .logoutButton {
+    background-color: #f44336;
+    color: white;
+    
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+  
+  .error {
+    color: #f44336;
+    font-size: 0.9rem;
+    margin-top: 5px;
+  }
+} 
