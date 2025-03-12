@@ -11,7 +11,8 @@ export default function Home() {
         </h1>
         <div className={styles.descriptionCard}>
           <p className={styles.description}>
-            Exploring the intersection of design and technology through insights, tutorials, and thought-provoking articles on modern web development.
+            {/* Exploring the intersection of design and technology through insights, tutorials, and thought-provoking articles on modern web development. */}
+            Delving into the crossroads of technology and creativity, offering in-depth insights, tutorials, and challenging articles across various fields like systems, AI, and web development.
           </p>
           <div className={styles.socialLinks}>
             <a href="https://github.com/DokaDev" target="_blank" rel="noopener noreferrer" className={styles.socialLink} aria-label="GitHub">
