@@ -1,11 +1,12 @@
 FROM node:20.13.1
 WORKDIR /app
 COPY package*.json ./
-RUN npm i
+RUN npm ci
 COPY . .
 
 RUN npm run build
 
 EXPOSE 3000
 
-CMD ["npx", "next", "start"] 
+CMD ["npm", "start"] 
+# CMD ["npx", "next", "start"] 
