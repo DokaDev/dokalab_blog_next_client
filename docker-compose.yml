@@ -1,0 +1,17 @@
+services:
+  web_client:
+    build:
+      context: .
+    container_name: web_client
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app
+    stdin_open: true
+    tty: true
+    networks:
+      - dokalab_blog_network
+    
+networks:
+  dokalab_blog_network:
+    external: true

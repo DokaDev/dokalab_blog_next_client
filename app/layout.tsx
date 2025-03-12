@@ -1,24 +1,28 @@
 import type { Metadata } from "next";
-import { AuthProvider } from "@/app/components/auth/AuthContext";
-import "./globals.scss";
+import Header from './components/layout/Header';
+import "./globals.css";
 
 export const metadata: Metadata = {
-    title: "My Blog - JWT Authentication",
-    description: "A personal tech blog with JWT authentication",
+  title: "My Blog",
+  description: "A personal tech blog",
 };
 
+// Force dynamic rendering for all pages
+export const dynamic = "force-dynamic";
+
 export default function RootLayout({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
-    return (
-        <html lang="en">
-            <body>
-                <AuthProvider>
-                    {children}
-                </AuthProvider>
-            </body>
-        </html>
-    );
-}
+  return (
+    <html lang="en">
+      <body>
+        <Header />
+        <main>
+          {children}
+        </main>
+      </body>
+    </html>
+  );
+} 

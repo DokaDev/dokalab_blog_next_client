@@ -87,6 +87,11 @@ export const generateTestJwt = (): AuthTokens => {
 };
 
 // JWT decoding function
+/*
+* const decodeJwt = (token: string): JwtPayload => {
+*   const parts = token.split('.');
+}
+ */
 export const decodeJwt = (token: string): JwtPayload => {
   const parts = token.split('.');
   if (parts.length !== 3) {

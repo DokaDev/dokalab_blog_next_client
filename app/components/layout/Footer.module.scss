@@ -1,0 +1,146 @@
+.footer {
+  width: 100%;
+  background-color: #FAFAFA;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 4rem 0 2rem;
+  margin-top: 5rem;
+}
+
+.footerContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.footerTop {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+  gap: 2rem;
+}
+
+.footerLogo {
+  flex: 0 0 250px;
+  
+  .logoText {
+    font-size: 1.8rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, #644AC9 0%, #A3144D 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+    letter-spacing: 0.02em;
+  }
+  
+  .tagline {
+    margin-top: 0.5rem;
+    font-size: 0.95rem;
+    color: #666;
+  }
+}
+
+.footerNav {
+  flex: 1;
+  min-width: 250px;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footerLinkItem {
+  flex: 0 0 calc(50% - 2rem);
+}
+
+.footerLink {
+  color: #555;
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #644AC9;
+  }
+}
+
+.socialLinks {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(100, 74, 201, 0.1);
+  color: #644AC9;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: #644AC9;
+    color: white;
+    transform: translateY(-2px);
+  }
+}
+
+.footerBottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.copyright, .credits {
+  font-size: 0.85rem;
+  color: #777;
+  margin: 0;
+}
+
+// 반응형 디자인
+@media (max-width: 768px) {
+  .footer {
+    padding: 3rem 0 1.5rem;
+  }
+  
+  .footerTop {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .footerLogo {
+    text-align: center;
+    flex: 0 0 auto;
+  }
+  
+  .footerLinks {
+    justify-content: center;
+  }
+  
+  .footerLinkItem {
+    flex: 0 0 auto;
+  }
+  
+  .socialLinks {
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .footerBottom {
+    flex-direction: column;
+    text-align: center;
+  }
+} 
