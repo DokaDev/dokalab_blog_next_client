@@ -14,6 +14,18 @@ body {
   color: #1F1F1F;
 }
 
+main {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 70px);
+}
+
+@media (max-width: 768px) {
+  main {
+    min-height: calc(100vh - 60px);
+  }
+}
+
 a {
   color: inherit;
   text-decoration: none;

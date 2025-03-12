@@ -5,4 +5,4 @@ export default function AboutPage() {
       <p>This is a simple about page to test navigation.</p>
     </div>
   );
-} 
+}
