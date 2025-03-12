@@ -9,6 +9,7 @@
   letter-spacing: -0.5px;
   background: linear-gradient(135deg, #644AC9, #A3144D);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
   transition: all 0.3s ease;
@@ -17,6 +18,7 @@
     transform: translateY(-1px);
     background: linear-gradient(135deg, #644AC9, #CB3A2A);
     -webkit-background-clip: text;
+    background-clip: text;
     -webkit-text-fill-color: transparent;
   }
 }

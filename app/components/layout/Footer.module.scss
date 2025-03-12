@@ -28,8 +28,8 @@
     font-weight: 700;
     background: linear-gradient(135deg, #644AC9 0%, #A3144D 100%);
     -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
     background-clip: text;
+    -webkit-text-fill-color: transparent;
     color: transparent;
     letter-spacing: 0.02em;
   }
@@ -110,7 +110,7 @@
   margin: 0;
 }
 
-// 반응형 디자인
+// Responsive design
 @media (max-width: 768px) {
   .footer {
     padding: 3rem 0 1.5rem;

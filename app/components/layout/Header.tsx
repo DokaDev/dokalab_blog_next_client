@@ -10,30 +10,24 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
   const [isTransitioning, setIsTransitioning] = useState(false);
 
-  // 컴포넌트가 마운트된 후에만 클라이언트 사이드 상태를 사용하도록 함
+  // Only use client-side state after component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
-  
-  // 모바일 메뉴 상태 변경 시 디버깅 로그
-  useEffect(() => {
-    if (mounted) {
-      console.log('Navigation mobileOpen 클래스 적용 상태:', isMobileMenuOpen);
-    }
-  }, [isMobileMenuOpen, mounted]);
 
   const toggleMobileMenu = () => {
+    // Prevent multiple clicks during transition
     if (isTransitioning) return;
     
-    console.log('메뉴 토글 전 상태:', isMobileMenuOpen);
-    
+    // Start transition
     setIsTransitioning(true);
     
+    // Toggle menu state
     setIsMobileMenuOpen(!isMobileMenuOpen);
     
+    // Reset transition state after animation completes
     setTimeout(() => {
       setIsTransitioning(false);
-      console.log('메뉴 토글 후 상태:', !isMobileMenuOpen);
     }, 400);
   };
 

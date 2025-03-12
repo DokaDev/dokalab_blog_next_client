@@ -17,12 +17,12 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
   const prevPathRef = useRef(pathname);
   const navRef = useRef<HTMLElement>(null);
   
-  // 컴포넌트가 마운트된 후에만 클라이언트 사이드 상태를 사용하도록 함
+  // Only use client-side state after component is mounted
   useEffect(() => {
     setMounted(true);
   }, []);
   
-  // 경로 변경 시에만 메뉴 닫기 - 이전 경로와 현재 경로가 다를 때만 실행
+  // Close menu only when path changes - compare current and previous paths
   useEffect(() => {
     if (prevPathRef.current !== pathname && setIsMobileMenuOpen && isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
@@ -30,7 +30,7 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
     prevPathRef.current = pathname;
   }, [pathname, setIsMobileMenuOpen, isMobileMenuOpen]);
   
-  // 모바일 메뉴가 열릴 때 body 스크롤 방지
+  // Prevent body scrolling when mobile menu is open
   useEffect(() => {
     if (typeof document !== 'undefined') {
       if (isMobileMenuOpen) {
@@ -40,7 +40,7 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
       }
     }
     
-    // 컴포넌트 언마운트 시 스크롤 복원
+    // Restore scroll on component unmount
     return () => {
       if (typeof document !== 'undefined') {
         document.body.style.overflow = '';
@@ -48,24 +48,17 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
     };
   }, [isMobileMenuOpen]);
   
-  // 디버깅용 로그
-  useEffect(() => {
-    if (mounted) {
-      console.log('Navigation 컴포넌트 - 모바일 메뉴 상태:', isMobileMenuOpen);
-    }
-  }, [isMobileMenuOpen, mounted]);
-  
   const navItems = [
     { label: 'About', path: '/about' },
     { label: 'Blog', path: '/blog' },
     { label: 'Contact', path: '/contact' }
   ];
 
-  // 클라이언트 사이드 네비게이션 핸들러
+  // Client-side navigation handler
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     
-    // 페이지 이동 전에 모바일 메뉴 닫기
+    // Close mobile menu before page navigation
     if (setIsMobileMenuOpen && isMobileMenuOpen) {
       setIsMobileMenuOpen(false);
     }
@@ -73,7 +66,7 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
     router.push(path);
   };
   
-  // 모든 초기 렌더링에 대해 동일한 기본 내용 반환
+  // Return same base content for all initial renders
   const navContent = (
     <ul className={styles.navList}>
       {navItems.map((item) => (

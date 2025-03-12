@@ -5,7 +5,7 @@ export default function BlogPage() {
       maxWidth: '800px', 
       margin: '0 auto', 
       position: 'relative', 
-      zIndex: 1 // 낮은 z-index 추가
+      zIndex: 1 // Add lower z-index
     }}>
       <h1>Blog</h1>
       <p>This is a simple blog page to test navigation.</p>
