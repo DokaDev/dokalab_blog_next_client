@@ -86,8 +86,8 @@
     width: 100vw;
     height: calc(100vh - 60px);
     background: rgba(255, 255, 255, 0.97);
-    backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
     overflow: hidden;
     transition: opacity 0.4s ease, visibility 0.4s ease;
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
