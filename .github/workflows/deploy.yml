@@ -22,7 +22,7 @@ jobs:
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
         script: |
-          cd /home/${{ secrets.USERNAME }}/dokalab_blog_next_client
+          cd /${{ secrets.USERNAME }}/dokalab_blog_next_client
           git pull
           docker compose down -v
           docker compose up -d --build
