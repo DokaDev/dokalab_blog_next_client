@@ -84,12 +84,13 @@
     top: 60px;
     left: 0;
     width: 100vw;
-    height: calc(100vh - 60px);
+    height: 0; /* 초기 높이를 0으로 설정 */
+    max-height: 0; /* 초기 최대 높이를 0으로 설정 */
     background: rgba(255, 255, 255, 0.98);
     -webkit-backdrop-filter: blur(35px);
     backdrop-filter: blur(35px);
     overflow: hidden;
-    transition: opacity 0.4s ease, visibility 0.4s ease;
+    transition: max-height 0.4s ease, opacity 0.4s ease, visibility 0.4s ease;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
     z-index: 1001;
     visibility: hidden;
@@ -101,7 +102,7 @@
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
-    padding-top: 20px;
+    padding: 0;
     
     &::before {
       content: '';
@@ -121,19 +122,25 @@
     &.mobileOpen {
       visibility: visible;
       opacity: 1;
-      overflow-y: auto;
       pointer-events: auto;
+      max-height: calc(100vh - 60px); /* 메뉴 열릴 때 최대 높이 설정 */
+      height: calc(100vh - 60px); /* 메뉴 열릴 때 높이 설정 */
+      padding-top: 15px;
+      padding-bottom: 15px;
+      overflow-y: auto;
     }
   }
   
   .navList {
     flex-direction: column;
     width: 100%;
-    padding: 1rem 0;
+    padding: 0;
     gap: 0;
     opacity: 0;
-    margin-top: 0;
+    margin: 0; /* 모든 마진 제거 */
     transition: opacity 0.3s ease;
+    flex: 1; /* 사용 가능한 공간을 모두 사용 */
+    display: flex; /* 플렉스 컨테이너 설정 */
   }
   
   .mobileOpen .navList {
@@ -175,7 +182,8 @@
   .navLink {
     width: 100%;
     height: auto;
-    padding: 1.2rem;
+    min-height: 56px; /* 최소 높이 설정으로 일관된 크기 보장 */
+    padding: 1rem 1.2rem;
     font-size: 1.1rem;
     justify-content: flex-start;
     font-weight: 600;
@@ -183,6 +191,8 @@
     border-left: 0;
     transition: border-left 0.3s ease, background-color 0.3s ease, color 0.3s ease;
     color: #1a1a1a;
+    display: flex;
+    align-items: center;
     
     &::before {
       display: none;

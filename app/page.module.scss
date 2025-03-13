@@ -336,51 +336,70 @@
 
 @media (max-width: 768px) {
   .container {
-    padding: 4rem 1.5rem;
-    min-height: calc(100vh - 60px);
+    padding: 5rem 0.5rem;
+    padding-top: 6rem;
+    width: 100%;
+    max-width: 100%;
   }
   
   .content {
     align-items: center;
+    width: 100%;
+    padding: 0 0.5rem;
   }
   
   .title {
-    font-size: 2.8rem;
-    letter-spacing: -2px;
-    padding-left: 1.5rem;
-    text-align: left;
+    font-size: 2.5rem;
+    letter-spacing: -1px;
+    padding-left: 1.2rem;
     width: 100%;
-    
-    &::before {
-      height: 70%;
-      width: 4px;
-    }
+    max-width: 100%;
   }
   
   .descriptionCard {
     width: 100%;
+    max-width: 100%;
+    border-radius: 8px;
   }
   
   .description {
     font-size: 1.1rem;
-    padding: 1.5rem 1.5rem 1rem;
+    padding: 1.5rem 1.2rem 1rem;
   }
   
   .socialLinks {
-    padding: 0 1.5rem 1.5rem;
+    padding: 0 1.2rem 1.2rem;
     justify-content: center;
   }
   
-  .featuredGrid {
-    grid-template-columns: 1fr;
+  .featuredContent {
+    width: 100%;
+    padding: 0;
+    max-width: 100%;
   }
   
   .sectionTitle {
     font-size: 2.2rem;
+    width: 100%;
+    padding: 0 0.5rem;
+  }
+  
+  .featuredGrid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 0;
+    width: 100%;
+  }
+  
+  .featuredCard {
+    margin: 0;
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 8px;
   }
   
   .scrollIndicator {
-    bottom: 1.5rem;
+    bottom: 1rem;
     
     span {
       font-size: 0.8rem;
