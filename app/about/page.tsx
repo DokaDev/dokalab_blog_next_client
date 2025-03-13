@@ -31,7 +31,7 @@ export default function AboutPage() {
         <h2>Our Philosophy</h2>
         <p>
           We approach technology with a holistic perspective, recognizing that the most innovative solutions often emerge 
-          at the intersection of different domains. Whether it's combining machine learning with web development or
+          at the intersection of different domains. Whether it&apos;s combining machine learning with web development or
           exploring how system design principles can inform UI/UX decisions, we believe in breaking down silos between
           technological disciplines.
         </p>
@@ -56,7 +56,7 @@ export default function AboutPage() {
         <h3>Web Development</h3>
         <p>
           From modern frontend frameworks to backend architecture, we explore the evolving landscape of web development.
-          We're particularly interested in performance optimization, accessibility, and the intersection of design and development.
+          We&apos;re particularly interested in performance optimization, accessibility, and the intersection of design and development.
         </p>
         
         <h3>Artificial Intelligence & Machine Learning</h3>
@@ -109,7 +109,7 @@ export default function AboutPage() {
       <section className={styles.aboutSection}>
         <h2>Our Approach to Content</h2>
         <p>
-          We believe that learning is most effective when it's engaging and applicable to real-world scenarios. That's why
+          We believe that learning is most effective when it&apos;s engaging and applicable to real-world scenarios. That&apos;s why
           our content follows a specific methodology:
         </p>
         
@@ -139,7 +139,7 @@ export default function AboutPage() {
       <section className={styles.aboutSection}>
         <h2>Community Engagement</h2>
         <p>
-          DokaLab is more than just a blog—it's a community of learners and practitioners. We actively engage with our
+          DokaLab is more than just a blog—it&apos;s a community of learners and practitioners. We actively engage with our
           readers through:
         </p>
         
@@ -151,7 +151,7 @@ export default function AboutPage() {
         </ul>
         
         <p>
-          We believe that the most valuable insights often come from diverse perspectives, and we're committed to
+          We believe that the most valuable insights often come from diverse perspectives, and we&apos;re committed to
           fostering an inclusive and supportive community.
         </p>
       </section>
@@ -171,7 +171,7 @@ export default function AboutPage() {
         </ul>
         
         <p>
-          We're also exploring new formats for our content, including interactive tutorials, visualizations, and
+          We&apos;re also exploring new formats for our content, including interactive tutorials, visualizations, and
           self-paced courses.
         </p>
       </section>
@@ -191,7 +191,7 @@ export default function AboutPage() {
         </ul>
         
         <p>
-          We also welcome contributions from guest authors who have expertise in technology-related fields. If you're
+          We also welcome contributions from guest authors who have expertise in technology-related fields. If you&apos;re
           interested in writing for DokaLab, please check our contribution guidelines.
         </p>
       </section>
@@ -199,7 +199,7 @@ export default function AboutPage() {
       <section className={styles.aboutSection}>
         <h2>Acknowledgments</h2>
         <p>
-          DokaLab wouldn't be possible without the support of numerous individuals and organizations. We'd like to express
+          DokaLab wouldn&apos;t be possible without the support of numerous individuals and organizations. We&apos;d like to express
           our gratitude to:
         </p>
         
@@ -210,7 +210,7 @@ export default function AboutPage() {
         </ul>
         
         <p>
-          We're committed to giving back to the community that has supported us, which is why a portion of our revenue
+          We&apos;re committed to giving back to the community that has supported us, which is why a portion of our revenue
           goes toward supporting open-source projects and technology education initiatives.
         </p>
       </section>
@@ -224,7 +224,7 @@ export default function AboutPage() {
         <div className={styles.valueItem}>
           <h3>Intellectual Curiosity</h3>
           <p>
-            We approach technology with a sense of wonder and a desire to understand how things work. We're not
+            We approach technology with a sense of wonder and a desire to understand how things work. We&apos;re not
             satisfied with surface-level explanations and always strive to explore topics in depth.
           </p>
         </div>
@@ -248,7 +248,7 @@ export default function AboutPage() {
         <div className={styles.valueItem}>
           <h3>Continuous Learning</h3>
           <p>
-            Technology is constantly evolving, and so are we. We're committed to continuous learning and updating
+            Technology is constantly evolving, and so are we. We&apos;re committed to continuous learning and updating
             our understanding as new developments emerge.
           </p>
         </div>
@@ -263,7 +263,7 @@ export default function AboutPage() {
       </section>
       
       <p className={styles.closingNote}>
-        Thank you for taking the time to learn about DokaLab. We're excited to have you as part of our community and
+        Thank you for taking the time to learn about DokaLab. We&apos;re excited to have you as part of our community and
         look forward to exploring the fascinating world of technology together.
       </p>
     </div>
