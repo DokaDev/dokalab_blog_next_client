@@ -1,5 +1,5 @@
 .sectionsContainer {
-  height: calc(100vh - 70px);
+  height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
   scrollbar-width: none; /* Firefox */
@@ -12,7 +12,7 @@
 }
 
 .section {
-  height: calc(100vh - 70px);
+  height: 100vh;
   width: 100%;
   scroll-snap-align: start;
   position: relative;
@@ -24,8 +24,9 @@
   justify-content: center;
   align-items: center;
   padding: 6rem 2rem;
+  padding-top: 8rem; /* 헤더 높이를 고려한 추가 패딩 */
   min-height: 100%;
-  background-color: #FFFFFF;
+  background-color: rgba(255, 255, 255, 0.5);
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(163, 20, 77, 0.03) 0%, transparent 30%),
     radial-gradient(circle at 80% 60%, rgba(100, 74, 201, 0.03) 0%, transparent 40%);
