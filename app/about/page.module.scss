@@ -1,5 +1,73 @@
 .container {
   padding: 2rem;
+  padding-top: calc(2rem + 70px);
   max-width: 800px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+.aboutSection {
+  margin-bottom: 3rem;
+  
+  h2 {
+    color: #644AC9;
+    margin-bottom: 1rem;
+    font-size: 1.8rem;
+  }
+  
+  h3 {
+    color: #36454F;
+    margin: 1.5rem 0 0.75rem;
+    font-size: 1.4rem;
+  }
+  
+  p {
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    color: #333;
+  }
+  
+  ul, ol {
+    margin: 1rem 0 1.5rem 1.5rem;
+    
+    li {
+      margin-bottom: 0.5rem;
+      line-height: 1.6;
+    }
+  }
+}
+
+.teamMember, .valueItem {
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  border-left: 4px solid #644AC9;
+}
+
+.closingNote {
+  font-style: italic;
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  color: #555;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding-top: calc(2rem + 60px);
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+  
+  .aboutSection {
+    h2 {
+      font-size: 1.6rem;
+    }
+    
+    h3 {
+      font-size: 1.3rem;
+    }
+  }
 } 
