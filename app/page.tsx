@@ -13,10 +13,10 @@ export default function Home() {
         
         const direction = e.deltaY > 0 ? 1 : -1;
         const scrollPosition = sectionsRef.current.scrollTop;
-        const windowHeight = window.innerHeight;
+        const sectionHeight = window.innerHeight - 70; // 헤더 높이 고려
         
-        const targetSection = Math.round((scrollPosition / windowHeight) + direction);
-        const targetScrollPosition = targetSection * windowHeight;
+        const targetSection = Math.round((scrollPosition / sectionHeight) + direction);
+        const targetScrollPosition = targetSection * sectionHeight;
         
         sectionsRef.current.scrollTo({
           top: targetScrollPosition,
@@ -40,7 +40,7 @@ export default function Home() {
   const handleScrollDown = () => {
     if (sectionsRef.current) {
       sectionsRef.current.scrollTo({
-        top: window.innerHeight,
+        top: window.innerHeight - 70, // 헤더 높이 고려
         behavior: 'smooth'
       });
     }

@@ -12,7 +12,7 @@
 }
 
 .section {
-  height: 100vh;
+  height: calc(100vh - 70px);
   width: 100%;
   scroll-snap-align: start;
   position: relative;
@@ -24,7 +24,7 @@
   justify-content: center;
   align-items: center;
   padding: 6rem 2rem;
-  min-height: calc(100vh - 70px);
+  min-height: 100%;
   background-color: #FFFFFF;
   background-image: 
     radial-gradient(circle at 10% 20%, rgba(163, 20, 77, 0.03) 0%, transparent 30%),
