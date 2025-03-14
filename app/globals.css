@@ -30,7 +30,7 @@ main.homePage {
 
 /* 서브페이지용 main 스타일 */
 main.subPage {
-  padding-top: 70px; /* 헤더 높이만큼 상단 패딩 추가 */
+  padding-top: 70px; /* 헤더 높이만큼만 패딩 추가, 추가 여백은 컨테이너에서 조정 */
 }
 
 @media (max-width: 768px) {
@@ -44,7 +44,7 @@ main.subPage {
   }
   
   main.subPage {
-    padding-top: 60px; /* 모바일 헤더 높이만큼 상단 패딩 */
+    padding-top: 60px; /* 모바일 헤더 높이만큼만 패딩 */
   }
   
   body {
