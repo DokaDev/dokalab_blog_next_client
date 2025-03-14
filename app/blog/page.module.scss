@@ -1,5 +1,6 @@
 .container {
   padding: 32px;
+  padding-top: 42px;
   max-width: 800px;
   margin: 0 auto;
   position: relative;
@@ -9,5 +10,6 @@
 @media (max-width: 768px) {
   .container {
     padding: 32px 24px; /* 모바일에서는 좌우 패딩을 약간 줄임 */
+    padding-top: 42px;
   }
 } 
