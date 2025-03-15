@@ -2,13 +2,18 @@
   height: 100vh;
   overflow-y: auto;
   scroll-snap-type: y mandatory;
-  scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   position: relative;
   
+  /* 모든 브라우저용 스크롤바 숨김 처리 */
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
+    width: 0;
+    height: 0;
   }
+  
+  /* Firefox용 - 호환성 문제가 있는 브라우저에서는 무시됨 */
+  scrollbar-width: none;
 }
 
 .section {
