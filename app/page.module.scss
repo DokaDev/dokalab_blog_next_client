@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
 }
 
 .container {
@@ -260,6 +260,8 @@
   z-index: 1;
   padding: 0 2rem;
   animation: fadeIn 1s ease-out;
+  max-height: 90vh; /* 뷰포트 높이의 90%로 제한 */
+  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
 }
 
 .sectionTitle {
@@ -286,6 +288,8 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
+  max-height: 70vh; /* 뷰포트 높이의 70%로 제한 */
+  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
 }
 
 .featuredCard {
@@ -296,6 +300,8 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
   
   &:hover {
     transform: translateY(-5px);
@@ -384,6 +390,7 @@
     width: 100%;
     padding: 0;
     max-width: 100%;
+    max-height: 80vh; /* 모바일에서는 뷰포트 높이의 80%로 제한 */
   }
   
   .sectionTitle {
@@ -397,6 +404,12 @@
     gap: 1rem;
     padding: 0;
     width: 100%;
+    max-height: 50vh; /* 모바일에서는 뷰포트 높이의 50%로 더 제한 */
+    
+    /* 모바일에서 2번째 이후 카드 숨김 */
+    & > :nth-child(n+3) {
+      display: none;
+    }
   }
   
   .featuredCard {
@@ -404,6 +417,8 @@
     width: 100%;
     padding: 1.5rem;
     border-radius: 8px;
+    max-height: 24vh; /* 카드 높이 제한 */
+    overflow: hidden;
   }
   
   .scrollIndicator {
