@@ -51,7 +51,8 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
   const navItems = [
     { label: 'About', path: '/about' },
     { label: 'Blog', path: '/blog' },
-    { label: 'Contact', path: '/contact' }
+    { label: 'Contact', path: '/contact' },
+    { label: 'Components', path: '/components' }
   ];
 
   // Client-side navigation handler
