@@ -401,10 +401,10 @@
   
   .featuredGrid {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    gap: 2rem;
     padding: 0;
     width: 100%;
-    max-height: 50vh; /* 모바일에서는 뷰포트 높이의 50%로 더 제한 */
+    max-height: 70vh;
     
     /* 모바일에서 2번째 이후 카드 숨김 */
     & > :nth-child(n+3) {
@@ -415,10 +415,30 @@
   .featuredCard {
     margin: 0;
     width: 100%;
-    padding: 1.5rem;
-    border-radius: 8px;
-    max-height: 24vh; /* 카드 높이 제한 */
+    padding: 2rem;
+    border-radius: 12px;
+    max-height: 34vh;
     overflow: hidden;
+    
+    h3 {
+      font-size: 1.7rem;
+      margin-bottom: 1.25rem;
+    }
+    
+    p {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+  }
+  
+  .featuredLink {
+    font-size: 1.1rem;
+    
+    svg {
+      width: 22px;
+      height: 22px;
+    }
   }
   
   .scrollIndicator {
