@@ -1,0 +1,266 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 42px 2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.header {
+  margin-bottom: 2rem;
+  position: relative;
+}
+
+.backLink {
+  display: inline-block;
+  margin-bottom: 1rem;
+  color: #644AC9;
+  font-weight: 500;
+  transition: color 0.3s ease;
+  
+  &:hover {
+    color: #A3144D;
+  }
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #1F1F1F;
+  position: relative;
+  padding-left: 1rem;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 4px;
+    height: 70%;
+    background: #644AC9;
+    border-radius: 2px;
+  }
+}
+
+.description {
+  color: #555;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 800px;
+}
+
+.testContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+// 뷰 모드일 때 레이아웃
+.viewModeActive {
+  grid-template-columns: 1fr;
+}
+
+.inputSection, .outputSection {
+  h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #1F1F1F;
+  }
+  
+  transition: all 0.3s ease;
+}
+
+// 출력 섹션이 전체 너비를 차지할 때 스타일
+.fullWidth {
+  grid-column: 1 / -1;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.markdownInput {
+  width: 100%;
+  min-height: 500px;
+  padding: 1rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  resize: vertical;
+  background-color: #f8fafc;
+  color: #334155;
+  
+  &:focus {
+    outline: none;
+    border-color: #644AC9;
+    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+  }
+}
+
+.renderPlaceholder {
+  width: 100%;
+  min-height: 500px;
+  padding: 2rem;
+  border: 1px dashed #cbd5e0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #94a3b8;
+  text-align: center;
+  
+  p {
+    margin: 0.5rem 0;
+  }
+}
+
+// 개발자 모드 토글 버튼
+.devModeToggle {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  background-color: #f8fafc;
+  color: #475569;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 10;
+  
+  &:hover {
+    background-color: #644AC9;
+    color: white;
+    border-color: #644AC9;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+  }
+}
+
+// 에디터 모드 스타일
+.editorContainer {
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.editorLayout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  width: 100%;
+}
+
+.inputSection, .previewSection {
+  width: 100%;
+}
+
+.previewPlaceholder {
+  width: 100%;
+  min-height: 500px;
+  padding: 2rem;
+  border: 1px dashed #cbd5e0;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #94a3b8;
+  text-align: center;
+}
+
+// 블로그 포스트 스타일
+.articleContent {
+  width: 100%;
+  max-width: 900px;
+  margin: 1.5rem auto 0;
+  padding: 0;
+}
+
+.articleHeader {
+  margin-bottom: 3rem;
+}
+
+.articleMeta {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  color: #6b7280;
+  font-size: 1rem;
+  font-style: italic;
+  
+  p {
+    margin: 0;
+  }
+}
+
+.articleBody {
+  position: relative;
+}
+
+.codeBlock {
+  margin: 1.5rem 0;
+  background-color: #f8fafc;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #e2e8f0;
+  
+  pre {
+    margin: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+    
+    code {
+      font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      white-space: pre;
+      color: #334155;
+    }
+  }
+}
+
+.articleNote {
+  margin: 3rem 0 1rem;
+  padding: 1.25rem;
+  background-color: #f0fdf4;
+  border-left: 4px solid #10b981;
+  border-radius: 0 8px 8px 0;
+  
+  p {
+    margin: 0;
+    color: #047857;
+    font-size: 0.95rem;
+  }
+}
+
+// 반응형 스타일
+@media (max-width: 768px) {
+  .container {
+    padding: 42px 24px;
+  }
+  
+  .devModeToggle {
+    position: relative;
+    top: 0;
+    right: 0;
+    margin-bottom: 1.5rem;
+    display: block;
+    width: 100%;
+  }
+  
+  .editorLayout {
+    grid-template-columns: 1fr;
+  }
+} 
