@@ -21,7 +21,6 @@ jobs:
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.PORT }}
-        host_key_check: false
         script: |
           cd /${{ secrets.USERNAME }}/dokalab_blog_next_client
           git pull
