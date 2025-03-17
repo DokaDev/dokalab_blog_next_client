@@ -16,6 +16,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' })
   const [hoverCopy, setHoverCopy] = useState(false);
   const [copied, setCopied] = useState(false);
 
+  if (!value || value.trim() === '') {
+    return <div className={styles.codeBlockWrapper}><div>Empty code block</div></div>;
+  }
+
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(value);
