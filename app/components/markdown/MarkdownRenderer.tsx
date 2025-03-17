@@ -22,9 +22,14 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
         components={{
           code: (props: any) => {
-            const { inline, className, children, ...rest } = props;
+            const { inline, className, children, node, ...rest } = props;
             
-            if (inline) {
+            // children이 단순 문자열이고 node.position이 있으며 한 줄이라면 인라인 코드로 판단
+            const isInline = inline || 
+              (typeof children === 'string' && 
+              node?.position?.start?.line === node?.position?.end?.line);
+            
+            if (isInline) {
               // 인라인 코드 (백틱 하나로 감싸진 코드)
               return (
                 <code className={styles.inlineCode} {...rest}>
@@ -68,7 +73,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             // 최종 코드 블록 반환
             return (
               <CodeBlock 
-                language={language || 'text'} 
+                language={language} 
                 value={value.replace(/\n$/, '')}
                 fileName={fileName}
               />

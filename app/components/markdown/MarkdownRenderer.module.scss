@@ -92,20 +92,27 @@
   
   // 인라인 코드 스타일
   .inlineCode {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
+    color: #334155;
+    padding: 0.2rem 0.4rem;
+    font-size: 0.9rem;
     border-radius: 4px;
-    padding: 0.2em 0.4em;
-    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
-    font-size: 0.875em;
-    color: #A3144D;
-    border: 1px solid #e5e7eb;
-    font-weight: 500;
-    white-space: nowrap;
-    display: inline-block;
-    margin: 0 0.2em;
-    vertical-align: -0.05em;
-    word-break: break-word;
-    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
+    border: 1px solid #e2e8f0;
+    margin: 0 0.2rem;
+    // background-color: #f1f5f9;
+    // border-radius: 4px;
+    // padding: 0.2em 0.4em;
+    // font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+    // font-size: 0.875em;
+    // color: #A3144D;
+    // border: 1px solid #e5e7eb;
+    // font-weight: 500;
+    // white-space: nowrap;
+    // display: inline-block;
+    // margin: 0 0.2em;
+    // vertical-align: middle;
+    // word-break: break-word;
+    // text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   }
   
   // 코드 블록 스타일
