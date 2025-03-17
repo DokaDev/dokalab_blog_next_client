@@ -11,9 +11,21 @@ interface CodeBlockProps {
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
-  const [hoverClose, setHoverClose] = useState(false);
-  const [hoverMinimize, setHoverMinimize] = useState(false);
-  const [hoverMaximize, setHoverMaximize] = useState(false);
+  // 창 컨트롤 버튼들의 통합 hover 상태
+  const [hoverWindowControls, setHoverWindowControls] = useState(false);
+  const [hoverCopy, setHoverCopy] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  // 클립보드에 코드 복사하는 함수
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // 2초 후 복사 상태 초기화
+    } catch (err) {
+      console.error('Failed to copy: ', err);
+    }
+  };
 
   // oneLight 테마를 복제하고 폰트 크기 지정
   const customStyle = {
@@ -21,10 +33,16 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
     'code[class*="language-"]': {
       ...oneLight['code[class*="language-"]'],
       fontSize: '14.4px',
+      background: 'none',
+      padding: 0,
     },
     'pre[class*="language-"]': {
       ...oneLight['pre[class*="language-"]'],
       fontSize: '14.4px',
+      margin: 0,
+      padding: '1.25rem',
+      borderRadius: 0,
+      background: '#f8fafc',
     }
   };
 
@@ -36,7 +54,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
           justifyContent: 'space-between',
           backgroundColor: '#f8fafc',
           borderBottom: '1px solid #e2e8f0',
-          padding: '0.8rem 1rem',
+          padding: '0.6rem 1rem',
           margin: 0,
           boxSizing: 'border-box',
           height: 'auto',
@@ -55,6 +73,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
             margin: 0,
             lineHeight: 0,
           }}
+          onMouseEnter={() => setHoverWindowControls(true)}
+          onMouseLeave={() => setHoverWindowControls(false)}
         >
           <span 
             style={{
@@ -71,10 +91,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
               position: 'relative',
               cursor: 'default',
             }}
-            onMouseEnter={() => setHoverClose(true)}
-            onMouseLeave={() => setHoverClose(false)}
           >
-            {hoverClose && (
+            {hoverWindowControls && (
               <svg 
                 width="8" 
                 height="8" 
@@ -117,10 +135,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
               position: 'relative',
               cursor: 'default',
             }}
-            onMouseEnter={() => setHoverMinimize(true)}
-            onMouseLeave={() => setHoverMinimize(false)}
           >
-            {hoverMinimize && (
+            {hoverWindowControls && (
               <svg 
                 width="8" 
                 height="8" 
@@ -154,10 +170,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
               position: 'relative',
               cursor: 'default',
             }}
-            onMouseEnter={() => setHoverMaximize(true)}
-            onMouseLeave={() => setHoverMaximize(false)}
           >
-            {hoverMaximize && (
+            {hoverWindowControls && (
               <svg 
                 width="8" 
                 height="8" 
@@ -185,34 +199,86 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
               </svg>
             )}
           </span>
-        </div>
-        {language && (
-          <span 
+          <button
+            onClick={copyToClipboard}
+            onMouseEnter={() => setHoverCopy(true)}
+            onMouseLeave={() => setHoverCopy(false)}
             style={{
-              fontFamily: 'Menlo, Monaco, Consolas, monospace',
-              fontSize: '0.75rem',
-              color: '#64748b',
-              textTransform: 'uppercase',
-              padding: 0,
+              background: hoverCopy ? '#e2e8f0' : 'none',
+              border: 'none',
+              borderRadius: '4px',
+              padding: '4px 6px',
+              margin: 0,
+              marginLeft: '0.5rem',
+              cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              margin: 0,
-              lineHeight: 1,
-              height: 'auto',
+              justifyContent: 'center',
+              transition: 'background-color 0.2s',
+              width: '24px',
+              height: '22px',
             }}
+            title="Copy code"
           >
-            {language}
-          </span>
-        )}
+            {copied ? (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            ) : (
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={hoverCopy ? '#1F2937' : '#64748b'} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+            )}
+          </button>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center' }}>
+          {language && (
+            <span 
+              style={{
+                fontFamily: 'Menlo, Monaco, Consolas, monospace',
+                fontSize: '0.75rem',
+                color: '#64748b',
+                textTransform: 'uppercase',
+                padding: 0,
+                display: 'flex',
+                alignItems: 'center',
+                margin: 0,
+                lineHeight: 1,
+                height: 'auto',
+              }}
+            >
+              {language}
+            </span>
+          )}
+        </div>
       </div>
-      <SyntaxHighlighter
-        style={customStyle}
-        language={language}
-        PreTag="div"
-        codeTagProps={{ style: { fontSize: '14.4px' } }}
-      >
-        {value.replace(/\n$/, '')}
-      </SyntaxHighlighter>
+      <div style={{ backgroundColor: '#f8fafc' }}>
+        <SyntaxHighlighter
+          style={customStyle}
+          language={language}
+          PreTag="div"
+          codeTagProps={{ style: { fontSize: '14.4px' } }}
+          showLineNumbers={true}
+          lineNumberStyle={{ 
+            minWidth: '2.5em', 
+            paddingRight: '1em', 
+            color: '#AAA',
+            borderRight: '1px solid #E2E8F0',
+            marginRight: '1em',
+            textAlign: 'right'
+          }}
+          wrapLines={true}
+          customStyle={{
+            margin: 0,
+            padding: '1.25rem',
+            background: '#f8fafc',
+            borderRadius: 0,
+          }}
+        >
+          {value.replace(/\n$/, '')}
+        </SyntaxHighlighter>
+      </div>
     </div>
   );
 };
