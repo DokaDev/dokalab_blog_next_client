@@ -12,23 +12,20 @@ interface CodeBlockProps {
 }
 
 const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' }) => {
-  // 창 컨트롤 버튼들의 통합 hover 상태
   const [hoverWindowControls, setHoverWindowControls] = useState(false);
   const [hoverCopy, setHoverCopy] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  // 클립보드에 코드 복사하는 함수
   const copyToClipboard = async () => {
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
-      setTimeout(() => setCopied(false), 2000); // 2초 후 복사 상태 초기화
+      setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
   };
 
-  // oneLight 테마를 복제하고 폰트 크기 지정
   const customStyle = {
     ...oneLight,
     'code[class*="language-"]': {
@@ -68,7 +65,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' })
           alignItems: 'center',
           gap: '0.5rem'
         }}>
-          {/* 맥 버튼 컨테이너 */}
           <div 
             style={{
               display: 'flex', 
@@ -208,7 +204,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' })
             </span>
           </div>
           
-          {/* 복사 버튼 - 같은 줄에 있지만 DOM에서는 분리됨 */}
           <button
             onClick={copyToClipboard}
             onMouseEnter={() => setHoverCopy(true)}
@@ -243,7 +238,6 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' })
           </button>
         </div>
 
-        {/* 파일명과 언어 표시 - 오른쪽 정렬 */}
         <div style={{ 
           display: 'flex', 
           alignItems: 'center',

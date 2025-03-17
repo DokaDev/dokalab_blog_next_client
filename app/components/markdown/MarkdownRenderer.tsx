@@ -23,6 +23,16 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         components={{
           // Code block customization
           code({ inline, className, children, ...props }: any) {
+            // 인라인 코드(백틱 하나로 감싸진 코드)인 경우 간단한 code 태그만 반환
+            if (inline) {
+              return (
+                <code className={styles.inlineCode} {...props}>
+                  {String(children).replace(/\n$/, '')}
+                </code>
+              );
+            }
+            
+            // 코드 블록(백틱 세 개로 감싸진 코드)인 경우
             const match = /language-(\w+)/.exec(className || '');
             let language = match ? match[1] : '';
             let fileName = '';
@@ -47,16 +57,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               }
             }
             
-            // 인라인 코드는 일반 코드 요소로 렌더링 (백틱 하나로 감싸진 코드)
-            if (inline) {
-              return (
-                <code className={styles.inlineCode} {...props}>
-                  {children}
-                </code>
-              );
-            }
-            
-            // 코드 블록은 CodeBlock 컴포넌트로 렌더링 (백틱 세 개로 감싸진 코드)
+            // CodeBlock 컴포넌트를 사용하여 코드 블록 렌더링
             return (
               <CodeBlock 
                 language={language} 
