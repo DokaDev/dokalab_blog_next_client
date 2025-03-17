@@ -62,143 +62,152 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
           lineHeight: 1,
         }}
       >
-        <div 
-          style={{
-            display: 'flex', 
-            alignItems: 'center',
-            padding: 0,
-            gap: '0.5rem',
-            height: 'auto',
-            minHeight: 0,
-            margin: 0,
-            lineHeight: 0,
-          }}
-          onMouseEnter={() => setHoverWindowControls(true)}
-          onMouseLeave={() => setHoverWindowControls(false)}
-        >
-          <span 
+        <div style={{ 
+          display: 'flex',
+          alignItems: 'center',
+          gap: '0.5rem'
+        }}>
+          {/* 맥 버튼 컨테이너 */}
+          <div 
             style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              backgroundColor: '#ff5f56',
-              border: '1px solid #e0443e',
-              display: 'flex',
+              display: 'flex', 
               alignItems: 'center',
-              justifyContent: 'center',
-              margin: 0,
               padding: 0,
-              position: 'relative',
-              cursor: 'default',
-            }}
-          >
-            {hoverWindowControls && (
-              <svg 
-                width="8" 
-                height="8" 
-                viewBox="0 0 8 8" 
-                style={{ position: 'absolute' }}
-              >
-                <line 
-                  x1="1.5" 
-                  y1="1.5" 
-                  x2="6.5" 
-                  y2="6.5" 
-                  stroke="#9a0000" 
-                  strokeWidth="1.25" 
-                  strokeLinecap="round" 
-                />
-                <line 
-                  x1="6.5" 
-                  y1="1.5" 
-                  x2="1.5" 
-                  y2="6.5" 
-                  stroke="#9a0000" 
-                  strokeWidth="1.25" 
-                  strokeLinecap="round" 
-                />
-              </svg>
-            )}
-          </span>
-          <span 
-            style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              backgroundColor: '#ffbd2e',
-              border: '1px solid #dea123',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
+              gap: '0.5rem',
+              height: 'auto',
+              minHeight: 0,
               margin: 0,
-              padding: 0,
-              position: 'relative',
-              cursor: 'default',
+              lineHeight: 0,
             }}
+            onMouseEnter={() => setHoverWindowControls(true)}
+            onMouseLeave={() => setHoverWindowControls(false)}
           >
-            {hoverWindowControls && (
-              <svg 
-                width="8" 
-                height="8" 
-                viewBox="0 0 8 8" 
-                style={{ position: 'absolute' }}
-              >
-                <line 
-                  x1="1.5" 
-                  y1="4" 
-                  x2="6.5" 
-                  y2="4" 
-                  stroke="#985700" 
-                  strokeWidth="1.25" 
-                  strokeLinecap="round" 
-                />
-              </svg>
-            )}
-          </span>
-          <span 
-            style={{
-              width: '12px',
-              height: '12px',
-              borderRadius: '50%',
-              backgroundColor: '#27c93f',
-              border: '1px solid #1aab29',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              margin: 0,
-              padding: 0,
-              position: 'relative',
-              cursor: 'default',
-            }}
-          >
-            {hoverWindowControls && (
-              <svg 
-                width="8" 
-                height="8" 
-                viewBox="0 0 8 8" 
-                style={{ position: 'absolute' }}
-              >
-                <line 
-                  x1="4" 
-                  y1="1.5" 
-                  x2="4" 
-                  y2="6.5" 
-                  stroke="#006500" 
-                  strokeWidth="1.25" 
-                  strokeLinecap="round" 
-                />
-                <line 
-                  x1="1.5" 
-                  y1="4" 
-                  x2="6.5" 
-                  y2="4" 
-                  stroke="#006500" 
-                  strokeWidth="1.25" 
-                  strokeLinecap="round" 
-                />
-              </svg>
-            )}
-          </span>
+            <span 
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: '#ff5f56',
+                border: '1px solid #e0443e',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 0,
+                padding: 0,
+                position: 'relative',
+                cursor: 'default',
+              }}
+            >
+              {hoverWindowControls && (
+                <svg 
+                  width="8" 
+                  height="8" 
+                  viewBox="0 0 8 8" 
+                  style={{ position: 'absolute' }}
+                >
+                  <line 
+                    x1="1.5" 
+                    y1="1.5" 
+                    x2="6.5" 
+                    y2="6.5" 
+                    stroke="#9a0000" 
+                    strokeWidth="1.25" 
+                    strokeLinecap="round" 
+                  />
+                  <line 
+                    x1="6.5" 
+                    y1="1.5" 
+                    x2="1.5" 
+                    y2="6.5" 
+                    stroke="#9a0000" 
+                    strokeWidth="1.25" 
+                    strokeLinecap="round" 
+                  />
+                </svg>
+              )}
+            </span>
+            <span 
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: '#ffbd2e',
+                border: '1px solid #dea123',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 0,
+                padding: 0,
+                position: 'relative',
+                cursor: 'default',
+              }}
+            >
+              {hoverWindowControls && (
+                <svg 
+                  width="8" 
+                  height="8" 
+                  viewBox="0 0 8 8" 
+                  style={{ position: 'absolute' }}
+                >
+                  <line 
+                    x1="1.5" 
+                    y1="4" 
+                    x2="6.5" 
+                    y2="4" 
+                    stroke="#985700" 
+                    strokeWidth="1.25" 
+                    strokeLinecap="round" 
+                  />
+                </svg>
+              )}
+            </span>
+            <span 
+              style={{
+                width: '12px',
+                height: '12px',
+                borderRadius: '50%',
+                backgroundColor: '#27c93f',
+                border: '1px solid #1aab29',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: 0,
+                padding: 0,
+                position: 'relative',
+                cursor: 'default',
+              }}
+            >
+              {hoverWindowControls && (
+                <svg 
+                  width="8" 
+                  height="8" 
+                  viewBox="0 0 8 8" 
+                  style={{ position: 'absolute' }}
+                >
+                  <line 
+                    x1="4" 
+                    y1="1.5" 
+                    x2="4" 
+                    y2="6.5" 
+                    stroke="#006500" 
+                    strokeWidth="1.25" 
+                    strokeLinecap="round" 
+                  />
+                  <line 
+                    x1="1.5" 
+                    y1="4" 
+                    x2="6.5" 
+                    y2="4" 
+                    stroke="#006500" 
+                    strokeWidth="1.25" 
+                    strokeLinecap="round" 
+                  />
+                </svg>
+              )}
+            </span>
+          </div>
+          
+          {/* 복사 버튼 - 같은 줄에 있지만 DOM에서는 분리됨 */}
           <button
             onClick={copyToClipboard}
             onMouseEnter={() => setHoverCopy(true)}
@@ -232,7 +241,12 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
             )}
           </button>
         </div>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
+
+        {/* 언어 표시 - 오른쪽 정렬 */}
+        <div style={{ 
+          display: 'flex', 
+          alignItems: 'center'
+        }}>
           {language && (
             <span 
               style={{
