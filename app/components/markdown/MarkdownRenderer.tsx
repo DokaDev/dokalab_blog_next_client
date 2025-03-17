@@ -24,13 +24,35 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
           // Code block customization
           code({ inline, className, children, ...props }: any) {
             const match = /language-(\w+)/.exec(className || '');
-            const language = match ? match[1] : '';
+            let language = match ? match[1] : '';
+            let fileName = '';
             
-            if (!inline && language) {
+            // 콜론(:)을 기준으로 언어와 파일명 분리
+            if (language && language.includes(':')) {
+              const parts = language.split(':');
+              language = parts[0];
+              fileName = parts[1];
+            } else if (match && className && className.includes(':')) {
+              // 언어가 지정되어 있지만 콜론 뒤에 파일명이 있는 경우 (language-js:filename.js)
+              const fullClass = className.split(' ')[0]; // language-js:filename.js
+              const colonIndex = fullClass.indexOf(':');
+              if (colonIndex !== -1) {
+                fileName = fullClass.substring(colonIndex + 1);
+              }
+            } else if (!match && className && className.includes(':')) {
+              // 언어가 없고 파일명만 있는 경우 (`:filename.js`)
+              const colonIndex = className.indexOf(':');
+              if (colonIndex !== -1) {
+                fileName = className.substring(colonIndex + 1);
+              }
+            }
+            
+            if (!inline) {
               return (
                 <CodeBlock 
                   language={language} 
                   value={String(children).replace(/\n$/, '')}
+                  fileName={fileName}
                 />
               );
             }

@@ -8,9 +8,10 @@ import styles from './MarkdownRenderer.module.scss';
 interface CodeBlockProps {
   language: string;
   value: string;
+  fileName?: string;
 }
 
-const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
+const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' }) => {
   // 창 컨트롤 버튼들의 통합 hover 상태
   const [hoverWindowControls, setHoverWindowControls] = useState(false);
   const [hoverCopy, setHoverCopy] = useState(false);
@@ -242,11 +243,37 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value }) => {
           </button>
         </div>
 
-        {/* 언어 표시 - 오른쪽 정렬 */}
+        {/* 파일명과 언어 표시 - 오른쪽 정렬 */}
         <div style={{ 
           display: 'flex', 
-          alignItems: 'center'
+          alignItems: 'center',
+          gap: '0.75rem'
         }}>
+          {fileName && (
+            <>
+              <span 
+                style={{
+                  fontFamily: 'Menlo, Monaco, Consolas, monospace',
+                  fontSize: '0.8rem',
+                  color: '#334155',
+                  display: 'flex',
+                  alignItems: 'center',
+                }}
+              >
+                {fileName}
+              </span>
+              {language && (
+                <>
+                  <span style={{
+                    width: '1px',
+                    height: '1rem',
+                    backgroundColor: '#cbd5e1',
+                    margin: '0 0.25rem',
+                  }}></span>
+                </>
+              )}
+            </>
+          )}
           {language && (
             <span 
               style={{
