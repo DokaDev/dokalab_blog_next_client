@@ -1,15 +1,13 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-'use client';
 
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { oneLight } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import remarkGfm from 'remark-gfm';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import styles from './MarkdownRenderer.module.scss';
+import CodeBlock from './CodeBlock';
 
 interface MarkdownRendererProps {
   content: string;
@@ -24,29 +22,16 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
         components={{
           // Code block customization
-          // @ts-ignore
           code({ inline, className, children, ...props }: any) {
             const match = /language-(\w+)/.exec(className || '');
             const language = match ? match[1] : '';
             
             if (!inline && language) {
               return (
-                <div className={styles.codeBlockWrapper}>
-                  {language && (
-                    <div className={styles.codeHeader}>
-                      <span className={styles.language}>{language}</span>
-                    </div>
-                  )}
-                  {/* @ts-ignore */}
-                  <SyntaxHighlighter
-                    style={oneLight}
-                    language={language}
-                    PreTag="div"
-                    {...props}
-                  >
-                    {String(children).replace(/\n$/, '')}
-                  </SyntaxHighlighter>
-                </div>
+                <CodeBlock 
+                  language={language} 
+                  value={String(children).replace(/\n$/, '')}
+                />
               );
             }
             
