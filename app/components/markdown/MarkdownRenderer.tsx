@@ -47,20 +47,22 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               }
             }
             
-            if (!inline) {
+            // 인라인 코드는 일반 코드 요소로 렌더링 (백틱 하나로 감싸진 코드)
+            if (inline) {
               return (
-                <CodeBlock 
-                  language={language} 
-                  value={String(children).replace(/\n$/, '')}
-                  fileName={fileName}
-                />
+                <code className={styles.inlineCode} {...props}>
+                  {children}
+                </code>
               );
             }
             
+            // 코드 블록은 CodeBlock 컴포넌트로 렌더링 (백틱 세 개로 감싸진 코드)
             return (
-              <code className={styles.inlineCode} {...props}>
-                {children}
-              </code>
+              <CodeBlock 
+                language={language} 
+                value={String(children).replace(/\n$/, '')}
+                fileName={fileName}
+              />
             );
           },
           
