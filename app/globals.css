@@ -95,4 +95,128 @@ a {
 .code-scroll-container:hover,
 .code-scroll-container.is-scrolling {
   scrollbar-color: rgba(180, 180, 180, 0.5) transparent;
+}
+
+/* 체크박스 리스트 전역 스타일 */
+/* 체크박스 리스트를 위한 전역 스타일 */
+li input[type="checkbox"] + p,
+li p:has(input[type="checkbox"]) {
+  margin: 0 !important;
+  display: inline-block !important;
+}
+
+.task-list-item {
+  list-style-type: none !important;
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+ul.contains-task-list {
+  list-style-type: none !important;
+  padding-left: 0 !important; /* 20px에서 0px로 변경하여 왼쪽 정렬 개선 */
+  margin: 0 !important;
+}
+
+/* remarkGfm이 사용하는 클래스 */
+.contains-task-list {
+  list-style-type: none !important;
+  padding-left: 0 !important; /* 20px에서 0px로 변경하여 왼쪽 정렬 개선 */
+  margin: 0 !important;
+}
+
+.task-list-item {
+  list-style-type: none !important;
+  padding-left: 0 !important;
+}
+
+/* 마크다운 체크박스 리스트의 불릿 제거 */
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 0 !important;
+  margin: 1.25em 0 !important;
+  list-style-type: disc !important; /* none에서 disc로 변경 */
+}
+
+.markdown-body ul li,
+.markdown-body ol li {
+  list-style-position: inside !important; /* 불릿이 내부에 위치하도록 설정 */
+  list-style-type: disc !important; /* none에서 disc로 변경 */
+  padding-left: 0 !important;
+  margin: 0 !important;
+  position: relative !important;
+}
+
+/* 체크박스 리스트 스타일은 유지 */
+.markdown-body ul li:has(input[type="checkbox"]) {
+  padding-left: 0 !important; /* 체크박스 항목은 패딩 제거 */
+  display: flex !important;
+  align-items: flex-start !important;
+  list-style-type: none !important; /* 체크박스 항목은 불릿 없음 */
+}
+
+.markdown-body ul li p:first-child,
+.markdown-body ol li p:first-child {
+  display: inline;
+}
+
+.markdown-body ul li:has(input[type="checkbox"]) {
+  list-style-type: none !important;
+  margin-left: 0 !important; /* -1.5rem에서 0으로 수정하여 좌우정렬 개선 */
+  margin-bottom: 0.6em !important; /* 상하 간격 추가 */
+}
+
+.markdown-body ul li:has(input[type="checkbox"])::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* 체크박스 스타일링 추가 */
+.markdown-body input[type="checkbox"],
+input[type="checkbox"] {
+  appearance: none !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  border: 2px solid #e2e8f0 !important; /* 기본 테두리는 회색으로 변경 */
+  border-radius: 4px !important;
+  outline: none !important;
+  width: 1rem !important;
+  height: 1rem !important;
+  position: relative !important;
+  cursor: default !important;
+  background-color: white !important;
+  transition: all 0.2s ease !important;
+  margin-right: 0.5rem !important;
+  margin-top: 0.33rem !important; /* 0.25rem에서 0.33rem으로 증가하여 체크박스를 아래로 내림 */
+  vertical-align: top !important;
+}
+
+.markdown-body input[type="checkbox"]:checked,
+input[type="checkbox"]:checked {
+  background: #fda4af !important; /* 핑크색으로 변경 */
+  border-color: #fda4af !important; /* 체크 시 테두리도 핑크색으로 변경 */
+}
+
+.markdown-body input[type="checkbox"]:checked::after,
+input[type="checkbox"]:checked::after {
+  content: '' !important;
+  position: absolute !important;
+  left: 0.25rem !important;
+  top: 0.1rem !important;
+  width: 0.25rem !important;
+  height: 0.5rem !important;
+  border: solid white !important;
+  border-width: 0 2px 2px 0 !important;
+  transform: rotate(45deg) !important;
+}
+
+.markdown-body input[type="checkbox"]:hover,
+input[type="checkbox"]:hover {
+  border-color: #fda4af !important; /* 호버 시 테두리 핑크색으로 변경 */
+  box-shadow: 0 0 5px rgba(253, 164, 175, 0.4) !important; /* 그림자 색상도 변경 */
+  cursor: default !important;
+}
+
+/* 체크박스와 텍스트 사이 간격 및 정렬 개선 */
+.markdown-body li {
+  line-height: 1.6 !important;
 } 

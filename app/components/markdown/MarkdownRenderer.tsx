@@ -16,7 +16,7 @@ interface MarkdownRendererProps {
 
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
   return (
-    <div className={`${styles.markdownContent} ${className}`}>
+    <div className={`${styles.markdownContent} ${className} markdown-body`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
         rehypePlugins={[rehypeRaw, rehypeSanitize]}
@@ -108,14 +108,23 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               const textContent = node?.children?.[0]?.value.replace(/^\[(x|)\] /, '');
               
               return (
-                <p className={styles.taskItemParagraph} {...props}>
+                <p 
+                  className={styles.taskItemParagraph}
+                  style={{
+                    display: 'flex',
+                    alignItems: 'flex-start',
+                    margin: 0,
+                    paddingLeft: 0
+                  }}
+                  {...props}
+                >
                   <input 
                     type="checkbox" 
                     checked={isChecked}
                     readOnly
                     aria-label={`Task: ${textContent}`}
                   />
-                  <span>{textContent}</span>
+                  <span style={{ flex: 1 }}>{textContent}</span>
                   {node?.children?.slice(1).map((child: any, i: number) => (
                     <React.Fragment key={i}>
                       {child.value || children[i+1]}
@@ -131,11 +140,37 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               </p>
             );
           },
-          ul: ({ children, ...props }: any) => (
-            <ul className={styles.unorderedList} {...props}>
-              {children}
-            </ul>
-          ),
+          ul: ({ children, node, ...props }: any) => {
+            // 체크박스가 포함된 리스트인지 확인
+            const hasTaskItems = node?.children?.some((child: any) => 
+              child?.children?.[0]?.type === 'paragraph' && 
+              child?.children?.[0]?.children?.[0]?.type === 'text' &&
+              (child?.children?.[0]?.children?.[0]?.value.startsWith('[ ] ') || 
+               child?.children?.[0]?.children?.[0]?.value.startsWith('[x] '))
+            );
+            
+            if (hasTaskItems) {
+              return (
+                <ul 
+                  className={`${styles.unorderedList} ${styles.taskList}`} 
+                  {...props}
+                  style={{
+                    listStyleType: 'none',
+                    paddingLeft: '0',
+                    margin: 0,
+                  }}
+                >
+                  {children}
+                </ul>
+              );
+            }
+            
+            return (
+              <ul className={styles.unorderedList} {...props}>
+                {children}
+              </ul>
+            );
+          },
           ol: ({ children, ...props }: any) => (
             <ol className={styles.orderedList} {...props}>
               {children}
@@ -152,7 +187,18 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             if (isTaskListItem) {
               // 체크박스 아이템일 경우 custom 스타일 적용
               return (
-                <li className={`${styles.listItem} ${styles.taskListItem}`} {...props}>
+                <li 
+                  className={`${styles.listItem} ${styles.taskListItem}`} 
+                  {...props} 
+                  style={{ 
+                    listStyleType: 'none', 
+                    listStyle: 'none',
+                    paddingLeft: 0,
+                    marginLeft: 0,
+                    display: 'flex',
+                    alignItems: 'flex-start'
+                  }}
+                >
                   {children}
                 </li>
               );
@@ -160,7 +206,12 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             
             // 일반 리스트 아이템
             return (
-              <li className={styles.listItem} {...props}>
+              <li className={styles.listItem} {...props} style={{ 
+                padding: 0, 
+                margin: 0,
+                listStyleType: 'disc',
+                listStylePosition: 'inside'
+              }}>
                 {children}
               </li>
             );
