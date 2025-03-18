@@ -305,12 +305,31 @@
     }
     
     .codeBlockWrapper {
+      margin: 1.25em 0;
+      border-radius: 6px;
+      
       pre div {
-        padding: 1rem !important;
-        font-size: 13.6px !important;
+        padding: 0.8rem !important;
+        font-size: 0.8rem !important;
         
         code, span {
-          font-size: 13.6px !important;
+          font-size: 0.8rem !important;
+          line-height: 1.5 !important;
+        }
+      }
+      
+      .inlineCode {
+        font-size: 0.8rem;
+        padding: 0.15rem 0.3rem;
+      }
+    }
+    
+    .tableWrapper {
+      .table {
+        font-size: 0.85rem;
+        
+        th, td {
+          padding: 0.5rem 0.75rem;
         }
       }
     }

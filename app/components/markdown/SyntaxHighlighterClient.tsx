@@ -13,6 +13,23 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
   const [isScrolling, setIsScrolling] = useState(false);
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  
+  // 화면 크기 감지
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    // 초기 체크
+    checkIfMobile();
+    
+    // 리사이즈 이벤트에 대응
+    window.addEventListener('resize', checkIfMobile);
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
   
   // 스크롤 이벤트 핸들러
   const handleScroll = () => {
@@ -65,19 +82,22 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
     };
   }, []);
 
+  // 모바일과 데스크톱에 따라 다른 폰트 크기 적용
+  const fontSizeBase = isMobile ? '0.8rem' : '0.9rem';
+
   const customStyle = {
     ...oneLight,
     'code[class*="language-"]': {
       ...oneLight['code[class*="language-"]'],
-      fontSize: '14.4px',
+      fontSize: fontSizeBase,
       background: 'none',
       padding: 0,
     },
     'pre[class*="language-"]': {
       ...oneLight['pre[class*="language-"]'],
-      fontSize: '14.4px',
+      fontSize: fontSizeBase,
       margin: 0,
-      padding: '1.25rem',
+      padding: isMobile ? '0.8rem' : '1.25rem',
       borderRadius: 0,
       background: '#f8fafc',
     }
@@ -106,24 +126,25 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
           style={customStyle}
           language={language}
           PreTag="div"
-          codeTagProps={{ style: { fontSize: '14.4px' } }}
+          codeTagProps={{ style: { fontSize: fontSizeBase } }}
           showLineNumbers={true}
           lineNumberStyle={{ 
-            minWidth: '2.5em', 
-            paddingRight: '1em', 
+            minWidth: isMobile ? '2em' : '2.5em', 
+            paddingRight: isMobile ? '0.5em' : '1em', 
             color: '#AAA',
             borderRight: '1px solid #E2E8F0',
-            marginRight: '1em',
+            marginRight: isMobile ? '0.5em' : '1em',
             textAlign: 'right'
           }}
           wrapLines={false}
-          wrapLongLines={false}
+          wrapLongLines={isMobile}
           customStyle={{
             margin: 0,
-            padding: '1.25rem',
+            padding: isMobile ? '0.8rem' : '1.25rem',
             background: '#f8fafc',
             borderRadius: 0,
-            minWidth: 'max-content'
+            minWidth: isMobile ? '100%' : 'max-content',
+            fontSize: fontSizeBase,
           }}
         >
           {value.replace(/\n$/, '')}
