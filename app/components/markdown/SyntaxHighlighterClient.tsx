@@ -137,13 +137,13 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
             textAlign: 'right'
           }}
           wrapLines={false}
-          wrapLongLines={isMobile}
+          wrapLongLines={false}
           customStyle={{
             margin: 0,
             padding: isMobile ? '0.8rem' : '1.25rem',
             background: '#f8fafc',
             borderRadius: 0,
-            minWidth: isMobile ? '100%' : 'max-content',
+            minWidth: 'max-content',
             fontSize: fontSizeBase,
           }}
         >

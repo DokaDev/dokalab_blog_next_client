@@ -123,10 +123,10 @@ a {
     padding: 0.8rem !important;
   }
   
-  /* 긴 코드 줄 처리 */
+  /* 긴 코드 줄 처리 - 줄바꿈 비활성화하고 스크롤 유지 */
   .markdown-body pre code {
-    white-space: pre-wrap !important;
-    word-break: break-word !important;
+    white-space: pre !important;
+    word-break: normal !important;
   }
 }
 
