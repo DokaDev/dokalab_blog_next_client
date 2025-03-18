@@ -67,6 +67,18 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
     router.push(path);
   };
   
+  // Helper function to determine if a nav item should be active
+  const isActive = (path: string) => {
+    // 루트 경로('/')는 정확히 일치하는 경우에만 active
+    if (path === '/') {
+      return pathname === '/';
+    }
+    
+    // 다른 메뉴 항목들은 경로의 시작 부분이 일치하는지 확인
+    // 예: '/components'로 시작하는 모든 경로에서 Components 메뉴가 active
+    return pathname.startsWith(path);
+  };
+  
   // Return same base content for all initial renders
   const navContent = (
     <ul className={styles.navList}>
@@ -76,7 +88,7 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
             <Link 
               href={item.path}
               onClick={(e) => handleNavigation(e, item.path)}
-              className={`${styles.navLink} ${pathname === item.path ? styles.active : ''}`}
+              className={`${styles.navLink} ${isActive(item.path) ? styles.active : ''}`}
             >
               {item.label}
             </Link>
