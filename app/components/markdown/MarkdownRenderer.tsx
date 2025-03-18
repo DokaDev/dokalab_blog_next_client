@@ -1,3 +1,5 @@
+'use client';
+
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
@@ -118,11 +120,11 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                   }}
                   {...props}
                 >
-                  <input 
-                    type="checkbox" 
+                  <input
+                    type="checkbox"
                     checked={isChecked}
-                    readOnly
-                    aria-label={`Task: ${textContent}`}
+                    onChange={() => {}}
+                    aria-label={isChecked ? 'Completed' : 'Incomplete'}
                   />
                   <span style={{ flex: 1 }}>{textContent}</span>
                   {node?.children?.slice(1).map((child: any, i: number) => (
