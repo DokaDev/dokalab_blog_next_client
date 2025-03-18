@@ -58,43 +58,112 @@ a {
   text-decoration: none;
 }
 
+/* 최상위 스타일 - 모든 코드 블록 스크롤바에 적용 */
+.code-scroll-container::-webkit-scrollbar-thumb {
+  background: rgba(100, 116, 139, 0.6) !important;
+  border-radius: 4px !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* PC 환경에서는 항상 스크롤바 표시 */
+@media (min-width: 769px) {
+  .code-scroll-container::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.6) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+  
+  .code-scroll-container.has-overflow-x {
+    /* 스크롤바 항상 표시 */
+    overflow-x: scroll !important;
+  }
+}
+
+/* Firefox 브라우저 대응 */
+@-moz-document url-prefix() {
+  .code-scroll-container.has-overflow-x {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
+  }
+}
+
 /* 코드 블록 스크롤바 스타일 - 항상 존재하되 투명함 */
 .code-scroll-container::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-  background-color: transparent;
+  width: 8px !important;
+  height: 8px !important;
+  background-color: transparent !important;
 }
 
 .code-scroll-container::-webkit-scrollbar-track {
-  background-color: transparent;
-  border-radius: 4px;
+  background-color: transparent !important;
+  border-radius: 4px !important;
 }
 
 /* 스크롤 막대 - 기본은 약간 보임 */
 .code-scroll-container::-webkit-scrollbar-thumb {
-  background-color: rgba(200, 200, 200, 0.1);
-  border-radius: 4px;
-  border: 2px solid transparent;
-  background-clip: content-box;
+  background-color: rgba(100, 116, 139, 0.3) !important; /* 기본 가시성 향상 */
+  border-radius: 4px !important;
+  border: none !important; /* 테두리 제거 */
 }
 
 /* 호버 또는 스크롤 시 막대 색상 변경 */
 .code-scroll-container:hover::-webkit-scrollbar-thumb,
 .code-scroll-container.is-scrolling::-webkit-scrollbar-thumb {
-  background-color: rgba(180, 180, 180, 0.5);
-  border: 2px solid transparent;
-  background-clip: content-box;
+  background-color: rgba(100, 116, 139, 0.6) !important; /* 가시성 향상 */
+  border: none !important; /* 테두리 제거 */
+}
+
+/* PC 환경에서 코드 블록 스크롤바 강제 표시 */
+@media (min-width: 769px) {
+  /* 데이터 속성을 통한 오버플로우 감지 */
+  .code-scroll-container::-webkit-scrollbar-thumb,
+  .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar-thumb,
+  .code-scroll-container.has-overflow-x::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 116, 139, 0.6) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    border: none !important; /* 테두리 제거 */
+  }
+  
+  .code-scroll-container:hover::-webkit-scrollbar-thumb,
+  .code-scroll-container[data-has-overflow="true"]:hover::-webkit-scrollbar-thumb,
+  .code-scroll-container.has-overflow-x:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(100, 116, 139, 0.8) !important;
+    border: none !important; /* 테두리 제거 */
+  }
+  
+  /* PC에서는 스크롤바 항상 표시 */
+  .code-scroll-container {
+    -ms-overflow-style: auto !important; /* IE 및 Edge 지원 */
+  }
 }
 
 /* Firefox 지원 */
 .code-scroll-container {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(200, 200, 200, 0.1) transparent;
+  scrollbar-width: thin !important;
+  scrollbar-color: rgba(100, 116, 139, 0.3) transparent !important;
 }
 
 .code-scroll-container:hover,
 .code-scroll-container.is-scrolling {
-  scrollbar-color: rgba(180, 180, 180, 0.5) transparent;
+  scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
+}
+
+/* Firefox용 PC 환경 스크롤바 항상 표시 */
+@media (min-width: 769px) {
+  .code-scroll-container,
+  .code-scroll-container[data-has-overflow="true"],
+  .code-scroll-container.has-overflow-x {
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
+  }
+  
+  .code-scroll-container:hover,
+  .code-scroll-container[data-has-overflow="true"]:hover,
+  .code-scroll-container.has-overflow-x:hover {
+    scrollbar-color: rgba(100, 116, 139, 0.8) transparent !important;
+  }
 }
 
 /* 모바일 환경에서 코드 블록 스타일 */
@@ -252,4 +321,8 @@ input[type="checkbox"]:hover {
 /* 체크박스와 텍스트 사이 간격 및 정렬 개선 */
 .markdown-body li {
   line-height: 1.6 !important;
-} 
+}
+
+/* 코드 스크롤바 스타일 */
+/* 중복된 스타일이므로 삭제 */
+/* 이 부분 전체 삭제 */ 
