@@ -74,15 +74,64 @@ a {
     opacity: 1 !important;
   }
   
-  .code-scroll-container.has-overflow-x {
+  .code-scroll-container.has-overflow-x,
+  .code-scroll-container[data-has-overflow="true"] {
     /* 스크롤바 항상 표시 */
     overflow-x: scroll !important;
+  }
+  
+  /* 데스크톱 전용 스크롤바 클래스 */
+  .desktop-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(100, 116, 139, 0.6) !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    display: block !important;
+  }
+  
+  .desktop-scrollbar {
+    overflow-x: scroll !important;
+    -webkit-overflow-scrolling: touch !important;
+    overflow-scrolling: touch !important;
+    
+    /* 맥 OS 오버레이 스크롤바 비활성화 */
+    -webkit-overflow-style: scrollbar !important;
+    overflow-style: scrollbar !important;
+    
+    /* 스크롤바 숨김 방지 */
+    &::-webkit-scrollbar {
+      -webkit-appearance: none !important;
+      width: 8px !important;
+      height: 8px !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      -webkit-appearance: none !important;
+      background-color: rgba(100, 116, 139, 0.6) !important;
+      border-radius: 4px !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
+    
+    &::-webkit-scrollbar-track {
+      -webkit-appearance: none !important;
+      background-color: transparent !important;
+      border-radius: 4px !important;
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+    }
   }
 }
 
 /* Firefox 브라우저 대응 */
 @-moz-document url-prefix() {
-  .code-scroll-container.has-overflow-x {
+  .code-scroll-container.has-overflow-x,
+  .code-scroll-container[data-has-overflow="true"],
+  .desktop-scrollbar {
     scrollbar-width: thin !important;
     scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
   }
@@ -93,11 +142,15 @@ a {
   width: 8px !important;
   height: 8px !important;
   background-color: transparent !important;
+  display: block !important;
+  visibility: visible !important;
 }
 
 .code-scroll-container::-webkit-scrollbar-track {
   background-color: transparent !important;
   border-radius: 4px !important;
+  display: block !important;
+  visibility: visible !important;
 }
 
 /* 스크롤 막대 - 기본은 약간 보임 */
@@ -105,6 +158,8 @@ a {
   background-color: rgba(100, 116, 139, 0.3) !important; /* 기본 가시성 향상 */
   border-radius: 4px !important;
   border: none !important; /* 테두리 제거 */
+  display: block !important;
+  visibility: visible !important;
 }
 
 /* 호버 또는 스크롤 시 막대 색상 변경 */
@@ -112,6 +167,8 @@ a {
 .code-scroll-container.is-scrolling::-webkit-scrollbar-thumb {
   background-color: rgba(100, 116, 139, 0.6) !important; /* 가시성 향상 */
   border: none !important; /* 테두리 제거 */
+  display: block !important;
+  visibility: visible !important;
 }
 
 /* PC 환경에서 코드 블록 스크롤바 강제 표시 */
@@ -119,23 +176,52 @@ a {
   /* 데이터 속성을 통한 오버플로우 감지 */
   .code-scroll-container::-webkit-scrollbar-thumb,
   .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar-thumb,
-  .code-scroll-container.has-overflow-x::-webkit-scrollbar-thumb {
+  .code-scroll-container.has-overflow-x::-webkit-scrollbar-thumb,
+  .desktop-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.6) !important;
     visibility: visible !important;
     opacity: 1 !important;
     border: none !important; /* 테두리 제거 */
+    display: block !important;
   }
   
   .code-scroll-container:hover::-webkit-scrollbar-thumb,
   .code-scroll-container[data-has-overflow="true"]:hover::-webkit-scrollbar-thumb,
-  .code-scroll-container.has-overflow-x:hover::-webkit-scrollbar-thumb {
+  .code-scroll-container.has-overflow-x:hover::-webkit-scrollbar-thumb,
+  .desktop-scrollbar:hover::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.8) !important;
     border: none !important; /* 테두리 제거 */
+    display: block !important;
+    visibility: visible !important;
   }
   
   /* PC에서는 스크롤바 항상 표시 */
-  .code-scroll-container {
+  .code-scroll-container,
+  .code-scroll-container.has-overflow-x,
+  .code-scroll-container[data-has-overflow="true"],
+  .desktop-scrollbar {
     -ms-overflow-style: auto !important; /* IE 및 Edge 지원 */
+    overflow-x: scroll !important; /* 오버플로우 시 항상 스크롤 표시 */
+    -webkit-appearance: auto !important; /* 스크롤바 표시 보장 */
+    
+    /* macOS 스타일 오버라이드 시도 */
+    &::-webkit-scrollbar {
+      -webkit-appearance: auto !important;
+      appearance: auto !important;
+      display: block !important;
+      visibility: visible !important;
+    }
+  }
+  
+  /* 스크롤바 표시 강제 - macOS 설정 무시 */
+  .code-scroll-container::-webkit-scrollbar,
+  .code-scroll-container.has-overflow-x::-webkit-scrollbar,
+  .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar,
+  .desktop-scrollbar::-webkit-scrollbar {
+    -webkit-appearance: auto !important;
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
   }
 }
 
@@ -154,14 +240,16 @@ a {
 @media (min-width: 769px) {
   .code-scroll-container,
   .code-scroll-container[data-has-overflow="true"],
-  .code-scroll-container.has-overflow-x {
+  .code-scroll-container.has-overflow-x,
+  .desktop-scrollbar {
     scrollbar-width: thin !important;
     scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
   }
   
   .code-scroll-container:hover,
   .code-scroll-container[data-has-overflow="true"]:hover,
-  .code-scroll-container.has-overflow-x:hover {
+  .code-scroll-container.has-overflow-x:hover,
+  .desktop-scrollbar:hover {
     scrollbar-color: rgba(100, 116, 139, 0.8) transparent !important;
   }
 }

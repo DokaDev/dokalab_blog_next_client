@@ -10,16 +10,21 @@ interface SyntaxHighlighterClientProps {
 }
 
 const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ language, value }) => {
-  const [isScrolling, setIsScrolling] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [isScrolling, setIsScrolling] = useState(true); // 항상 true로 시작하도록 변경
   const [hasOverflowX, setHasOverflowX] = useState(true); // 기본값을 true로 설정
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [isMobile, setIsMobile] = useState(false);
   
   // 화면 크기 감지
   useEffect(() => {
     const checkIfMobile = () => {
-      setIsMobile(window.innerWidth < 768);
+      const mobile = window.innerWidth < 768;
+      setIsMobile(mobile);
+      // 데스크톱에서는 항상 스크롤링 상태를 true로 유지
+      if (!mobile) {
+        setIsScrolling(true);
+      }
     };
     
     // 초기 체크
@@ -36,15 +41,18 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
   const handleScroll = () => {
     setIsScrolling(true);
     
-    // 이전 타이머 취소
-    if (scrollTimer.current) {
-      clearTimeout(scrollTimer.current);
-    }
-    
-    // 새 타이머 설정 (PC에서는 항상 표시되도록 모바일에서만 타이머 사용)
+    // 모바일에서만 타이머 사용
     if (isMobile) {
+      // 이전 타이머 취소
+      if (scrollTimer.current) {
+        clearTimeout(scrollTimer.current);
+      }
+      
+      // 새 타이머 설정 (모바일에서만 타이머 사용)
       scrollTimer.current = setTimeout(() => {
-        setIsScrolling(false);
+        if (isMobile) { // 추가 안전장치
+          setIsScrolling(false);
+        }
       }, 1000); // 스크롤 멈춘 후 1초 뒤에 스크롤바 숨김 (모바일에서만)
     }
   };
@@ -62,9 +70,12 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
         clearTimeout(scrollTimer.current);
       }
       scrollTimer.current = setTimeout(() => {
-        setIsScrolling(false);
+        if (isMobile) { // 추가 안전장치
+          setIsScrolling(false);
+        }
       }, 300);
     }
+    // PC에서는 마우스가 떠나도 스크롤바 유지
   };
   
   // 오버플로우 확인
@@ -90,6 +101,13 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
           container.classList.add('has-overflow-x');
           // 데이터 속성도 설정
           container.setAttribute('data-has-overflow', 'true');
+          
+          // 컨테이너에 직접 스타일 적용 (데스크톱에서)
+          if (!isMobile) {
+            container.style.overflowX = 'scroll';
+            // 커스텀 속성 대신 dataset 사용
+            container.dataset.alwaysShowScrollbar = 'true';
+          }
         } else {
           container.classList.remove('has-overflow-x');
           container.setAttribute('data-has-overflow', 'false');
@@ -122,6 +140,11 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
       scrollContainer.addEventListener('scroll', handleScroll);
       scrollContainer.addEventListener('mouseenter', handleMouseEnter);
       scrollContainer.addEventListener('mouseleave', handleMouseLeave);
+      
+      // 데스크톱에서 직접 스타일 적용
+      if (!isMobile && hasOverflowX) {
+        scrollContainer.style.overflowX = 'scroll';
+      }
     }
     
     return () => {
@@ -134,7 +157,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
         clearTimeout(scrollTimer.current);
       }
     };
-  }, [isMobile]); // isMobile 의존성 추가
+  }, [isMobile, hasOverflowX]); // hasOverflowX 의존성 추가
 
   // 모바일과 데스크톱에 따라 다른 폰트 크기 적용
   const fontSizeBase = isMobile ? '0.8rem' : '0.9rem';
@@ -157,6 +180,13 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
     }
   };
 
+  // 데스크톱에서 스크롤바를 항상 표시하기 위한 강화된 스타일
+  const desktopScrollStyle = !isMobile && hasOverflowX ? {
+    overflowX: 'scroll' as const,
+    msOverflowStyle: 'scrollbar' as const,
+    WebkitOverflowScrolling: 'touch' as const,
+  } : {};
+
   return (
     <div style={{ 
       backgroundColor: '#f8fafc',
@@ -171,13 +201,15 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
           display: 'block',
           width: '100%',
           msOverflowStyle: 'auto',
-          WebkitOverflowScrolling: 'touch'
+          WebkitOverflowScrolling: 'touch',
+          ...desktopScrollStyle, // 강화된 스크롤바 스타일 적용
         }}
-        className={`code-scroll-container ${isScrolling ? 'is-scrolling' : ''} ${hasOverflowX ? 'has-overflow-x' : ''}`}
+        className={`code-scroll-container ${isMobile ? (isScrolling ? 'is-scrolling' : '') : 'is-scrolling'} ${hasOverflowX ? 'has-overflow-x' : ''} ${!isMobile ? 'desktop-scrollbar' : ''}`}
         onScroll={handleScroll}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         data-has-overflow={hasOverflowX ? 'true' : 'false'}
+        data-is-desktop={!isMobile ? 'true' : 'false'}
       >
         <SyntaxHighlighter
           style={customStyle}
