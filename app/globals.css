@@ -58,19 +58,41 @@ a {
   text-decoration: none;
 }
 
-::-webkit-scrollbar {
-  width: 8px;
+/* 코드 블록 스크롤바 스타일 - 항상 존재하되 투명함 */
+.code-scroll-container::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+  background-color: transparent;
 }
 
-::-webkit-scrollbar-track {
-  background: #F5F5F5;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgba(100, 74, 201, 0.3);
+.code-scroll-container::-webkit-scrollbar-track {
+  background-color: transparent;
   border-radius: 4px;
 }
 
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 74, 201, 0.5);
+/* 스크롤 막대 - 기본은 약간 보임 */
+.code-scroll-container::-webkit-scrollbar-thumb {
+  background-color: rgba(200, 200, 200, 0.1);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* 호버 또는 스크롤 시 막대 색상 변경 */
+.code-scroll-container:hover::-webkit-scrollbar-thumb,
+.code-scroll-container.is-scrolling::-webkit-scrollbar-thumb {
+  background-color: rgba(180, 180, 180, 0.5);
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+/* Firefox 지원 */
+.code-scroll-container {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 200, 200, 0.1) transparent;
+}
+
+.code-scroll-container:hover,
+.code-scroll-container.is-scrolling {
+  scrollbar-color: rgba(180, 180, 180, 0.5) transparent;
 } 

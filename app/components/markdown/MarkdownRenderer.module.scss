@@ -119,7 +119,6 @@
   .codeBlockWrapper {
     margin: 1.5em 0;
     border-radius: 8px;
-    overflow: hidden;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     border: 1px solid #e2e8f0;
     
@@ -129,7 +128,6 @@
       div {
         padding: 1.25rem !important;
         background-color: #f8fafc !important;
-        overflow-x: auto;
         border-radius: 0 !important;
         font-size: 14.4px !important;
         
