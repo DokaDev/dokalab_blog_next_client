@@ -96,11 +96,41 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               {children}
             </h3>
           ),
-          p: ({ children, ...props }: any) => (
-            <p className={styles.paragraph} {...props}>
-              {children}
-            </p>
-          ),
+          p: ({ children, node, ...props }: any) => {
+            // 체크박스를 포함한 paragraph인지 확인
+            const isTaskItem = 
+              node?.children?.[0]?.type === 'text' &&
+              (node?.children?.[0]?.value.startsWith('[ ] ') || 
+               node?.children?.[0]?.value.startsWith('[x] '));
+            
+            if (isTaskItem) {
+              const isChecked = node?.children?.[0]?.value.startsWith('[x] ');
+              const textContent = node?.children?.[0]?.value.replace(/^\[(x|)\] /, '');
+              
+              return (
+                <p className={styles.taskItemParagraph} {...props}>
+                  <input 
+                    type="checkbox" 
+                    checked={isChecked}
+                    readOnly
+                    aria-label={`Task: ${textContent}`}
+                  />
+                  <span>{textContent}</span>
+                  {node?.children?.slice(1).map((child: any, i: number) => (
+                    <React.Fragment key={i}>
+                      {child.value || children[i+1]}
+                    </React.Fragment>
+                  ))}
+                </p>
+              );
+            }
+            
+            return (
+              <p className={styles.paragraph} {...props}>
+                {children}
+              </p>
+            );
+          },
           ul: ({ children, ...props }: any) => (
             <ul className={styles.unorderedList} {...props}>
               {children}
@@ -111,11 +141,30 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               {children}
             </ol>
           ),
-          li: ({ children, ...props }: any) => (
-            <li className={styles.listItem} {...props}>
-              {children}
-            </li>
-          ),
+          li: ({ children, node, ...props }: any) => {
+            // 체크박스 리스트 아이템인지 확인
+            const isTaskListItem = 
+              node?.children?.[0]?.type === 'paragraph' && 
+              node?.children?.[0]?.children?.[0]?.type === 'text' &&
+              (node?.children?.[0]?.children?.[0]?.value.startsWith('[ ] ') || 
+               node?.children?.[0]?.children?.[0]?.value.startsWith('[x] '));
+            
+            if (isTaskListItem) {
+              // 체크박스 아이템일 경우 custom 스타일 적용
+              return (
+                <li className={`${styles.listItem} ${styles.taskListItem}`} {...props}>
+                  {children}
+                </li>
+              );
+            }
+            
+            // 일반 리스트 아이템
+            return (
+              <li className={styles.listItem} {...props}>
+                {children}
+              </li>
+            );
+          },
           a: ({ children, ...props }: any) => (
             <a className={styles.link} target="_blank" rel="noopener noreferrer" {...props}>
               {children}
