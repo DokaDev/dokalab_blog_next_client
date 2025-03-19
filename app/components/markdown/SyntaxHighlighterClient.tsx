@@ -74,11 +74,11 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
         const hasOverflow = container.scrollWidth > container.clientWidth;
         
         // 디버깅용 정보
-        console.log(`Code block overflow check: 
-          scrollWidth: ${container.scrollWidth}, 
-          clientWidth: ${container.clientWidth}, 
-          hasOverflow: ${hasOverflow},
-          isMobile: ${isMobile}`);
+        // console.log(`Code block overflow check: 
+        //   scrollWidth: ${container.scrollWidth}, 
+        //   clientWidth: ${container.clientWidth}, 
+        //   hasOverflow: ${hasOverflow},
+        //   isMobile: ${isMobile}`);
         
         // 오버플로우가 있을 때만 true로 설정 (모바일/데스크톱 모두)
         setHasOverflowX(hasOverflow);
