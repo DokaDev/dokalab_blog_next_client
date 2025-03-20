@@ -601,11 +601,11 @@ p > .katex:hover {
   overflow-y: hidden;
   padding: 1rem 0;
   margin: 1.5rem 0;
-  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  transition: color 0.3s ease;
   border-radius: 4px;
 }
 
-/* Removed hover effects for display math */
+/* Removed hover effects for display math - only remove background and shadow effects */
 /* 
 .katex-display:hover {
   box-shadow: 0 2px 8px rgba(100, 74, 201, 0.15);
@@ -618,14 +618,13 @@ p > .katex:hover {
   display: block;
   text-align: center;
   margin: 0.5em 0;
+  transition: color 0.2s ease;
 }
 
-/* Removed hover effect for math content */
-/*
+/* Restore hover effect for math content - change color only */
 .katex-display:hover .katex {
   color: #644AC9;
 }
-*/
 
 /* Ensure code blocks display LaTeX properly too */
 pre .katex-display {
