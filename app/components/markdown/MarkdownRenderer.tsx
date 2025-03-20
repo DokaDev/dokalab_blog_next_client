@@ -6,8 +6,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
-import rehypeSanitize from 'rehype-sanitize';
+import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
+import 'katex/dist/katex.min.css';
 import styles from './MarkdownRenderer.module.scss';
 import CodeBlock from './CodeBlock';
 
@@ -16,12 +19,57 @@ interface MarkdownRendererProps {
   className?: string;
 }
 
+// Create a custom sanitization schema that allows KaTeX elements
+const schema = {
+  ...defaultSchema,
+  attributes: {
+    ...defaultSchema.attributes,
+    // Add KaTeX-specific attributes and elements
+    span: [
+      ...(defaultSchema.attributes?.span || []),
+      ['className', 'katex', 'katex-mathml', 'katex-html', 'math-inline'],
+      ['style'],
+    ],
+    div: [
+      ...(defaultSchema.attributes?.div || []),
+      ['className', 'katex', 'katex-display', 'math-display'],
+      ['style'],
+    ],
+    svg: [
+      ...(defaultSchema.attributes?.svg || []),
+      ['style', 'width', 'height', 'viewBox', 'preserveAspectRatio', 'overflow'],
+    ],
+    // Allow all attributes on annotation elements
+    annotation: [['*']],
+    semantics: [['*']],
+    mrow: [['*']],
+    mo: [['*']],
+    mstyle: [['*']],
+    mspace: [['*']],
+    msub: [['*']],
+    msup: [['*']],
+    msubsup: [['*']],
+    mi: [['*']],
+    mn: [['*']],
+    mtext: [['*']],
+    mfrac: [['*']],
+    mroot: [['*']],
+    msqrt: [['*']],
+  },
+  // Add KaTeX-specific tags to the allowed list
+  tagNames: [
+    ...(defaultSchema.tagNames || []),
+    'annotation', 'semantics', 'math', 'mrow', 'mo', 'mstyle', 'mspace',
+    'msub', 'msup', 'msubsup', 'mi', 'mn', 'mtext', 'mfrac', 'mroot', 'msqrt',
+  ],
+};
+
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
   return (
     <div className={`${styles.markdownContent} ${className} markdown-body`}>
       <ReactMarkdown
-        remarkPlugins={[remarkGfm]}
-        rehypePlugins={[rehypeRaw, rehypeSanitize]}
+        remarkPlugins={[remarkGfm, remarkMath]}
+        rehypePlugins={[rehypeKatex, rehypeRaw, [rehypeSanitize, schema]]}
         components={{
           code: (props: any) => {
             const { inline, className, children, node, ...rest } = props;

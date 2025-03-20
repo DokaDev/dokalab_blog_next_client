@@ -567,4 +567,37 @@ body .highlighted-line:hover [class*="linenumber-"] {
 .token-line.highlighted-line span[class*="token-"],
 .token-line.highlighted-line [class*="token"] {
   font-weight: 600 !important;
+}
+
+/* Enhance KaTeX Math Rendering Styles */
+.katex {
+  font-size: 1.1em;
+  font-family: 'KaTeX_Main', serif;
+}
+
+/* Inline math vertical alignment fix */
+.katex-display > .katex {
+  display: block;
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+/* Improve inline math alignment */
+.katex-inline, span > .katex {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+}
+
+/* Ensure code blocks display LaTeX properly too */
+pre .katex-display {
+  margin: 0;
+  padding: 0.5rem 0;
 } 
