@@ -157,7 +157,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   }, [isMobile, hasOverflowX, handleScroll, handleMouseLeave]); // handleScroll, handleMouseLeave 의존성 추가
 
   // 모바일과 데스크톱에 따라 다른 폰트 크기 적용
-  const fontSizeBase = isMobile ? '0.8rem' : '0.9rem';
+  const fontSizeBase = '14px'; // 고정된 픽셀 단위로 수정
 
   const customStyle = {
     ...oneLight,
@@ -235,7 +235,8 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
             userSelect: 'none',  // 줄번호 선택 방지
             display: 'inline-block',  // 블록 요소 확실히 적용
             position: 'sticky',  // 스크롤 시 위치 고정
-            left: 0
+            left: 0,
+            fontSize: fontSizeBase  // 라인 번호도 동일한 폰트 크기 적용
           }}
           wrapLines={true}
           wrapLongLines={false}

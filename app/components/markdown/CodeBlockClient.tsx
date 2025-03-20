@@ -226,7 +226,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
             <span 
               style={{
                 fontFamily: 'Menlo, Monaco, Consolas, monospace',
-                fontSize: '0.8rem',
+                fontSize: '14px',
                 color: '#334155',
                 display: 'flex',
                 alignItems: 'center',
@@ -250,7 +250,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
           <span 
             style={{
               fontFamily: 'Menlo, Monaco, Consolas, monospace',
-              fontSize: '0.75rem',
+              fontSize: '14px',
               color: '#64748b',
               textTransform: 'uppercase',
               padding: 0,

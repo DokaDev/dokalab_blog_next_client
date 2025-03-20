@@ -533,11 +533,11 @@ $$R_{\\mu\\nu} - \\frac{1}{2}Rg_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\p
 
 A complex matrix:
 
-$$A = \\begin{pmatrix} 
-a_{11} & a_{12} & a_{13} \\\\
-a_{21} & a_{22} & a_{23} \\\\
-a_{31} & a_{32} & a_{33}
-\\end{pmatrix}$$
+// $$A = \\begin{pmatrix} 
+// a_{11} & a_{12} & a_{13} \\\\
+// a_{21} & a_{22} & a_{23} \\\\
+// a_{31} & a_{32} & a_{33}
+// \\end{pmatrix}$$
 
 Quantum operators:
 

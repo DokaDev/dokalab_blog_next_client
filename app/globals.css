@@ -261,7 +261,7 @@ a {
   /* 코드 블록 내 텍스트 스타일 */
   .markdown-body pre,
   .markdown-body code {
-    font-size: 0.8rem !important;
+    font-size: 14px !important;
     line-height: 1.5 !important;
   }
   
@@ -567,6 +567,7 @@ body .highlighted-line:hover [class*="linenumber-"] {
 .token-line.highlighted-line span[class*="token-"],
 .token-line.highlighted-line [class*="token"] {
   font-weight: 600 !important;
+  font-size: 14px !important;
 }
 
 /* Enhance KaTeX Math Rendering Styles */
