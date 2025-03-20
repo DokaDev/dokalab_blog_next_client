@@ -154,7 +154,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
         clearTimeout(scrollTimer.current);
       }
     };
-  }, [isMobile, hasOverflowX]); // hasOverflowX 의존성 추가
+  }, [isMobile, hasOverflowX, handleScroll, handleMouseLeave]); // handleScroll, handleMouseLeave 의존성 추가
 
   // 모바일과 데스크톱에 따라 다른 폰트 크기 적용
   const fontSizeBase = isMobile ? '0.8rem' : '0.9rem';

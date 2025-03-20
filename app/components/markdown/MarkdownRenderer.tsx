@@ -1,6 +1,5 @@
 'use client';
 
-/* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect } from 'react';
@@ -8,8 +7,6 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
-import rehypeRaw from 'rehype-raw';
-import rehypeSanitize, { defaultSchema } from 'rehype-sanitize';
 import 'katex/dist/katex.min.css';
 import styles from './MarkdownRenderer.module.scss';
 import CodeBlock from './CodeBlock';
@@ -18,52 +15,6 @@ interface MarkdownRendererProps {
   content: string;
   className?: string;
 }
-
-// Create a custom sanitization schema that allows KaTeX elements
-const schema = {
-  ...defaultSchema,
-  attributes: {
-    ...defaultSchema.attributes,
-    // Add KaTeX-specific attributes and elements
-    span: [
-      ...(defaultSchema.attributes?.span || []),
-      ['className', 'katex*', 'katex-mathml', 'katex-html', 'math-inline', 'math'],
-      ['style'],
-    ],
-    div: [
-      ...(defaultSchema.attributes?.div || []),
-      ['className', 'katex*', 'katex-display', 'math-display'],
-      ['style'],
-    ],
-    svg: [
-      ...(defaultSchema.attributes?.svg || []),
-      ['style', 'width', 'height', 'viewBox', 'preserveAspectRatio', 'overflow'],
-    ],
-    // Allow all attributes on annotation elements
-    annotation: [['*']],
-    semantics: [['*']],
-    mrow: [['*']],
-    mo: [['*']],
-    mstyle: [['*']],
-    mspace: [['*']],
-    msub: [['*']],
-    msup: [['*']],
-    msubsup: [['*']],
-    mi: [['*']],
-    mn: [['*']],
-    mtext: [['*']],
-    mfrac: [['*']],
-    mroot: [['*']],
-    msqrt: [['*']],
-    math: [['*']],
-  },
-  // Add KaTeX-specific tags to the allowed list
-  tagNames: [
-    ...(defaultSchema.tagNames || []),
-    'annotation', 'semantics', 'math', 'mrow', 'mo', 'mstyle', 'mspace',
-    'msub', 'msup', 'msubsup', 'mi', 'mn', 'mtext', 'mfrac', 'mroot', 'msqrt',
-  ],
-};
 
 // Helper function for preprocessing LaTeX expressions
 const preprocessLatex = (content: string): string => {
@@ -116,30 +67,6 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
     <div className={`${styles.markdownContent} ${className} markdown-body`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
-        // rehypePlugins={[
-        //   [rehypeKatex, {
-        //     throwOnError: false,
-        //     output: 'html',
-        //     trust: true,
-        //     strict: false,
-        //     globalGroup: true,
-        //     maxSize: 500,
-        //     maxExpand: 1000,
-        //     // Additional macros that might be useful
-        //     macros: {
-        //       "\\eqref": "\\href{#1}{}",
-        //       "\\label": "\\href{#1}{}",
-        //       "\\over": "\\frac",
-        //       "\\iff": "\\Leftrightarrow",
-        //       "\\N": "\\mathbb{N}",
-        //       "\\Z": "\\mathbb{Z}",
-        //       "\\R": "\\mathbb{R}",
-        //       "\\C": "\\mathbb{C}"
-        //     }
-        //   }], 
-        //   rehypeRaw, 
-        //   [rehypeSanitize, schema]
-        // ]}
         rehypePlugins={[
           rehypeKatex
         ]}
@@ -376,8 +303,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               {children}
             </blockquote>
           ),
-          img: ({ ...props }: any) => (
-            <img className={styles.image} {...props} />
+          img: ({ src, ...props }: any) => (
+            <img className={styles.image} src={src} alt={props.alt || "Markdown image"} {...props} />
           ),
           table: ({ children, ...props }: any) => (
             <div className={styles.tableWrapper}>
