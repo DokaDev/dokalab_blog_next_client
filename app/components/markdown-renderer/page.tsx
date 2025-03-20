@@ -265,6 +265,64 @@ export default function DynamicComponent() {
 }
 \`\`\`
 
+### 7. Code Block with Line Highlighting Syntax
+
+\`\`\`javascript{1,3-5}:example.js
+function highlightExample() {
+  // This line is not highlighted
+  const a = 5; // This line is highlighted (line 3)
+  const b = 10; // This line is highlighted (line 4)
+  return a + b; // This line is highlighted (line 5)
+  // This line is not highlighted
+}
+\`\`\`
+
+### 8. Code Block with Line Highlighting and Multiple Ranges
+
+\`\`\`typescript{2,4-6,9}:src/components/Button.tsx
+import React from 'react';
+
+const Button = ({ onClick, children }: ButtonProps) => {
+  // These three lines should be highlighted (4-6)
+  const handleClick = (e: React.MouseEvent) => {
+    if (onClick) onClick(e);
+  };
+  
+  // Line 9 should be highlighted
+  return (
+    <button 
+      className="primary-button"
+      onClick={handleClick}
+    >
+      {children}
+    </button>
+  );
+};
+
+export default Button;
+\`\`\`
+
+### 9. Code Block with Line Highlighting on Different Language
+
+\`\`\`css{2,5-7,11-13}:styles.css
+.container {
+  display: flex; /* This line should be highlighted */
+  flex-direction: column;
+  width: 100%;
+  padding: 1rem; /* This line should be highlighted */
+  margin: 0 auto; /* This line should be highlighted */
+  max-width: 1200px; /* This line should be highlighted */
+}
+
+.button {
+  background: #0070f3;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+}
+\`\`\`
+
 \`\`\`
 export default function DynamicComponent() {
     return <div>Dynamic Route Component</div>;

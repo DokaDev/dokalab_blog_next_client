@@ -10,10 +10,11 @@ interface CodeBlockProps {
   language: string;
   value: string;
   fileName?: string;
+  highlightLines?: number[];
 }
 
 // 서버 컴포넌트 (기본값)
-const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' }) => {
+const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', highlightLines = [] }) => {
   if (!value || value.trim() === '') {
     return <div className={styles.codeBlockWrapper}><div>Empty code block</div></div>;
   }
@@ -27,6 +28,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '' })
       <SyntaxHighlighterClient 
         language={language}
         value={value}
+        highlightLines={highlightLines}
       />
     </div>
   );

@@ -409,4 +409,162 @@ input[type="checkbox"]:hover {
 
 /* 코드 스크롤바 스타일 */
 /* 중복된 스타일이므로 삭제 */
-/* 이 부분 전체 삭제 */ 
+/* 이 부분 전체 삭제 */
+
+/* 하이라이트된 코드 라인 스타일 - 더 높은 특이성으로 강제 적용 */
+span.highlighted-line,
+div.highlighted-line,
+.highlighted-line[data-highlighted="true"],
+.react-syntax-highlighter-line-number + .highlighted-line,
+pre .token-line.highlighted-line,
+code .token-line.highlighted-line,
+[class*="language-"] .highlighted-line,
+[class*="language-"] .token-line.highlighted-line {
+  background-color: rgba(100, 74, 201, 0.15) !important;
+  border-left: none !important;
+  display: block !important;
+  transition: all 0.3s ease-in-out !important;
+  cursor: default !important;
+  position: relative !important;
+  z-index: 0 !important;
+  font-weight: 600 !important;
+}
+
+/* 하이라이트된 라인 호버 효과 - 더 높은 특이성 */
+span.highlighted-line:hover,
+div.highlighted-line:hover,
+.highlighted-line[data-highlighted="true"]:hover,
+.react-syntax-highlighter-line-number + .highlighted-line:hover,
+pre .token-line.highlighted-line:hover,
+code .token-line.highlighted-line:hover,
+[class*="language-"] .highlighted-line:hover,
+[class*="language-"] .token-line.highlighted-line:hover {
+  background-color: rgba(100, 74, 201, 0.3) !important;
+  border-left: none !important;
+  transform: none !important;
+  box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+  z-index: 1 !important;
+}
+
+/* line-number 스타일도 수정 */
+span.highlighted-line .linenumber,
+div.highlighted-line .linenumber,
+.highlighted-line[data-highlighted="true"] .linenumber,
+pre .token-line.highlighted-line .linenumber,
+code .token-line.highlighted-line .linenumber,
+[class*="language-"] .highlighted-line .linenumber,
+[class*="language-"] .token-line.highlighted-line .linenumber,
+.highlighted-line span[style*="color: rgb(170, 170, 170)"],
+.highlighted-line [data-line-number] {
+  border-left: none !important;
+  font-weight: 600 !important;
+  color: rgba(100, 74, 201, 0.8) !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+span.highlighted-line:hover .linenumber,
+div.highlighted-line:hover .linenumber,
+.highlighted-line[data-highlighted="true"]:hover .linenumber,
+pre .token-line.highlighted-line:hover .linenumber,
+code .token-line.highlighted-line:hover .linenumber,
+[class*="language-"] .highlighted-line:hover .linenumber,
+[class*="language-"] .token-line.highlighted-line:hover .linenumber,
+.highlighted-line:hover span[style*="color: rgb(170, 170, 170)"],
+.highlighted-line:hover [data-line-number] {
+  color: rgba(100, 74, 201, 1) !important;
+}
+
+/* Firefox에서 하이라이트된 라인 지원 */
+@-moz-document url-prefix() {
+  .highlighted-line {
+    background-color: rgba(100, 74, 201, 0.08) !important;
+    border-left: none !important;
+    box-shadow: none !important;
+    transition: all 0.3s ease-in-out !important;
+    position: relative !important;
+  }
+  
+  .highlighted-line:hover {
+    background-color: rgba(100, 74, 201, 0.25) !important;
+    border-left: none !important;
+    transform: none !important;
+    box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+    z-index: 1 !important;
+  }
+  
+  .highlighted-line:hover .linenumber {
+    color: rgba(100, 74, 201, 1) !important;
+  }
+}
+
+/* 모바일 환경에서의 하이라이트 라인 스타일 조정 */
+@media (max-width: 768px) {
+  .highlighted-line {
+    margin-left: -2px !important;
+    border-left-width: 2px !important;
+  }
+}
+
+/* inline style로 강제 적용되도록 !important 키워드 추가 */
+@keyframes highlightPulse {
+  0% { background-color: rgba(100, 74, 201, 0.15); }
+  50% { background-color: rgba(100, 74, 201, 0.2); }
+  100% { background-color: rgba(100, 74, 201, 0.15); }
+}
+
+/* Syntax Highlighter 내부 클래스 직접 타겟팅 */
+body .token-line.highlighted-line,
+body pre code .token-line.highlighted-line,
+body div[style] .token-line.highlighted-line,
+body span.token-line.highlighted-line,
+body [class*="react-syntax-highlighter"] .token-line.highlighted-line,
+body [class*="react-syntax-highlighter"] .highlighted-line,
+body [class*="language-"] .token-line.highlighted-line {
+  background-color: rgba(100, 74, 201, 0.15) !important;
+  border-left: none !important;
+  display: block !important;
+  transition: all 0.3s ease-in-out !important;
+  cursor: default !important;
+  position: relative !important;
+  z-index: 0 !important;
+  animation: highlightPulse 4s infinite ease-in-out !important;
+  font-weight: 600 !important;
+}
+
+body .token-line.highlighted-line:hover,
+body pre code .token-line.highlighted-line:hover,
+body div[style] .token-line.highlighted-line:hover,
+body span.token-line.highlighted-line:hover,
+body [class*="react-syntax-highlighter"] .token-line.highlighted-line:hover,
+body [class*="react-syntax-highlighter"] .highlighted-line:hover,
+body [class*="language-"] .token-line.highlighted-line:hover {
+  background-color: rgba(100, 74, 201, 0.3) !important;
+  border-left: none !important;
+  transform: none !important;
+  box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+  z-index: 1 !important;
+  animation: none !important;
+}
+
+/* 줄 번호도 직접 스타일링 */
+body .token-line.highlighted-line .react-syntax-highlighter-line-number,
+body [class*="linenumber-"] {
+  color: rgba(100, 74, 201, 0.8) !important;
+  font-weight: 600 !important;
+  transition: all 0.3s ease-in-out !important;
+}
+
+body .token-line.highlighted-line:hover .react-syntax-highlighter-line-number,
+body .highlighted-line:hover [class*="linenumber-"] {
+  color: rgba(100, 74, 201, 1) !important;
+}
+
+/* 하이라이트된 라인 내부의 모든 텍스트 토큰에 대한 스타일 */
+.highlighted-line .token,
+.highlighted-line span[class*="token-"],
+.highlighted-line [class*="token"],
+.token-line.highlighted-line .token,
+.token-line.highlighted-line span[class*="token-"],
+.token-line.highlighted-line [class*="token"] {
+  font-weight: 600 !important;
+} 

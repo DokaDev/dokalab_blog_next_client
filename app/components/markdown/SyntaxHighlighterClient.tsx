@@ -7,12 +7,17 @@ import { oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 interface SyntaxHighlighterClientProps {
   language: string;
   value: string;
+  highlightLines?: number[];
 }
 
-const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ language, value }) => {
+const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ 
+  language, 
+  value,
+  highlightLines = []
+}) => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isScrolling, setIsScrolling] = useState(false); // 기본값은 false로 변경
-  const [hasOverflowX, setHasOverflowX] = useState(false); // 기본값을 false로 변경
+  const [isScrolling, setIsScrolling] = useState(false);
+  const [hasOverflowX, setHasOverflowX] = useState(false);
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
@@ -72,13 +77,6 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
       if (container) {
         // 컨테이너의 가로 스크롤이 필요한지 확인
         const hasOverflow = container.scrollWidth > container.clientWidth;
-        
-        // 디버깅용 정보
-        // console.log(`Code block overflow check: 
-        //   scrollWidth: ${container.scrollWidth}, 
-        //   clientWidth: ${container.clientWidth}, 
-        //   hasOverflow: ${hasOverflow},
-        //   isMobile: ${isMobile}`);
         
         // 오버플로우가 있을 때만 true로 설정 (모바일/데스크톱 모두)
         setHasOverflowX(hasOverflow);
@@ -176,7 +174,14 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
       padding: isMobile ? '0.8rem' : '1.25rem',
       borderRadius: 0,
       background: '#f8fafc',
-    }
+    },
+    // SyntaxHighlighter 내부 스타일은 제거 - 글로벌 CSS로 대체
+  };
+  
+  // 하이라이트된 라인을 위한 스타일 정의 - 클래스 이름만 추가하고 스타일은 globals.css에서 처리
+  const highlightLineStyle = {
+    backgroundColor: 'rgba(100, 74, 201, 0.15)', // 기본 배경색만 유지
+    fontWeight: 600 // 굵게 표시
   };
 
   // 데스크톱에서 스크롤바를 표시하기 위한 스타일 - 오버플로우가 있는 경우에만
@@ -226,10 +231,26 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
             color: '#AAA',
             borderRight: '1px solid #E2E8F0',
             marginRight: isMobile ? '0.5em' : '1em',
-            textAlign: 'right'
+            textAlign: 'right',
+            userSelect: 'none',  // 줄번호 선택 방지
+            display: 'inline-block',  // 블록 요소 확실히 적용
+            position: 'sticky',  // 스크롤 시 위치 고정
+            left: 0
           }}
-          wrapLines={false}
+          wrapLines={true}
           wrapLongLines={false}
+          lineProps={(lineNumber) => {
+            // 라인 번호가 하이라이트 대상인지 확인
+            // react-syntax-highlighter는 0부터 인덱싱하지만 마크다운에서는 1부터 라인 번호를 지정
+            // lineNumber에 1을 더하는 것이 아니라 highlightLines가 1-indexed이므로 lineNumber는 그대로 비교
+            const highlight = highlightLines.includes(lineNumber);
+            
+            return {
+              style: highlight ? highlightLineStyle : {},
+              className: highlight ? 'highlighted-line' : undefined,
+              'data-highlighted': highlight ? 'true' : 'false',
+            };
+          }}
           customStyle={{
             margin: 0,
             padding: isMobile ? '0.8rem' : '1.25rem',
@@ -237,6 +258,9 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ langu
             borderRadius: 0,
             minWidth: 'max-content',
             fontSize: fontSizeBase,
+            position: 'relative',
+            width: '100%',
+            boxSizing: 'border-box'
           }}
         >
           {value.replace(/\n$/, '')}

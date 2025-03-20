@@ -41,27 +41,52 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             }
             
             // 여기서부터는 코드 블록(백틱 세 개로 감싸진 코드)
-            const match = /language-(\w+)/.exec(className || '');
+            // 원본 className 보존 (예: language-javascript{1,3-5}:file.js)
+            const originalClassName = className || '';
+            const match = /language-(\w+)/.exec(originalClassName);
             let language = match ? match[1] : '';
             let fileName = '';
+            const highlightLines: number[] = [];
             
-            // 콜론(:)을 기준으로 언어와 파일명 분리
-            if (language && language.includes(':')) {
-              const parts = language.split(':');
-              language = parts[0];
-              fileName = parts[1];
-            } else if (match && className && className.includes(':')) {
-              // 언어가 지정되어 있지만 콜론 뒤에 파일명이 있는 경우 (language-js:filename.js)
-              const fullClass = className.split(' ')[0]; // language-js:filename.js
-              const colonIndex = fullClass.indexOf(':');
-              if (colonIndex !== -1) {
-                fileName = fullClass.substring(colonIndex + 1);
-              }
-            } else if (!match && className && className.includes(':')) {
-              // 언어가 없고 파일명만 있는 경우 (`:filename.js`)
-              const colonIndex = className.indexOf(':');
-              if (colonIndex !== -1) {
-                fileName = className.substring(colonIndex + 1);
+            // 하이라이트 부분 { } 추출
+            const highlightMatch = originalClassName.match(/\{([^}]+)\}/);
+            if (highlightMatch && highlightMatch[1]) {
+              const highlightStr = highlightMatch[1];
+              
+              // 하이라이트 라인 번호 파싱
+              const highlights = highlightStr.split(',');
+              highlights.forEach((h: string) => {
+                if (h.includes('-')) {
+                  // 범위 처리 (예: 3-5)
+                  const [start, end] = h.split('-').map(Number);
+                  if (!isNaN(start) && !isNaN(end) && start <= end) {
+                    for (let i = start; i <= end; i++) {
+                      highlightLines.push(i);
+                    }
+                  }
+                } else {
+                  // 단일 라인 처리 (예: 1)
+                  const lineNum = Number(h);
+                  if (!isNaN(lineNum)) {
+                    highlightLines.push(lineNum);
+                  }
+                }
+              });
+            }
+            
+            // 중괄호 부분 제거하여 깨끗한 language 얻기
+            if (language && highlightMatch) {
+              language = language.replace(/\{[^}]+\}/, '');
+            }
+            
+            // 콜론(:) 부분 처리하여 파일명 추출
+            const colonMatch = originalClassName.match(/:([^:\s]+)/);
+            if (colonMatch && colonMatch[1]) {
+              fileName = colonMatch[1];
+              
+              // 파일명이 language 부분에도 들어갔다면 제거
+              if (language.includes(':')) {
+                language = language.split(':')[0];
               }
             }
             
@@ -78,6 +103,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                 language={language} 
                 value={value.replace(/\n$/, '')}
                 fileName={fileName}
+                highlightLines={highlightLines}
               />
             );
           },
