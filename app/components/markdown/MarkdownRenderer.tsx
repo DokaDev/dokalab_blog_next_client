@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
@@ -27,12 +27,12 @@ const schema = {
     // Add KaTeX-specific attributes and elements
     span: [
       ...(defaultSchema.attributes?.span || []),
-      ['className', 'katex', 'katex-mathml', 'katex-html', 'math-inline'],
+      ['className', 'katex*', 'katex-mathml', 'katex-html', 'math-inline', 'math'],
       ['style'],
     ],
     div: [
       ...(defaultSchema.attributes?.div || []),
-      ['className', 'katex', 'katex-display', 'math-display'],
+      ['className', 'katex*', 'katex-display', 'math-display'],
       ['style'],
     ],
     svg: [
@@ -55,6 +55,7 @@ const schema = {
     mfrac: [['*']],
     mroot: [['*']],
     msqrt: [['*']],
+    math: [['*']],
   },
   // Add KaTeX-specific tags to the allowed list
   tagNames: [
@@ -64,13 +65,86 @@ const schema = {
   ],
 };
 
+// Helper function for preprocessing LaTeX expressions
+const preprocessLatex = (content: string): string => {
+  // Fix inline math expressions: $...$
+  let processed = content.replace(/\$([^$\n]+?)\$/g, (match, formula) => {
+    // Process superscripts: x^2 -> x^{2}
+    const processedFormula = formula
+      .replace(/\^(\w)(?!\{)/g, '^{$1}')
+      .replace(/\^([^{\s]+)(?!\{)/g, '^{$1}')
+      
+      // Process subscripts: x_2 -> x_{2}
+      .replace(/_(\w)(?!\{)/g, '_{$1}')
+      .replace(/_([^{\s]+)(?!\{)/g, '_{$1}');
+    
+    return `$${processedFormula}$`;
+  });
+  
+  // Fix block math expressions: $$...$$
+  processed = processed.replace(/\$\$([\s\S]+?)\$\$/g, (match, formula) => {
+    // Process superscripts: x^2 -> x^{2}
+    const processedFormula = formula
+      .replace(/\^(\w)(?!\{)/g, '^{$1}')
+      .replace(/\^([^{\s]+)(?!\{)/g, '^{$1}')
+      
+      // Process subscripts: x_2 -> x_{2}
+      .replace(/_(\w)(?!\{)/g, '_{$1}')
+      .replace(/_([^{\s]+)(?!\{)/g, '_{$1}');
+    
+    return `$$${processedFormula}$$`;
+  });
+  
+  return processed;
+};
+
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
+  // Pre-process LaTeX expressions
+  const processedContent = preprocessLatex(content);
+
+  // This effect ensures KaTeX styles are properly applied
+  useEffect(() => {
+    // Force a repaint to ensure KaTeX styling is applied
+    document.querySelectorAll('.katex, .katex-display').forEach(el => {
+      // Add a class temporarily and remove it to force a style recalculation
+      el.classList.add('katex-repaint');
+      setTimeout(() => el.classList.remove('katex-repaint'), 0);
+    });
+  }, [processedContent]);
+  
   return (
     <div className={`${styles.markdownContent} ${className} markdown-body`}>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
-        rehypePlugins={[rehypeKatex, rehypeRaw, [rehypeSanitize, schema]]}
+        // rehypePlugins={[
+        //   [rehypeKatex, {
+        //     throwOnError: false,
+        //     output: 'html',
+        //     trust: true,
+        //     strict: false,
+        //     globalGroup: true,
+        //     maxSize: 500,
+        //     maxExpand: 1000,
+        //     // Additional macros that might be useful
+        //     macros: {
+        //       "\\eqref": "\\href{#1}{}",
+        //       "\\label": "\\href{#1}{}",
+        //       "\\over": "\\frac",
+        //       "\\iff": "\\Leftrightarrow",
+        //       "\\N": "\\mathbb{N}",
+        //       "\\Z": "\\mathbb{Z}",
+        //       "\\R": "\\mathbb{R}",
+        //       "\\C": "\\mathbb{C}"
+        //     }
+        //   }], 
+        //   rehypeRaw, 
+        //   [rehypeSanitize, schema]
+        // ]}
+        rehypePlugins={[
+          rehypeKatex
+        ]}
         components={{
+          // All other components remain the same
           code: (props: any) => {
             const { inline, className, children, node, ...rest } = props;
             
@@ -319,7 +393,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
           },
         }}
       >
-        {content}
+        {processedContent}
       </ReactMarkdown>
     </div>
   );
