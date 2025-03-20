@@ -573,27 +573,53 @@ body .highlighted-line:hover [class*="linenumber-"] {
 .katex {
   font-size: 1.1em;
   font-family: 'KaTeX_Main', serif;
+  transition: color 0.2s ease;
 }
 
-/* Inline math vertical alignment fix */
+/* Improved inline math selector to ensure it captures all inline math expressions */
+.katex-mathml, /* KaTeX internal component */
+.katex-html,  /* KaTeX internal component */
+:not(.katex-display) > .katex, /* Direct non-display container */
+span:not(.katex-display) .katex, /* Any span containing KaTeX that's not display math */
+p > .katex {  /* KaTeX directly inside paragraph */
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  transition: color 0.2s ease;
+}
+
+/* Inline math hover effect - using more specific selectors to target inline math */
+:not(.katex-display) > .katex:hover,
+span:not(.katex-display) .katex:hover,
+p > .katex:hover {
+  color: #644AC9;
+}
+
+/* Block math hover effect - removed transform, kept subtle effects */
+.katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 1rem 0;
+  margin: 1.5rem 0;
+  transition: box-shadow 0.3s ease, background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+.katex-display:hover {
+  box-shadow: 0 2px 8px rgba(100, 74, 201, 0.15);
+  background-color: rgba(250, 250, 254, 0.6);
+}
+
+/* Ensure proper alignment for display math */
 .katex-display > .katex {
   display: block;
   text-align: center;
   margin: 0.5em 0;
 }
 
-/* Improve inline math alignment */
-.katex-inline, span > .katex {
-  display: inline-flex;
-  align-items: center;
-  vertical-align: middle;
-}
-
-.katex-display {
-  overflow-x: auto;
-  overflow-y: hidden;
-  padding: 1rem 0;
-  margin: 1.5rem 0;
+/* Hover effect for any math content inside display math */
+.katex-display:hover .katex {
+  color: #644AC9;
 }
 
 /* Ensure code blocks display LaTeX properly too */

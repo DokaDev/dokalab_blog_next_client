@@ -506,6 +506,55 @@ Schrödinger's Equation:
 
 $$i\\hbar\\frac{\\partial}{\\partial t}\\Psi(\\mathbf{r},t) = \\left[-\\frac{\\hbar^2}{2m}\\nabla^2 + V(\\mathbf{r},t)\\right]\\Psi(\\mathbf{r},t)$$
 
+Navier-Stokes equation:
+
+$$\\rho \\left( \\frac{\\partial \\mathbf{v}}{\\partial t} + \\mathbf{v} \\cdot \\nabla \\mathbf{v} \\right) = -\\nabla p + \\nabla \\cdot\\mathbf{T} + \\mathbf{f}$$
+
+### Testing Caret (^) and Underscore (_) Behavior
+
+- Single character superscript: $x^2$
+- Multiple character superscript: $x^{10}$
+- Single character subscript: $x_i$
+- Multiple character subscript: $x_{max}$
+- Mixed: $\\sum_{i=1}^n i^2 = \\frac{n(n+1)(2n+1)}{6}$
+- With operations: $e^{x^2 + y^2}$
+- Nested: $e^{x^{y^z}}$
+- Combined: $x^2_i$ and $x_i^2$
+
+### More Advanced LaTeX Examples
+
+The Lagrangian of a system:
+
+$$\\mathcal{L} = T - V = \\frac{1}{2}mv^2 - V(x)$$
+
+The Einstein Field Equations:
+
+$$R_{\\mu\\nu} - \\frac{1}{2}Rg_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\pi G}{c^4}T_{\\mu\\nu}$$
+
+A complex matrix:
+
+$$A = \\begin{pmatrix} 
+a_{11} & a_{12} & a_{13} \\\\
+a_{21} & a_{22} & a_{23} \\\\
+a_{31} & a_{32} & a_{33}
+\\end{pmatrix}$$
+
+Quantum operators:
+
+$$\\hat{H}|\\psi\\rangle = E|\\psi\\rangle$$
+
+A Taylor series expansion:
+
+$$f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n$$
+
+Dirac notation:
+
+$$\\langle\\psi|\\hat{A}|\\phi\\rangle = \\int_{-\\infty}^{\\infty} \\psi^*(x)\\hat{A}\\phi(x) dx$$
+
+The Heisenberg Uncertainty Principle:
+
+$$\\Delta x \\Delta p \\geq \\frac{\\hbar}{2}$$
+
 ## Mermaid Diagram Examples
 
 ### Basic Flowchart
