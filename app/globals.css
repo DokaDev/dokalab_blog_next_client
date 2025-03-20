@@ -299,14 +299,14 @@ li p:has(input[type="checkbox"]) {
 
 ul.contains-task-list {
   list-style-type: none !important;
-  padding-left: 0 !important; /* 20px에서 0px로 변경하여 왼쪽 정렬 개선 */
+  padding-left: 0 !important;
   margin: 0 !important;
 }
 
 /* remarkGfm이 사용하는 클래스 */
 .contains-task-list {
   list-style-type: none !important;
-  padding-left: 0 !important; /* 20px에서 0px로 변경하여 왼쪽 정렬 개선 */
+  padding-left: 0 !important;
   margin: 0 !important;
 }
 
@@ -318,26 +318,41 @@ ul.contains-task-list {
 /* 마크다운 체크박스 리스트의 불릿 제거 */
 .markdown-body ul,
 .markdown-body ol {
-  padding-left: 0 !important;
+  padding-left: 1.5em !important;
   margin: 1.25em 0 !important;
-  list-style-type: disc !important; /* none에서 disc로 변경 */
+}
+
+.markdown-body ul {
+  list-style-type: disc !important;
+}
+
+.markdown-body ol {
+  list-style-type: decimal !important;
 }
 
 .markdown-body ul li,
 .markdown-body ol li {
-  list-style-position: inside !important; /* 불릿이 내부에 위치하도록 설정 */
-  list-style-type: disc !important; /* none에서 disc로 변경 */
-  padding-left: 0 !important;
-  margin: 0 !important;
+  list-style-position: outside !important;
+  padding-left: 0.5em !important;
+  margin: 0.5em 0 !important;
   position: relative !important;
+}
+
+.markdown-body ul li {
+  list-style-type: disc !important;
+}
+
+.markdown-body ol li {
+  list-style-type: decimal !important;
 }
 
 /* 체크박스 리스트 스타일은 유지 */
 .markdown-body ul li:has(input[type="checkbox"]) {
-  padding-left: 0 !important; /* 체크박스 항목은 패딩 제거 */
+  padding-left: 0 !important;
   display: flex !important;
   align-items: flex-start !important;
-  list-style-type: none !important; /* 체크박스 항목은 불릿 없음 */
+  list-style-type: none !important;
+  margin-left: 0 !important;
 }
 
 .markdown-body ul li p:first-child,
@@ -631,4 +646,21 @@ p > .katex:hover {
 pre .katex-display {
   margin: 0;
   padding: 0.5rem 0;
+}
+
+/* Specific styles for rendered checkbox lists */
+.markdown-body > ul:has(li > input[type="checkbox"]) {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
+.markdown-body > ul > li:has(input[type="checkbox"]) {
+  margin-left: 0 !important;
+  padding-left: 0 !important;
+}
+
+/* Fix checkbox wrapping issue */
+.markdown-body ul li:has(input[type="checkbox"]) > span {
+  flex: 1;
+  padding-top: 0.25rem;
 } 

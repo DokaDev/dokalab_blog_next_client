@@ -283,12 +283,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             
             // 일반 리스트 아이템
             return (
-              <li className={styles.listItem} {...props} style={{ 
-                padding: 0, 
-                margin: 0,
-                listStyleType: 'disc',
-                listStylePosition: 'inside'
-              }}>
+              <li className={styles.listItem} {...props}>
                 {children}
               </li>
             );

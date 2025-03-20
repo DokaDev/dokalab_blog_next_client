@@ -66,20 +66,21 @@
   // 리스트 스타일
   .unorderedList, .orderedList {
     margin: 1.25em 0;
-    padding-left: 0;
+    padding-left: 1.5em;
+  }
+  
+  .unorderedList {
     list-style-type: disc;
   }
   
+  .orderedList {
+    list-style-type: decimal;
+  }
+  
   .listItem {
-    margin-bottom: 0.25em;
+    margin-bottom: 0.5em;
     padding-left: 0;
     position: relative;
-    list-style-type: disc;
-    list-style-position: inside;
-    
-    &::marker {
-      display: inline;
-    }
   }
   
   // 체크박스 스타일
