@@ -1,5 +1,5 @@
 .markdownContent {
-  // 전체 마크다운 콘텐츠 컨테이너
+  // Main markdown content container
   width: 100%;
   max-width: 100%;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
@@ -12,7 +12,7 @@
     margin-top: 0;
   }
   
-  // 제목 스타일
+  // Heading styles
   .heading1, .heading2, .heading3 {
     font-weight: 700;
     line-height: 1.3;
@@ -52,7 +52,7 @@
     font-weight: 600;
   }
   
-  // 텍스트 스타일
+  // Text styles
   .paragraph {
     margin: 1.25em 0;
     
@@ -63,7 +63,7 @@
     }
   }
   
-  // 리스트 스타일
+  // List styles
   .unorderedList, .orderedList {
     margin: 1.25em 0;
     padding-left: 1.5em;
@@ -83,7 +83,7 @@
     position: relative;
   }
   
-  // 체크박스 스타일
+  // Checkbox styles
   .taskList {
     list-style-type: none !important;
     list-style: none !important;
@@ -112,7 +112,7 @@
     }
   }
   
-  // 직계 ul, ol 하위의 task list item 스타일 (추가 구체성)
+  // Direct descendant task list items - adds specificity to override other styles
   .unorderedList > .taskListItem,
   .orderedList > .taskListItem {
     list-style-type: none !important;
@@ -174,7 +174,7 @@
     }
   }
   
-  // 링크 스타일
+  // Link styles
   .link {
     color: #644AC9;
     text-decoration: none;
@@ -187,7 +187,7 @@
     }
   }
   
-  // 인라인 코드 스타일
+  // Inline code styles
   .inlineCode {
     background-color: #f8fafc;
     color: #334155;
@@ -198,7 +198,7 @@
     margin: 0 0.2rem;
   }
   
-  // 코드 블록 스타일
+  // Code block styles
   .codeBlockWrapper {
     margin: 1.5em 0;
     border-radius: 8px;
@@ -223,7 +223,7 @@
     }
   }
   
-  // 블록인용구 스타일
+  // Blockquote styles
   .blockquote {
     margin: 1.5em 0;
     padding: 1em 1.5em;
@@ -246,7 +246,7 @@
     }
   }
   
-  // 이미지 스타일
+  // Image styles
   .image {
     max-width: 100%;
     height: auto;
@@ -255,7 +255,7 @@
     display: block;
   }
   
-  // 테이블 스타일
+  // Table styles
   .tableWrapper {
     overflow-x: auto;
     margin: 1.5em 0;
@@ -284,7 +284,7 @@
   }
 }
 
-// 모바일 스타일
+// Mobile responsive styles
 @media (max-width: 768px) {
   .markdownContent {
     font-size: 0.95rem;

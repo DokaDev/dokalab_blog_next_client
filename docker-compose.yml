@@ -1,10 +1,17 @@
+version: '3'
 services:
-  web_client:
-    build:
-      context: .
-    container_name: web_client
+  nextjs:
+    build: .
     ports:
       - "3000:3000"
+    volumes:
+      # Use only in development environment; for production, remove or comment out this volume mount
+      - .:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NODE_ENV=development
+    container_name: web_client
     # 개발 환경에서만 사용하고, 배포 환경에서는 아래 볼륨 마운트를 제거하거나 주석 처리하세요
     # volumes:
     #   - .:/app

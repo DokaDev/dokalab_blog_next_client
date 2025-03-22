@@ -75,13 +75,13 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
           code: (props: any) => {
             const { inline, className, children, node, ...rest } = props;
             
-            // children이 단순 문자열이고 node.position이 있으며 한 줄이라면 인라인 코드로 판단
+            // Check if this is a simple string and on a single line - this means it's an inline code
             const isInline = inline || 
               (typeof children === 'string' && 
               node?.position?.start?.line === node?.position?.end?.line);
             
             if (isInline) {
-              // 인라인 코드 (백틱 하나로 감싸진 코드)
+              // This is inline code (wrapped in single backticks)
               return (
                 <code className={styles.inlineCode} {...rest}>
                   {typeof children === 'string' ? children : String(children).replace(/\n$/, '')}
@@ -89,24 +89,24 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               );
             }
             
-            // 여기서부터는 코드 블록(백틱 세 개로 감싸진 코드)
-            // 원본 className 보존 (예: language-javascript{1,3-5}:file.js)
+            // From here, we handle code blocks (wrapped in triple backticks)
+            // Preserve the original className (e.g. language-javascript{1,3-5}:file.js)
             const originalClassName = className || '';
             const match = /language-(\w+)/.exec(originalClassName);
             let language = match ? match[1] : '';
             let fileName = '';
             const highlightLines: number[] = [];
             
-            // 하이라이트 부분 { } 추출
+            // Extract highlight section from curly braces { }
             const highlightMatch = originalClassName.match(/\{([^}]+)\}/);
             if (highlightMatch && highlightMatch[1]) {
               const highlightStr = highlightMatch[1];
               
-              // 하이라이트 라인 번호 파싱
+              // Parse line numbers for highlighting
               const highlights = highlightStr.split(',');
               highlights.forEach((h: string) => {
                 if (h.includes('-')) {
-                  // 범위 처리 (예: 3-5)
+                  // Handle range notation (e.g. 3-5)
                   const [start, end] = h.split('-').map(Number);
                   if (!isNaN(start) && !isNaN(end) && start <= end) {
                     for (let i = start; i <= end; i++) {
@@ -114,7 +114,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                     }
                   }
                 } else {
-                  // 단일 라인 처리 (예: 1)
+                  // Handle single line notation (e.g. 1)
                   const lineNum = Number(h);
                   if (!isNaN(lineNum)) {
                     highlightLines.push(lineNum);
@@ -123,30 +123,30 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               });
             }
             
-            // 중괄호 부분 제거하여 깨끗한 language 얻기
+            // Remove curly brace section to get clean language identifier
             if (language && highlightMatch) {
               language = language.replace(/\{[^}]+\}/, '');
             }
             
-            // 콜론(:) 부분 처리하여 파일명 추출
+            // Process colon (:) section to extract filename
             const colonMatch = originalClassName.match(/:([^:\s]+)/);
             if (colonMatch && colonMatch[1]) {
               fileName = colonMatch[1];
               
-              // 파일명이 language 부분에도 들어갔다면 제거
+              // If filename is also in the language part, remove it
               if (language.includes(':')) {
                 language = language.split(':')[0];
               }
             }
             
-            // 코드 값을 안전하게 추출
+            // Safely extract code value
             const value = typeof children === 'string' 
               ? children 
               : Array.isArray(children) 
                 ? children.join('') 
                 : String(children);
                 
-            // 최종 코드 블록 반환
+            // Return the final code block component
             return (
               <CodeBlock 
                 language={language} 
@@ -174,7 +174,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </h3>
           ),
           p: ({ children, node, ...props }: any) => {
-            // 체크박스를 포함한 paragraph인지 확인
+            // Check if paragraph contains checkbox
             const isTaskItem = 
               node?.children?.[0]?.type === 'text' &&
               (node?.children?.[0]?.value.startsWith('[ ] ') || 
@@ -218,7 +218,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             );
           },
           ul: ({ children, node, ...props }: any) => {
-            // 체크박스가 포함된 리스트인지 확인
+            // Check if list contains checkbox items
             const hasTaskItems = node?.children?.some((child: any) => 
               child?.children?.[0]?.type === 'paragraph' && 
               child?.children?.[0]?.children?.[0]?.type === 'text' &&
@@ -254,7 +254,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </ol>
           ),
           li: ({ children, node, ...props }: any) => {
-            // 체크박스 리스트 아이템인지 확인
+            // Check if this is a checkbox list item
             const isTaskListItem = 
               node?.children?.[0]?.type === 'paragraph' && 
               node?.children?.[0]?.children?.[0]?.type === 'text' &&
@@ -262,7 +262,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                node?.children?.[0]?.children?.[0]?.value.startsWith('[x] '));
             
             if (isTaskListItem) {
-              // 체크박스 아이템일 경우 custom 스타일 적용
+              // Apply custom styling for checkbox items
               return (
                 <li 
                   className={`${styles.listItem} ${styles.taskListItem}`} 
@@ -281,7 +281,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               );
             }
             
-            // 일반 리스트 아이템
+            // Regular list item
             return (
               <li className={styles.listItem} {...props}>
                 {children}
@@ -309,8 +309,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </div>
           ),
           pre: ({ children }: any) => {
-            // pre 태그는 일반적으로 코드 블록을 감싸는 용도로 사용됨
-            // 여기서는 우리가 이미 CodeBlock으로 처리하므로 간단히 패스
+            // The pre tag is typically used to wrap code blocks
+            // Here we simply pass through as we already handle code blocks with our CodeBlock component
             return <>{children}</>;
           },
         }}

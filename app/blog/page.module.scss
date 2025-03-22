@@ -7,6 +7,7 @@
   z-index: 1;
   display: flex;
   flex-direction: column;
+  padding: 32px 24px; /* Reduced horizontal padding for mobile screens */
 }
 
 @media (max-width: 768px) {
