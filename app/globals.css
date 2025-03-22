@@ -22,15 +22,15 @@ main {
   width: 100%;
 }
 
-/* 홈페이지용 main 스타일 */
+/* Main style for homepage */
 main.homePage {
   margin-top: 0;
   padding-top: 0;
 }
 
-/* 서브페이지용 main 스타일 */
+/* Main style for subpages */
 main.subPage {
-  padding-top: 70px; /* 헤더 높이만큼만 패딩 추가, 추가 여백은 컨테이너에서 조정 */
+  padding-top: 70px; /* Add padding equal to header height, additional spacing is managed within containers */
 }
 
 @media (max-width: 768px) {
@@ -44,7 +44,7 @@ main.subPage {
   }
   
   main.subPage {
-    padding-top: 60px; /* 모바일 헤더 높이만큼만 패딩 */
+    padding-top: 60px; /* Adjust padding for mobile header height */
   }
   
   body {
@@ -58,7 +58,7 @@ a {
   text-decoration: none;
 }
 
-/* 최상위 스타일 - 모든 코드 블록 스크롤바에 적용 */
+/* Root-level styles - applied to all code block scrollbars */
 .code-scroll-container::-webkit-scrollbar-thumb {
   background: rgba(100, 116, 139, 0.6) !important;
   border-radius: 4px !important;
@@ -66,7 +66,7 @@ a {
   opacity: 1 !important;
 }
 
-/* PC 환경에서는 항상 스크롤바 표시 */
+/* Always show scrollbars in desktop environments */
 @media (min-width: 769px) {
   .code-scroll-container::-webkit-scrollbar-thumb {
     background: rgba(100, 116, 139, 0.6) !important;
@@ -74,14 +74,14 @@ a {
     opacity: 1 !important;
   }
   
-  /* 오버플로우가 있는 경우에만 스크롤 적용 */
+  /* Only apply scrolling when overflow is detected */
   .code-scroll-container.has-overflow-x,
   .code-scroll-container[data-has-overflow="true"] {
-    /* 스크롤바 항상 표시 */
+    /* Force scrollbar visibility */
     overflow-x: scroll !important;
   }
   
-  /* 데스크톱 전용 스크롤바 클래스 */
+  /* Desktop-specific scrollbar styles */
   .desktop-scrollbar::-webkit-scrollbar-thumb {
     background: rgba(100, 116, 139, 0.6) !important;
     visibility: visible !important;
@@ -94,11 +94,11 @@ a {
     -webkit-overflow-scrolling: touch !important;
     overflow-scrolling: touch !important;
     
-    /* 맥 OS 오버레이 스크롤바 비활성화 */
+    /* Disable macOS overlay scrollbars for consistent appearance */
     -webkit-overflow-style: scrollbar !important;
     overflow-style: scrollbar !important;
     
-    /* 스크롤바 숨김 방지 */
+    /* Prevent scrollbar from being hidden */
     &::-webkit-scrollbar {
       -webkit-appearance: none !important;
       width: 8px !important;
@@ -128,9 +128,9 @@ a {
   }
 }
 
-/* Firefox 브라우저 대응 */
+/* Firefox browser compatibility */
 @-moz-document url-prefix() {
-  /* 오버플로우가 있는 경우에만 적용 */
+  /* Apply only when overflow is detected */
   .code-scroll-container.has-overflow-x,
   .code-scroll-container[data-has-overflow="true"],
   .desktop-scrollbar {
@@ -139,7 +139,7 @@ a {
   }
 }
 
-/* 코드 블록 스크롤바 스타일 - 항상 존재하되 투명함 */
+/* Code block scrollbar styles - always present but transparent when not needed */
 .code-scroll-container::-webkit-scrollbar {
   width: 8px !important;
   height: 8px !important;
@@ -155,20 +155,20 @@ a {
   visibility: visible !important;
 }
 
-/* 스크롤 막대 - 기본은 약간 보임 */
+/* Scrollbar track - slightly visible by default */
 .code-scroll-container::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 116, 139, 0.3) !important; /* 기본 가시성 향상 */
+  background-color: rgba(100, 116, 139, 0.3) !important; /* Enhanced base visibility */
   border-radius: 4px !important;
-  border: none !important; /* 테두리 제거 */
+  border: none !important; /* Remove border for cleaner appearance */
   display: block !important;
   visibility: visible !important;
 }
 
-/* 호버 또는 스크롤 시 막대 색상 변경 */
+/* Increase scrollbar visibility on hover or during scrolling */
 .code-scroll-container:hover::-webkit-scrollbar-thumb,
 .code-scroll-container.is-scrolling::-webkit-scrollbar-thumb {
-  background-color: rgba(100, 116, 139, 0.6) !important; /* 가시성 향상 */
-  border: none !important; /* 테두리 제거 */
+  background-color: rgba(100, 116, 139, 0.6) !important; /* Increased visibility */
+  border: none !important; /* Remove border for cleaner appearance */
   display: block !important;
   visibility: visible !important;
 }
@@ -195,15 +195,15 @@ a {
     visibility: visible !important;
   }
   
-  /* PC에서는 스크롤바 항상 표시 - 오버플로우가 있는 경우에만 */
+  /* Always show scrollbars on desktop - but only when overflow exists */
   .code-scroll-container.has-overflow-x,
   .code-scroll-container[data-has-overflow="true"],
   .desktop-scrollbar {
-    -ms-overflow-style: auto !important; /* IE 및 Edge 지원 */
-    overflow-x: scroll !important; /* 오버플로우 시에만 스크롤 표시 */
-    -webkit-appearance: auto !important; /* 스크롤바 표시 보장 */
+    -ms-overflow-style: auto !important; /* Support for IE and Edge */
+    overflow-x: scroll !important; /* Show scrollbar only when overflow exists */
+    -webkit-appearance: auto !important; /* Ensure scrollbar visibility */
     
-    /* macOS 스타일 오버라이드 시도 */
+    /* Override macOS default scrollbar behavior */
     &::-webkit-scrollbar {
       -webkit-appearance: auto !important;
       appearance: auto !important;
@@ -212,7 +212,7 @@ a {
     }
   }
   
-  /* 스크롤바 표시 강제 - macOS 설정 무시 - 오버플로우가 있는 경우에만 */
+  /* Force scrollbar visibility - override macOS settings - only when overflow exists */
   .code-scroll-container.has-overflow-x::-webkit-scrollbar,
   .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar,
   .desktop-scrollbar::-webkit-scrollbar {
@@ -223,7 +223,7 @@ a {
   }
 }
 
-/* Firefox 지원 */
+/* Firefox compatibility */
 .code-scroll-container {
   scrollbar-width: thin !important;
   scrollbar-color: rgba(100, 116, 139, 0.3) transparent !important;
@@ -234,7 +234,7 @@ a {
   scrollbar-color: rgba(100, 116, 139, 0.6) transparent !important;
 }
 
-/* Firefox용 PC 환경 스크롤바 항상 표시 - 오버플로우 있는 경우에만 */
+/* Desktop scrollbar visibility for Firefox - only when overflow exists */
 @media (min-width: 769px) {
   .code-scroll-container.has-overflow-x,
   .code-scroll-container[data-has-overflow="true"],
@@ -250,41 +250,41 @@ a {
   }
 }
 
-/* 모바일 환경에서 코드 블록 스타일 */
+/* Mobile code block styling */
 @media (max-width: 768px) {
-  /* 코드 블록 스크롤바 크기 조정 */
+  /* Adjust scrollbar size for mobile devices */
   .code-scroll-container::-webkit-scrollbar {
     width: 6px;
     height: 6px;
   }
   
-  /* 코드 블록 내 텍스트 스타일 */
+  /* Adjust text styles for mobile code blocks */
   .markdown-body pre,
   .markdown-body code {
     font-size: 14px !important;
     line-height: 1.5 !important;
   }
   
-  /* 라인 넘버 스타일 */
+  /* Adjust line number styles */
   pre [data-line-number] {
     min-width: 1.5em !important;
     padding-right: 0.5em !important;
   }
   
-  /* 코드 블록 패딩 조정 */
+  /* Adjust padding for better mobile readability */
   .markdown-body pre > div {
     padding: 0.8rem !important;
   }
   
-  /* 긴 코드 줄 처리 - 줄바꿈 비활성화하고 스크롤 유지 */
+  /* Handle long code lines - maintain horizontal scrolling without text wrapping */
   .markdown-body pre code {
     white-space: pre !important;
     word-break: normal !important;
   }
 }
 
-/* 체크박스 리스트 전역 스타일 */
-/* 체크박스 리스트를 위한 전역 스타일 */
+/* Checkbox list global styles */
+/* Global styles for checkbox lists */
 li input[type="checkbox"] + p,
 li p:has(input[type="checkbox"]) {
   margin: 0 !important;
@@ -303,7 +303,7 @@ ul.contains-task-list {
   margin: 0 !important;
 }
 
-/* remarkGfm이 사용하는 클래스 */
+/* Classes used by remarkGfm */
 .contains-task-list {
   list-style-type: none !important;
   padding-left: 0 !important;
@@ -315,7 +315,7 @@ ul.contains-task-list {
   padding-left: 0 !important;
 }
 
-/* 마크다운 체크박스 리스트의 불릿 제거 */
+/* Remove bullets from markdown checkbox lists */
 .markdown-body ul,
 .markdown-body ol {
   padding-left: 1.5em !important;
@@ -346,7 +346,7 @@ ul.contains-task-list {
   list-style-type: decimal !important;
 }
 
-/* 체크박스 리스트 스타일은 유지 */
+/* Preserve checkbox list styling */
 .markdown-body ul li:has(input[type="checkbox"]) {
   padding-left: 0 !important;
   display: flex !important;
@@ -362,8 +362,8 @@ ul.contains-task-list {
 
 .markdown-body ul li:has(input[type="checkbox"]) {
   list-style-type: none !important;
-  margin-left: 0 !important; /* -1.5rem에서 0으로 수정하여 좌우정렬 개선 */
-  margin-bottom: 0.6em !important; /* 상하 간격 추가 */
+  margin-left: 0 !important; /* Changed from -1.5rem to 0 to improve left-right alignment */
+  margin-bottom: 0.6em !important; /* Added vertical spacing between items */
 }
 
 .markdown-body ul li:has(input[type="checkbox"])::before {
@@ -371,13 +371,13 @@ ul.contains-task-list {
   display: none !important;
 }
 
-/* 체크박스 스타일링 추가 */
+/* Enhanced checkbox styling */
 .markdown-body input[type="checkbox"],
 input[type="checkbox"] {
   appearance: none !important;
   -webkit-appearance: none !important;
   -moz-appearance: none !important;
-  border: 2px solid #e2e8f0 !important; /* 기본 테두리는 회색으로 변경 */
+  border: 2px solid #e2e8f0 !important; /* Default border is light gray */
   border-radius: 4px !important;
   outline: none !important;
   width: 1rem !important;
@@ -387,14 +387,14 @@ input[type="checkbox"] {
   background-color: white !important;
   transition: all 0.2s ease !important;
   margin-right: 0.5rem !important;
-  margin-top: 0.33rem !important; /* 0.25rem에서 0.33rem으로 증가하여 체크박스를 아래로 내림 */
+  margin-top: 0.33rem !important; /* Increased from 0.25rem to 0.33rem to push checkbox down slightly */
   vertical-align: top !important;
 }
 
 .markdown-body input[type="checkbox"]:checked,
 input[type="checkbox"]:checked {
-  background: #fda4af !important; /* 핑크색으로 변경 */
-  border-color: #fda4af !important; /* 체크 시 테두리도 핑크색으로 변경 */
+  background: #fda4af !important; /* Pink background for checked state */
+  border-color: #fda4af !important; /* Pink border for checked state */
 }
 
 .markdown-body input[type="checkbox"]:checked::after,
@@ -412,21 +412,21 @@ input[type="checkbox"]:checked::after {
 
 .markdown-body input[type="checkbox"]:hover,
 input[type="checkbox"]:hover {
-  border-color: #fda4af !important; /* 호버 시 테두리 핑크색으로 변경 */
-  box-shadow: 0 0 5px rgba(253, 164, 175, 0.4) !important; /* 그림자 색상도 변경 */
+  border-color: #fda4af !important; /* Pink border on hover for better visibility */
+  box-shadow: 0 0 5px rgba(253, 164, 175, 0.4) !important; /* Subtle shadow effect on hover */
   cursor: default !important;
 }
 
-/* 체크박스와 텍스트 사이 간격 및 정렬 개선 */
+/* Improve spacing and alignment between checkbox and text */
 .markdown-body li {
   line-height: 1.6 !important;
 }
 
-/* 코드 스크롤바 스타일 */
-/* 중복된 스타일이므로 삭제 */
-/* 이 부분 전체 삭제 */
+/* Scrollbar styles for code blocks */
+/* Removed duplicate styles */
+/* This section was completely removed */
 
-/* 하이라이트된 코드 라인 스타일 - 더 높은 특이성으로 강제 적용 */
+/* Highlighted code line styles - using high specificity for reliable application */
 span.highlighted-line,
 div.highlighted-line,
 .highlighted-line[data-highlighted="true"],
@@ -445,7 +445,7 @@ code .token-line.highlighted-line,
   font-weight: 600 !important;
 }
 
-/* 하이라이트된 라인 호버 효과 - 더 높은 특이성 */
+/* Hover effects for highlighted lines - high specificity selectors */
 span.highlighted-line:hover,
 div.highlighted-line:hover,
 .highlighted-line[data-highlighted="true"]:hover,
@@ -461,7 +461,7 @@ code .token-line.highlighted-line:hover,
   z-index: 1 !important;
 }
 
-/* line-number 스타일도 수정 */
+/* Line number style adjustments */
 span.highlighted-line .linenumber,
 div.highlighted-line .linenumber,
 .highlighted-line[data-highlighted="true"] .linenumber,
@@ -489,7 +489,7 @@ code .token-line.highlighted-line:hover .linenumber,
   color: rgba(100, 74, 201, 1) !important;
 }
 
-/* Firefox에서 하이라이트된 라인 지원 */
+/* Firefox-specific highlighted line support */
 @-moz-document url-prefix() {
   .highlighted-line {
     background-color: rgba(100, 74, 201, 0.08) !important;
@@ -512,7 +512,7 @@ code .token-line.highlighted-line:hover .linenumber,
   }
 }
 
-/* 모바일 환경에서의 하이라이트 라인 스타일 조정 */
+/* Mobile-specific highlighted line style adjustments */
 @media (max-width: 768px) {
   .highlighted-line {
     margin-left: -2px !important;
@@ -520,14 +520,14 @@ code .token-line.highlighted-line:hover .linenumber,
   }
 }
 
-/* inline style로 강제 적용되도록 !important 키워드 추가 */
+/* Apply !important keyword for inline style enforcement */
 @keyframes highlightPulse {
   0% { background-color: rgba(100, 74, 201, 0.15); }
   50% { background-color: rgba(100, 74, 201, 0.2); }
   100% { background-color: rgba(100, 74, 201, 0.15); }
 }
 
-/* Syntax Highlighter 내부 클래스 직접 타겟팅 */
+/* Direct targeting of Syntax Highlighter internal classes */
 body .token-line.highlighted-line,
 body pre code .token-line.highlighted-line,
 body div[style] .token-line.highlighted-line,
@@ -561,7 +561,7 @@ body [class*="language-"] .token-line.highlighted-line:hover {
   animation: none !important;
 }
 
-/* 줄 번호도 직접 스타일링 */
+/* Direct styling for line numbers */
 body .token-line.highlighted-line .react-syntax-highlighter-line-number,
 body [class*="linenumber-"] {
   color: rgba(100, 74, 201, 0.8) !important;
@@ -574,7 +574,7 @@ body .highlighted-line:hover [class*="linenumber-"] {
   color: rgba(100, 74, 201, 1) !important;
 }
 
-/* 하이라이트된 라인 내부의 모든 텍스트 토큰에 대한 스타일 */
+/* Apply bold styling to all text tokens within highlighted lines */
 .highlighted-line .token,
 .highlighted-line span[class*="token-"],
 .highlighted-line [class*="token"],

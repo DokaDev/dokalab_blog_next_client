@@ -13,7 +13,7 @@ export default function Home() {
         
         const direction = e.deltaY > 0 ? 1 : -1;
         const scrollPosition = sectionsRef.current.scrollTop;
-        const sectionHeight = window.innerHeight; // 전체 뷰포트 높이 사용
+        const sectionHeight = window.innerHeight; // Use full viewport height for section sizing
         
         const targetSection = Math.round((scrollPosition / sectionHeight) + direction);
         const targetScrollPosition = targetSection * sectionHeight;
@@ -40,7 +40,7 @@ export default function Home() {
   const handleScrollDown = () => {
     if (sectionsRef.current) {
       sectionsRef.current.scrollTo({
-        top: window.innerHeight, // 전체 뷰포트 높이 사용
+        top: window.innerHeight, // Use full viewport height for scroll calculation
         behavior: 'smooth'
       });
     }

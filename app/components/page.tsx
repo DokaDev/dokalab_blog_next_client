@@ -3,7 +3,7 @@
 import { useRouter } from 'next/navigation';
 import styles from './page.module.scss';
 
-// Component Test 페이지 메인
+// Main Component Testing Page
 export default function ComponentsPage() {
   const router = useRouter();
 
@@ -13,7 +13,7 @@ export default function ComponentsPage() {
       description: 'Test page for the Markdown Renderer component',
       path: '/components/markdown-renderer'
     }
-    // 필요에 따라 더 많은 컴포넌트 테스트 추가 가능
+    // More component tests can be added here as needed for future development
   ];
 
   return (

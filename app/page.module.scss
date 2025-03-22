@@ -5,14 +5,14 @@
   -ms-overflow-style: none; /* IE and Edge */
   position: relative;
   
-  /* 모든 브라우저용 스크롤바 숨김 처리 */
+  /* Hide scrollbars for all browsers */
   &::-webkit-scrollbar {
     display: none; /* Chrome, Safari and Opera */
     width: 0;
     height: 0;
   }
   
-  /* Firefox용 - 호환성 문제가 있는 브라우저에서는 무시됨 */
+  /* Firefox-specific - might be ignored by incompatible browsers */
   scrollbar-width: none;
 }
 
@@ -24,7 +24,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
+  overflow: hidden; /* Hide content that exceeds section boundaries */
 }
 
 .container {
@@ -261,8 +261,8 @@
   z-index: 1;
   padding: 0 2rem;
   animation: fadeIn 1s ease-out;
-  max-height: 90vh; /* 뷰포트 높이의 90%로 제한 */
-  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
+  max-height: 90vh; /* Limit to 90% of viewport height */
+  overflow: hidden; /* Hide content that exceeds container boundaries */
 }
 
 .sectionTitle {
@@ -289,8 +289,8 @@
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 2rem;
   width: 100%;
-  max-height: 70vh; /* 뷰포트 높이의 70%로 제한 */
-  overflow: hidden; /* 화면을 벗어나는 콘텐츠 숨김 */
+  max-height: 70vh; /* Limit to 70% of viewport height */
+  overflow: hidden; /* Hide content that exceeds grid boundaries */
 }
 
 .featuredCard {
@@ -391,7 +391,7 @@
     width: 100%;
     padding: 0;
     max-width: 100%;
-    max-height: 80vh; /* 모바일에서는 뷰포트 높이의 80%로 제한 */
+    max-height: 80vh; /* Limit to 80% of viewport height on mobile */
   }
   
   .sectionTitle {
@@ -408,7 +408,7 @@
     max-height: 70vh;
     margin: 0 auto;
     
-    /* 모바일에서 2번째 이후 카드 숨김 */
+    /* Hide cards beyond the second one on mobile */
     & > :nth-child(n+3) {
       display: none;
     }
@@ -458,7 +458,7 @@
   }
 }
 
-/* 대형 모바일 기기(iPhone Pro Max 등)용 추가 미디어 쿼리 */
+/* Additional media query for larger mobile devices (iPhone Pro Max, etc.) */
 @media (min-width: 428px) and (max-width: 768px) {
   .featuredCard {
     max-width: 500px;

@@ -8,12 +8,22 @@ interface SyntaxHighlighterClientProps {
   language: string;
   value: string;
   highlightLines?: number[];
+  isDarkMode?: boolean;
+  copyable?: boolean;
+  lineHighlight?: string;
+  showLineNumbers?: boolean;
+  lineNumbers?: string;
 }
 
 const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({ 
   language, 
   value,
-  highlightLines = []
+  highlightLines = [],
+  isDarkMode,
+  copyable,
+  lineHighlight,
+  showLineNumbers,
+  lineNumbers
 }) => {
   const [isMobile, setIsMobile] = useState(false);
   const [isScrolling, setIsScrolling] = useState(false);
@@ -21,78 +31,78 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // 화면 크기 감지
+  // Detect screen size
   useEffect(() => {
     const checkIfMobile = () => {
       const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       
-      // 데스크톱에서도 오버플로우 체크 필요 - checkOverflow 함수가 처리
+      // Desktop also needs overflow checking - handled by checkOverflow function
     };
     
-    // 초기 체크
+    // Initial check
     checkIfMobile();
     
-    // 리사이즈 이벤트에 대응
+    // Response to resize events
     window.addEventListener('resize', checkIfMobile);
     return () => {
       window.removeEventListener('resize', checkIfMobile);
     };
   }, []);
   
-  // 스크롤 이벤트 핸들러
+  // Scroll event handler
   const handleScroll = () => {
     setIsScrolling(true);
     
-    // 스크롤 타이머 설정 - 모바일/데스크톱 모두 적용
+    // Set scroll timer - applies to both mobile and desktop
     if (scrollTimer.current) {
       clearTimeout(scrollTimer.current);
     }
     
     scrollTimer.current = setTimeout(() => {
-      // 데스크톱에서도 스크롤 중지 후에는 스크롤바 숨김 가능하게 수정
+      // Also allow scrollbar to hide after scrolling stops on desktop
       setIsScrolling(false);
-    }, isMobile ? 1000 : 2000); // 데스크톱에서는 더 오래 유지
+    }, isMobile ? 1000 : 2000); // Keep visible longer on desktop
   };
   
-  // 마우스 호버 이벤트 핸들러
+  // Mouse hover event handler
   const handleMouseEnter = () => {
     setIsScrolling(true);
   };
   
-  // 마우스 아웃 이벤트 핸들러
+  // Mouse leave event handler
   const handleMouseLeave = () => {
     if (scrollTimer.current) {
       clearTimeout(scrollTimer.current);
     }
     scrollTimer.current = setTimeout(() => {
       setIsScrolling(false);
-    }, isMobile ? 300 : 1000); // 데스크톱에서는 더 오래 유지
+    }, isMobile ? 300 : 1000); // Keep visible longer on desktop
   };
   
-  // 오버플로우 확인
+  // Check for overflow conditions
   useEffect(() => {
     const checkOverflow = () => {
       const container = scrollContainerRef.current;
       if (container) {
-        // 컨테이너의 가로 스크롤이 필요한지 확인
+        // Check if horizontal scrolling is needed for the container
         const hasOverflow = container.scrollWidth > container.clientWidth;
         
-        // 오버플로우가 있을 때만 true로 설정 (모바일/데스크톱 모두)
+        // Only set to true when overflow exists (for both mobile and desktop)
         setHasOverflowX(hasOverflow);
           
-        // 직접 클래스 추가/제거하여 명시적으로 처리
+        // Directly add/remove classes for explicit handling
         if (hasOverflow) {
           container.classList.add('has-overflow-x');
           container.setAttribute('data-has-overflow', 'true');
           
-          // 오버플로우가 있고 데스크톱인 경우에만 스크롤 적용
+          // Only apply scroll on desktop when overflow exists
           if (!isMobile) {
             container.style.overflowX = 'scroll';
             container.dataset.alwaysShowScrollbar = 'true';
-            // 스크롤 있을 때 초기에 표시
+            // Initially show scrollbar when overflow exists
             setIsScrolling(true);
-            // 2초 후에 숨김 처리
+            // Hide after 2 seconds
             if (scrollTimer.current) {
               clearTimeout(scrollTimer.current);
             }
@@ -103,18 +113,18 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
         } else {
           container.classList.remove('has-overflow-x');
           container.setAttribute('data-has-overflow', 'false');
-          // 오버플로우 없을 때는 자동으로 설정
+          // Auto overflow when no overflow exists
           container.style.overflowX = 'auto';
           container.dataset.alwaysShowScrollbar = 'false';
         }
       }
     };
     
-    // 초기 로드 및 리사이즈 시 오버플로우 확인
+    // Check overflow on initial load and resize
     checkOverflow();
     window.addEventListener('resize', checkOverflow);
     
-    // 렌더링 이후에 여러번 체크 (코드가 완전히 렌더링 될때까지)
+    // Check multiple times to ensure complete rendering of code
     const timeoutIds = [
       setTimeout(checkOverflow, 50),
       setTimeout(checkOverflow, 100),
@@ -127,7 +137,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       window.removeEventListener('resize', checkOverflow);
       timeoutIds.forEach(id => clearTimeout(id));
     };
-  }, [value, language, isMobile]); // 모바일 상태도 의존성에 추가
+  }, [value, language, isMobile]); // Include mobile state in dependencies
   
   useEffect(() => {
     const scrollContainer = scrollContainerRef.current;
@@ -136,7 +146,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       scrollContainer.addEventListener('mouseenter', handleMouseEnter);
       scrollContainer.addEventListener('mouseleave', handleMouseLeave);
       
-      // 오버플로우가 있는 경우에만 스크롤 스타일 적용
+      // Apply scroll styles only when overflow exists
       if (!isMobile && hasOverflowX) {
         scrollContainer.style.overflowX = 'scroll';
       } else if (!hasOverflowX) {
@@ -154,10 +164,10 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
         clearTimeout(scrollTimer.current);
       }
     };
-  }, [isMobile, hasOverflowX, handleScroll, handleMouseLeave]); // handleScroll, handleMouseLeave 의존성 추가
+  }, [isMobile, hasOverflowX, handleScroll, handleMouseLeave]); // Added dependencies for handleScroll and handleMouseLeave
 
-  // 모바일과 데스크톱에 따라 다른 폰트 크기 적용
-  const fontSizeBase = '14px'; // 고정된 픽셀 단위로 수정
+  // Apply different font sizes for mobile and desktop
+  const fontSizeBase = '14px'; // Fixed pixel unit
 
   const customStyle = {
     ...oneLight,
@@ -175,21 +185,101 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       borderRadius: 0,
       background: '#f8fafc',
     },
-    // SyntaxHighlighter 내부 스타일은 제거 - 글로벌 CSS로 대체
+    // Internal SyntaxHighlighter styles removed - replaced with global CSS
   };
   
-  // 하이라이트된 라인을 위한 스타일 정의 - 클래스 이름만 추가하고 스타일은 globals.css에서 처리
+  // Style definition for highlighted lines - only add class names and handle styles in globals.css
   const highlightLineStyle = {
-    backgroundColor: 'rgba(100, 74, 201, 0.15)', // 기본 배경색만 유지
-    fontWeight: 600 // 굵게 표시
+    backgroundColor: 'rgba(100, 74, 201, 0.15)', // Keep only base background color
+    fontWeight: 600 // Bold text
   };
 
-  // 데스크톱에서 스크롤바를 표시하기 위한 스타일 - 오버플로우가 있는 경우에만
+  // Desktop scrollbar styles - only apply when overflow exists
   const desktopScrollStyle = !isMobile && hasOverflowX ? {
     overflowX: 'scroll' as const,
     msOverflowStyle: 'scrollbar' as const,
     WebkitOverflowScrolling: 'touch' as const,
   } : {};
+
+  useEffect(() => {
+    // Apply theme and copy button settings
+    if (scrollContainerRef.current) {
+      // Set theme based on system preference
+      if (isDarkMode) {
+        scrollContainerRef.current.dataset.theme = 'dark';
+      } else {
+        scrollContainerRef.current.dataset.theme = 'light';
+      }
+      
+      // Apply copyable or non-copyable setting
+      if (copyable === false) {
+        scrollContainerRef.current.dataset.copyable = 'false';
+      } else {
+        scrollContainerRef.current.dataset.copyable = 'true';
+      }
+    }
+  }, [isDarkMode, copyable]);
+
+  // Add line highlighting functionality
+  useEffect(() => {
+    // Skip if no lines to highlight
+    if (!lineNumbers) return;
+    
+    // Get container element
+    const codeElement = scrollContainerRef.current;
+    if (!codeElement) return;
+    
+    // Find line numbers container
+    const lineNumbersContainer = codeElement.querySelector('.line-numbers-rows');
+    if (!lineNumbersContainer) return;
+    
+    // Process highlight line ranges
+    if (showLineNumbers && lineHighlight) {
+      // Convert line ranges to array
+      const highlightLineNumbers = convertLineHighlightToArray(lineHighlight);
+      
+      // Get all line elements
+      const lineElements = lineNumbersContainer.querySelectorAll('span');
+      
+      // Highlight specified lines
+      highlightLineNumbers.forEach(lineNum => {
+        if (lineNum <= lineElements.length) {
+          const lineElement = lineElements[lineNum - 1];
+          lineElement.classList.add('highlighted-line-number');
+          
+          // Find the corresponding code line
+          const codeLineElement = codeElement.querySelector(`[data-line-number="${lineNum}"]`);
+          if (codeLineElement) {
+            codeLineElement.classList.add('highlighted-line');
+          }
+        }
+      });
+    }
+  }, [lineHighlight, showLineNumbers, lineNumbers]);
+
+  // Helper function to convert line highlight string to array of numbers
+  const convertLineHighlightToArray = (lineHighlight: string): number[] => {
+    const highlightNumbers: number[] = [];
+    
+    // Split by comma to handle multiple ranges
+    const ranges = lineHighlight.split(',');
+    
+    ranges.forEach(range => {
+      // Check if it's a range (contains a hyphen)
+      if (range.includes('-')) {
+        const [start, end] = range.split('-').map(Number);
+        // Add all numbers in the range
+        for (let i = start; i <= end; i++) {
+          highlightNumbers.push(i);
+        }
+      } else {
+        // Single line number
+        highlightNumbers.push(Number(range));
+      }
+    });
+    
+    return highlightNumbers;
+  };
 
   return (
     <div style={{ 
@@ -200,13 +290,13 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       <div 
         ref={scrollContainerRef}
         style={{
-          overflowX: hasOverflowX ? 'auto' : 'visible', // 오버플로우 있을 때만 스크롤 가능하게
+          overflowX: hasOverflowX ? 'auto' : 'visible', // Enable scrolling only when overflow exists
           overflowY: 'hidden',
           display: 'block',
           width: '100%',
           msOverflowStyle: 'auto',
           WebkitOverflowScrolling: 'touch',
-          // 오버플로우가 있는 경우에만 스크롤 스타일 적용
+          // Apply scroll styles only when overflow exists
           ...(hasOverflowX ? desktopScrollStyle : {}),
         }}
         className={`code-scroll-container 
@@ -232,24 +322,25 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
             borderRight: '1px solid #E2E8F0',
             marginRight: isMobile ? '0.5em' : '1em',
             textAlign: 'right',
-            userSelect: 'none',  // 줄번호 선택 방지
-            display: 'inline-block',  // 블록 요소 확실히 적용
-            position: 'sticky',  // 스크롤 시 위치 고정
+            userSelect: 'none',  // Prevent line number selection
+            display: 'inline-block',  // Ensure block element is applied
+            position: 'sticky',  // Fix position during scrolling
             left: 0,
-            fontSize: fontSizeBase  // 라인 번호도 동일한 폰트 크기 적용
+            fontSize: fontSizeBase  // Apply same font size to line numbers
           }}
           wrapLines={true}
           wrapLongLines={false}
           lineProps={(lineNumber) => {
-            // 라인 번호가 하이라이트 대상인지 확인
-            // react-syntax-highlighter는 0부터 인덱싱하지만 마크다운에서는 1부터 라인 번호를 지정
-            // lineNumber에 1을 더하는 것이 아니라 highlightLines가 1-indexed이므로 lineNumber는 그대로 비교
+            // Check if line number should be highlighted
+            // react-syntax-highlighter uses 0-based indexing, but markdown specifies line numbers starting from 1
+            // No need to add 1 to lineNumber since highlightLines is already 1-indexed
             const highlight = highlightLines.includes(lineNumber);
             
             return {
               style: highlight ? highlightLineStyle : {},
               className: highlight ? 'highlighted-line' : undefined,
               'data-highlighted': highlight ? 'true' : 'false',
+              'data-line-number': lineNumber,
             };
           }}
           customStyle={{
