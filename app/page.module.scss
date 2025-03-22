@@ -1,4 +1,7 @@
-@import './variables.scss';
+// Define variables locally instead of importing from non-existent file
+$text-primary: #1F1F1F;
+$text-secondary: #4b5563;
+$brand-primary: #644AC9;
 
 .sectionsContainer {
   width: 100%;
