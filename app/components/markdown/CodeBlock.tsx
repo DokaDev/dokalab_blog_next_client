@@ -2,7 +2,7 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import styles from './MarkdownRenderer.module.scss';
 
-// Dynamically import client components for better performance
+// 클라이언트 컴포넌트들을 동적으로 불러옴
 const CodeBlockClient = dynamic(() => import('./CodeBlockClient'), { ssr: true });
 const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { ssr: true });
 
@@ -13,7 +13,7 @@ interface CodeBlockProps {
   highlightLines?: number[];
 }
 
-// Server component (default)
+// 서버 컴포넌트 (기본값)
 const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', highlightLines = [] }) => {
   if (!value || value.trim() === '') {
     return <div className={styles.codeBlockWrapper}><div>Empty code block</div></div>;
@@ -21,10 +21,10 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', h
 
   return (
     <div className={styles.codeBlockWrapper}>
-      {/* Header section as client component */}
+      {/* 헤더 부분은 클라이언트 컴포넌트로 */}
       <CodeBlockClient value={value} fileName={fileName} language={language} />
       
-      {/* SyntaxHighlighter section as client component */}
+      {/* SyntaxHighlighter 부분은 클라이언트 컴포넌트로 */}
       <SyntaxHighlighterClient 
         language={language}
         value={value}
