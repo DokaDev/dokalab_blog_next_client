@@ -1,7 +1,22 @@
 {
   "name": "web-client",
-  "version": "0.1.0",
+  "version": "1.0.0",
+  "description": "A personal tech blog built with Next.js",
   "private": true,
+  "license": "MIT",
+  "author": {
+    "name": "DokaDev",
+    "email": "awesome_devnet@outlook.com",
+    "url": "https://github.com/DokaDev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DokaDev/dokalab_blog_next_client.git"
+  },
+  "bugs": {
+    "url": "https://github.com/DokaDev/dokalab_blog_next_client/issues"
+  },
+  "homepage": "https://github.com/DokaDev/dokalab_blog_next_client#readme",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
