@@ -1,4 +1,4 @@
-import styles from './page.module.scss';
+import styles from "./page.module.scss";
 
 export default function BlogPage() {
   return (
@@ -7,4 +7,5 @@ export default function BlogPage() {
       <p>This is a simple blog page to test navigation.</p>
     </div>
   );
-} 
+}
+
