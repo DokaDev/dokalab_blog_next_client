@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 
 interface CodeBlockClientProps {
   value: string;
@@ -12,6 +12,27 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
   const [hoverWindowControls, setHoverWindowControls] = useState(false);
   const [hoverCopy, setHoverCopy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showFileNameTooltip, setShowFileNameTooltip] = useState(false);
+  const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
+  // Check if screen is mobile size
+  useEffect(() => {
+    const checkIfMobile = () => {
+      setIsMobile(window.innerWidth < 600);
+    };
+    
+    // Initial check
+    checkIfMobile();
+    
+    // Add resize listener
+    window.addEventListener('resize', checkIfMobile);
+    
+    // Cleanup
+    return () => {
+      window.removeEventListener('resize', checkIfMobile);
+    };
+  }, []);
 
   const copyToClipboard = async () => {
     try {
@@ -21,6 +42,27 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
     } catch (err) {
       console.error('Failed to copy: ', err);
     }
+  };
+  
+  const handleFileIconClick = () => {
+    setShowFileNameTooltip(!showFileNameTooltip);
+    
+    // Auto-hide tooltip after 3 seconds
+    if (tooltipTimeoutRef.current) {
+      clearTimeout(tooltipTimeoutRef.current);
+    }
+    
+    tooltipTimeoutRef.current = setTimeout(() => {
+      setShowFileNameTooltip(false);
+    }, 3000);
+  };
+  
+  const handleFileIconMouseEnter = () => {
+    setShowFileNameTooltip(true);
+  };
+  
+  const handleFileIconMouseLeave = () => {
+    setShowFileNameTooltip(false);
   };
 
   return (
@@ -202,6 +244,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
             height: '22px',
           }}
           title="Copy code"
+          aria-label="Copy code to clipboard"
         >
           {copied ? (
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -223,17 +266,71 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
       }}>
         {fileName && (
           <>
-            <span 
-              style={{
-                fontFamily: 'Menlo, Monaco, Consolas, monospace',
-                fontSize: '12px',
-                color: '#334155',
-                display: 'flex',
-                alignItems: 'center',
-              }}
-            >
-              {fileName}
-            </span>
+            {isMobile ? (
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={handleFileIconClick}
+                  onMouseEnter={handleFileIconMouseEnter}
+                  onMouseLeave={handleFileIconMouseLeave}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    borderRadius: '4px',
+                    padding: '4px 6px',
+                    margin: 0,
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transition: 'background-color 0.2s',
+                    height: '22px',
+                  }}
+                  title={fileName}
+                  aria-label={`File: ${fileName}`}
+                >
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#64748b" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                  </svg>
+                </button>
+                
+                {showFileNameTooltip && (
+                  <div
+                    style={{
+                      position: 'absolute',
+                      top: '100%',
+                      left: '50%',
+                      transform: 'translateX(-50%)',
+                      backgroundColor: '#334155',
+                      color: 'white',
+                      borderRadius: '4px',
+                      padding: '0.4rem 0.6rem',
+                      fontSize: '11px',
+                      whiteSpace: 'nowrap',
+                      zIndex: 10,
+                      marginTop: '4px',
+                      boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                    }}
+                  >
+                    {fileName}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <span 
+                  style={{
+                    fontFamily: 'Menlo, Monaco, Consolas, monospace',
+                    fontSize: '12px',
+                    color: '#334155',
+                    display: 'flex',
+                    alignItems: 'center',
+                  }}
+                >
+                  {fileName}
+                </span>
+              </>
+            )}
             {language && (
               <>
                 <span style={{
