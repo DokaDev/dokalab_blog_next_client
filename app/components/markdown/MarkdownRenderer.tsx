@@ -7,6 +7,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
+import rehypeRaw from 'rehype-raw';
 import 'katex/dist/katex.min.css';
 import styles from './MarkdownRenderer.module.scss';
 import CodeBlock from './CodeBlock';
@@ -49,9 +50,68 @@ const preprocessLatex = (content: string): string => {
   return processed;
 };
 
+/**
+ * Process alert box syntax (:::type content:::) and convert it to HTML
+ * Supports 4 alert types: tip, info, warning, and danger
+ * @param content - The markdown content to process
+ * @returns Processed content with alert box syntax converted to HTML
+ */
+const processAlertBoxes = (content: string): string => {
+  // Regular expression to match alert box syntax
+  // Captures the alert type and content between ::: markers
+  const alertRegex = /:::(tip|info|warning|danger)\n([\s\S]*?):::/g;
+  
+  // Replace all matches with custom HTML for alert boxes
+  return content.replace(alertRegex, (match, type, content) => {
+    // Trim content to remove extra whitespace
+    const trimmedContent = content.trim();
+    
+    // Generate icon HTML based on alert type
+    let iconHtml = '';
+    
+    switch (type) {
+      case 'tip':
+        // Lightbulb icon for tips
+        iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="${styles.alertIcon}">
+          <path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7zm-1 17h2v1a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1zm3-2v-1H9v1h5z" />
+        </svg>`;
+        break;
+      case 'info':
+        // Information icon
+        iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="${styles.alertIcon}">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+        </svg>`;
+        break;
+      case 'warning':
+        // Circle warning/exclamation icon
+        iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="${styles.alertIcon}">
+          <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 4c.55 0 1 .45 1 1v5c0 .55-.45 1-1 1s-1-.45-1-1V7c0-.55.45-1 1-1zm0 10c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1z"/>
+        </svg>`;
+        break;
+      case 'danger':
+        // Danger/alert icon
+        iconHtml = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor" class="${styles.alertIcon}">
+          <path d="M12 2L1 21h22L12 2zm0 15a1.5 1.5 0 110 3 1.5 1.5 0 010-3zm0-8a1.5 1.5 0 011.5 1.5v4a1.5 1.5 0 01-3 0v-4A1.5 1.5 0 0112 9z" />
+        </svg>`;
+        break;
+    }
+    
+    // Return HTML for the alert box with appropriate styling
+    return `<div class="${styles.alertBox} ${styles[`alert${type.charAt(0).toUpperCase() + type.slice(1)}`]}">
+      ${iconHtml}
+      <div class="${styles.alertContent}">
+        <p>${trimmedContent}</p>
+      </div>
+    </div>`;
+  });
+};
+
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
   // Pre-process LaTeX expressions
-  const processedContent = preprocessLatex(content);
+  const processedLatex = preprocessLatex(content);
+  
+  // Process alert boxes after LaTeX processing
+  const processedContent = processAlertBoxes(processedLatex);
 
   // This effect ensures KaTeX styles are properly applied
   useEffect(() => {
@@ -68,7 +128,8 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
-          rehypeKatex
+          rehypeKatex,
+          rehypeRaw
         ]}
         components={{
           // All other components remain the same

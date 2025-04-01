@@ -202,8 +202,9 @@
   .codeBlockWrapper {
     margin: 1.5em 0;
     border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
     border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
     
     pre {
       margin: 0 !important;
@@ -221,6 +222,7 @@
         }
       }
     }
+    // 자세한 스타일링은 CodeBlock 컴포넌트에서 처리
   }
   
   // 블록인용구 스타일
@@ -281,6 +283,71 @@
     tr:nth-child(even) {
       background-color: #f9fafb;
     }
+  }
+
+  // Alert boxes styles
+  .alertBox {
+    margin: 1.5em 0;
+    padding: 1rem;
+    border-radius: 6px;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  // Tip alert style (pastel green)
+  .alertTip {
+    background-color: #e6f7f0;
+    
+    .alertIcon {
+      color: #3eb489;
+    }
+  }
+
+  // Info alert style (pastel blue)
+  .alertInfo {
+    background-color: #e6f1fe;
+    
+    .alertIcon {
+      color: #6ca0f6;
+    }
+  }
+
+  // Warning alert style (pastel yellow/amber)
+  .alertWarning {
+    background-color: #fef5e6;
+    
+    .alertIcon {
+      color: #f5b047;
+    }
+  }
+
+  // Danger alert style (pastel red)
+  .alertDanger {
+    background-color: #feeaea;
+    
+    .alertIcon {
+      color: #f47373;
+    }
+  }
+
+  // Alert content container
+  .alertContent {
+    flex: 1;
+    
+    p {
+      margin: 0;
+      padding: 0;
+      color: #4b5563;
+    }
+  }
+
+  // Alert icon style
+  .alertIcon {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    margin-top: 0.125rem;
   }
 }
 
