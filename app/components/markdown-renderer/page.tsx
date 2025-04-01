@@ -533,11 +533,13 @@ $$R_{\\mu\\nu} - \\frac{1}{2}Rg_{\\mu\\nu} + \\Lambda g_{\\mu\\nu} = \\frac{8\\p
 
 A complex matrix:
 
-// $$A = \\begin{pmatrix} 
-// a_{11} & a_{12} & a_{13} \\\\
-// a_{21} & a_{22} & a_{23} \\\\
-// a_{31} & a_{32} & a_{33}
-// \\end{pmatrix}$$
+$$
+A = \\begin{pmatrix} 
+a_{11} & a_{12} & a_{13} \\\\
+a_{21} & a_{22} & a_{23} \\\\
+a_{31} & a_{32} & a_{33}
+\\end{pmatrix}
+$$
 
 Quantum operators:
 
@@ -680,7 +682,6 @@ graph LR
     style B fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff
     style C fill:#9f9,stroke:#333,stroke-width:2px
 \`\`\`
-
 \`\`\`html:templates/mixed.html
 <div class="container">
     <style>
@@ -725,8 +726,7 @@ Here's some code:
 function hello() {
     console.log("Hello from collapsible section!");
 }
-\`\`\`
-:::
+\`\`\`:::
 
 :::details{summary="Nested Example"}
 You cannot nest these!
@@ -758,3 +758,4 @@ You cannot nest these!
     </main>
   );
 } 
+
