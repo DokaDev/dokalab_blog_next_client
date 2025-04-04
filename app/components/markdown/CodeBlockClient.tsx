@@ -16,6 +16,25 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
   const [showFileNameTooltip, setShowFileNameTooltip] = useState(false);
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
+  // 버튼 클릭 상태 추가
+  const [redButtonClicked, setRedButtonClicked] = useState(false);
+  const [yellowButtonClicked, setYellowButtonClicked] = useState(false);
+  const [greenButtonClicked, setGreenButtonClicked] = useState(false);
+  
+  // 버튼 마우스 다운 처리 함수
+  const handleButtonDown = (button: 'red' | 'yellow' | 'green') => {
+    if (button === 'red') setRedButtonClicked(true);
+    if (button === 'yellow') setYellowButtonClicked(true);
+    if (button === 'green') setGreenButtonClicked(true);
+  };
+  
+  // 버튼 마우스 업/리브 처리 함수
+  const handleButtonUp = (button: 'red' | 'yellow' | 'green') => {
+    if (button === 'red') setRedButtonClicked(false);
+    if (button === 'yellow') setYellowButtonClicked(false);
+    if (button === 'green') setGreenButtonClicked(false);
+  };
+
   // Check if screen is mobile size
   useEffect(() => {
     const checkIfMobile = () => {
@@ -104,7 +123,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               width: '12px',
               height: '12px',
               borderRadius: '50%',
-              backgroundColor: '#ff5f56',
+              backgroundColor: redButtonClicked ? '#cc4840' : '#ff5f56',
               border: '1px solid #e0443e',
               display: 'flex',
               alignItems: 'center',
@@ -113,7 +132,12 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               padding: 0,
               position: 'relative',
               cursor: 'default',
+              boxShadow: redButtonClicked ? 'inset 0px 1px 3px rgba(0, 0, 0, 0.2)' : 'none',
+              transition: 'background-color 0.05s, box-shadow 0.05s',
             }}
+            onMouseDown={() => handleButtonDown('red')}
+            onMouseUp={() => handleButtonUp('red')}
+            onMouseLeave={() => handleButtonUp('red')}
           >
             {hoverWindowControls && (
               <svg 
@@ -148,7 +172,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               width: '12px',
               height: '12px',
               borderRadius: '50%',
-              backgroundColor: '#ffbd2e',
+              backgroundColor: yellowButtonClicked ? '#d29b25' : '#ffbd2e',
               border: '1px solid #dea123',
               display: 'flex',
               alignItems: 'center',
@@ -157,7 +181,12 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               padding: 0,
               position: 'relative',
               cursor: 'default',
+              boxShadow: yellowButtonClicked ? 'inset 0px 1px 3px rgba(0, 0, 0, 0.2)' : 'none',
+              transition: 'background-color 0.05s, box-shadow 0.05s',
             }}
+            onMouseDown={() => handleButtonDown('yellow')}
+            onMouseUp={() => handleButtonUp('yellow')}
+            onMouseLeave={() => handleButtonUp('yellow')}
           >
             {hoverWindowControls && (
               <svg 
@@ -183,7 +212,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               width: '12px',
               height: '12px',
               borderRadius: '50%',
-              backgroundColor: '#27c93f',
+              backgroundColor: greenButtonClicked ? '#1ca02d' : '#27c93f',
               border: '1px solid #1aab29',
               display: 'flex',
               alignItems: 'center',
@@ -192,7 +221,12 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
               padding: 0,
               position: 'relative',
               cursor: 'default',
+              boxShadow: greenButtonClicked ? 'inset 0px 1px 3px rgba(0, 0, 0, 0.2)' : 'none',
+              transition: 'background-color 0.05s, box-shadow 0.05s',
             }}
+            onMouseDown={() => handleButtonDown('green')}
+            onMouseUp={() => handleButtonUp('green')}
+            onMouseLeave={() => handleButtonUp('green')}
           >
             {hoverWindowControls && (
               <svg 
