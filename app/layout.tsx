@@ -17,8 +17,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" suppressHydrationWarning>
+      <body suppressHydrationWarning>
         <Header />
         {/* Client Component wrapper will handle the className based on path */}
         <MainWrapper>{children}</MainWrapper>

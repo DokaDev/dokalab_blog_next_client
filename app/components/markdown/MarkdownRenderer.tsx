@@ -113,22 +113,51 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
   // Process alert boxes after LaTeX processing
   const processedContent = processAlertBoxes(processedLatex);
 
-  // This effect ensures KaTeX styles are properly applied
+  // 안전한 클라이언트 전용 useEffect - 하이드레이션 문제 해결
   useEffect(() => {
-    // Force a repaint to ensure KaTeX styling is applied
-    document.querySelectorAll('.katex, .katex-display').forEach(el => {
-      // Add a class temporarily and remove it to force a style recalculation
-      el.classList.add('katex-repaint');
-      setTimeout(() => el.classList.remove('katex-repaint'), 0);
-    });
+    // 서버 사이드 렌더링이면 실행하지 않음
+    if (typeof window === 'undefined') return;
+
+    // 브라우저 환경에서만 동작
+    let isMounted = true;
+    const timer = setTimeout(() => {
+      if (!isMounted) return;
+      
+      try {
+        // 클라이언트 측에서만 실행되는 DOM 조작
+        document.querySelectorAll('.katex, .katex-display').forEach(el => {
+          if (el && el.classList) {
+            el.classList.add('katex-repaint');
+            requestAnimationFrame(() => {
+              if (isMounted && el && el.classList) {
+                el.classList.remove('katex-repaint');
+              }
+            });
+          }
+        });
+      } catch (error) {
+        console.error('Error processing KaTeX elements:', error);
+      }
+    }, 100); // 약간의 지연을 두어 하이드레이션 완료 후 실행
+
+    // 클린업 함수
+    return () => {
+      isMounted = false;
+      clearTimeout(timer);
+    };
   }, [processedContent]);
   
   return (
-    <div className={`${styles.markdownContent} ${className} markdown-body`}>
+    <div className={`${styles.markdownContent} ${className} markdown-body`} suppressHydrationWarning>
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath]}
         rehypePlugins={[
-          rehypeKatex,
+          [rehypeKatex, {
+            strict: false,
+            throwOnError: false,
+            errorColor: 'red',
+            trust: true
+          }],
           rehypeRaw
         ]}
         components={{
