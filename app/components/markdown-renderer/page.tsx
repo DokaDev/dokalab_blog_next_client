@@ -5,11 +5,11 @@ import Link from 'next/link';
 import styles from './page.module.scss';
 import dynamic from 'next/dynamic';
 
-// MarkdownRenderer를 dynamic import로 클라이언트에서 로드
-// SSR을 false로 설정하지 않으면 서버 컴포넌트가 클라이언트에서 렌더링되려고 할 때 오류 발생
+// Load MarkdownRenderer with dynamic import on the client side
+// If ssr is not set to false, errors may occur when server components try to render on the client
 const MarkdownRenderer = dynamic(() => import('../markdown/MarkdownRenderer'), { ssr: true });
 
-// 에디터 모드를 위한 클라이언트 컴포넌트
+// Client component for editor mode
 const MarkdownEditor = ({ markdownInput, setMarkdownInput }: { markdownInput: string, setMarkdownInput: (value: string) => void }) => (
   <div className={styles.editorContainer}>
     <h1 className={styles.title}>Markdown Editor</h1>
@@ -34,7 +34,7 @@ const MarkdownEditor = ({ markdownInput, setMarkdownInput }: { markdownInput: st
   </div>
 );
 
-// 뷰 모드를 위한 클라이언트 컴포넌트
+// Client component for view mode
 const MarkdownViewer = ({ markdownInput }: { markdownInput: string }) => (
   <article className={styles.articleContent}>
     <div className={styles.articleHeader}>
@@ -54,7 +54,7 @@ const MarkdownViewer = ({ markdownInput }: { markdownInput: string }) => (
 );
 
 export default function MarkdownRendererTestPage() {
-  // 개발 모드 상태 (false면 출력만 표시, true면 입력+출력 표시)
+  // Development mode state (false shows output only, true shows input+output)
   const [isDevMode, setIsDevMode] = useState(false);
 
   const [markdownInput, setMarkdownInput] = useState(`# Deep Dive into React Query: A Comprehensive Guide
@@ -335,20 +335,25 @@ export default function DynamicComponent() {
 *Code block test cases added: March 21, 2024*
 
 ## Callout Examples
-
 :::tip
 Here's a helpful tip for optimizing your React Query cache!
 :::
+
+This tip can save you hours of debugging time when working with complex applications.
 
 :::info
 React Query v5 introduces breaking changes in the API.
 Please check the migration guide before upgrading.
 :::
 
+Many developers have reported significant performance improvements after upgrading properly.
+
 :::warning
 Be careful when implementing optimistic updates with
 complex data structures.
 :::
+
+Testing your optimistic updates thoroughly in different network conditions is essential for reliability.
 
 :::danger
 Never expose your API keys in client-side code!
@@ -742,7 +747,7 @@ You cannot nest these!
   return (
     <main className="subPage">
       <div className={styles.container}>
-        {/* 개발자 모드 토글 버튼 */}
+        {/* Developer mode toggle button */}
         <button 
           onClick={() => setIsDevMode(!isDevMode)} 
           className={styles.devModeToggle}
