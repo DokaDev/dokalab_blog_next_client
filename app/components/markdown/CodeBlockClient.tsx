@@ -335,10 +335,10 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
               onMouseLeave={handleToggleMouseLeave}
               style={{
                 position: 'relative',
-                width: '22px',
-                height: '12px',
-                borderRadius: '6px',
-                backgroundColor: '#bea6ee', // Purple background
+                width: '32px',
+                height: '16px',
+                borderRadius: '8px',
+                backgroundColor: '#e2e8f0',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
@@ -352,22 +352,42 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
               role="switch"
               aria-checked={showCode}
             >
-              {/* Toggle knob */}
+              {/* Toggle knob with subtle icon */}
               <div
                 style={{
                   position: 'absolute',
-                  left: showCode ? '1px' : 'calc(100% - 11px)',
-                  width: '10px',
-                  height: '10px',
+                  left: showCode ? '2px' : 'calc(100% - 14px - 2px)',
+                  width: '14px',
+                  height: '14px',
                   borderRadius: '50%',
                   backgroundColor: 'white',
                   transition: 'left 0.2s ease',
-                  boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
+                  boxShadow: '0 1px 2px rgba(0,0,0,0.15)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
-              />
+              >
+                {/* Code icon (left position) - simplified */}
+                {showCode && (
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <polyline points="16 18 22 12 16 6"></polyline>
+                    <polyline points="8 6 2 12 8 18"></polyline>
+                  </svg>
+                )}
+                
+                {/* Diagram icon (right position) - simplified */}
+                {!showCode && (
+                  <svg width="7" height="7" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                    <line x1="3" y1="9" x2="21" y2="9"></line>
+                    <line x1="9" y1="21" x2="9" y2="9"></line>
+                  </svg>
+                )}
+              </div>
             </div>
             
-            {/* Custom tooltip */}
+            {/* Custom tooltip - keep as is */}
             {showToggleTooltip && (
               <div
                 style={{
