@@ -586,18 +586,8 @@ graph TD
     B -- No ----> E[End]
 \`\`\`
 
-### Same Flowchart (Code View)
-\`\`\`mermaid:!code
-graph TD
-    A[Start] --> B{Is it?}
-    B -- Yes --> C[OK]
-    C --> D[Rethink]
-    D --> B
-    B -- No ----> E[End]
-\`\`\`
-
 ### Sequence Diagram
-\`\`\`mermaid
+\`\`\`mermaid:test.md
 sequenceDiagram
     participant Client
     participant API
@@ -622,7 +612,7 @@ erDiagram
 \`\`\`
 
 ### Gantt Chart
-\`\`\`mermaid
+\`\`\`mermaid!
 gantt
     title Project Timeline
     dateFormat  YYYY-MM-DD
@@ -687,18 +677,8 @@ graph LR
     style C fill:#9f9,stroke:#333,stroke-width:2px
 \`\`\`
 
-### Same Complex Flowchart (Code View)
-\`\`\`mermaid:!code
-graph LR
-    A[Hard edge] -->|Link text| B(Round edge)
-    B --> C{Decision}
-    C -->|One| D[Result one]
-    C -->|Two| E[Result two]
-    
-    style A fill:#f9f,stroke:#333,stroke-width:4px
-    style B fill:#bbf,stroke:#f66,stroke-width:2px,color:#fff
-    style C fill:#9f9,stroke:#333,stroke-width:2px
-\`\`\`
+Test
+
 \`\`\`html:templates/mixed.html
 <div class="container">
     <style>

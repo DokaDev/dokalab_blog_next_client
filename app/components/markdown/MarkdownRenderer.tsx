@@ -181,7 +181,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             // Code block handling (wrapped in triple backticks)
             // Preserve original className (e.g., language-javascript{1,3-5}:file.js)
             const originalClassName = className || '';
-            const match = /language-(\w+)/.exec(originalClassName);
+            const match = /language-(\w+!?)/.exec(originalClassName);
             let language = match ? match[1] : '';
             let fileName = '';
             const highlightLines: number[] = [];

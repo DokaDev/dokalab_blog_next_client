@@ -6,15 +6,27 @@ interface CodeBlockClientProps {
   value: string;
   fileName?: string;
   language?: string;
+  isMermaid?: boolean;
+  showCode?: boolean;
+  setShowCode?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '', language = '' }) => {
+const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ 
+  value, 
+  fileName = '', 
+  language = '', 
+  isMermaid = false,
+  showCode = false,
+  setShowCode
+}) => {
   const [hoverWindowControls, setHoverWindowControls] = useState(false);
   const [hoverCopy, setHoverCopy] = useState(false);
   const [copied, setCopied] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showFileNameTooltip, setShowFileNameTooltip] = useState(false);
+  const [showToggleTooltip, setShowToggleTooltip] = useState(false);
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const toggleTooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
   // Add button click states
   const [redButtonClicked, setRedButtonClicked] = useState(false);
@@ -33,6 +45,28 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
     if (button === 'red') setRedButtonClicked(false);
     if (button === 'yellow') setYellowButtonClicked(false);
     if (button === 'green') setGreenButtonClicked(false);
+  };
+  
+  // Toggle between code view and diagram view
+  const toggleView = () => {
+    if (setShowCode) {
+      setShowCode(!showCode);
+    }
+  };
+  
+  // Handle toggle tooltip functions
+  const handleToggleMouseEnter = () => {
+    setShowToggleTooltip(true);
+  };
+  
+  const handleToggleMouseLeave = () => {
+    if (toggleTooltipTimeoutRef.current) {
+      clearTimeout(toggleTooltipTimeoutRef.current);
+    }
+    
+    toggleTooltipTimeoutRef.current = setTimeout(() => {
+      setShowToggleTooltip(false);
+    }, 300);
   };
 
   // Check if screen is mobile size
@@ -291,6 +325,85 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
             </svg>
           )}
         </button>
+        
+        {/* Toggle switch for Mermaid diagrams */}
+        {isMermaid && setShowCode && (
+          <div style={{ position: 'relative' }}>
+            <div
+              onClick={toggleView}
+              onMouseEnter={handleToggleMouseEnter}
+              onMouseLeave={handleToggleMouseLeave}
+              style={{
+                position: 'relative',
+                width: '22px',
+                height: '12px',
+                borderRadius: '6px',
+                backgroundColor: '#bea6ee', // Purple background
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                padding: '1px',
+                marginLeft: '0.5rem',
+                boxSizing: 'border-box',
+                transition: 'background-color 0.2s ease',
+              }}
+              title={showCode ? "Show diagram" : "Show code"}
+              aria-label={showCode ? "Show diagram" : "Show code"}
+              role="switch"
+              aria-checked={showCode}
+            >
+              {/* Toggle knob */}
+              <div
+                style={{
+                  position: 'absolute',
+                  left: showCode ? '1px' : 'calc(100% - 11px)',
+                  width: '10px',
+                  height: '10px',
+                  borderRadius: '50%',
+                  backgroundColor: 'white',
+                  transition: 'left 0.2s ease',
+                  boxShadow: '0 1px 1px rgba(0,0,0,0.1)',
+                }}
+              />
+            </div>
+            
+            {/* Custom tooltip */}
+            {showToggleTooltip && (
+              <div
+                style={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '50%',
+                  transform: 'translateX(-50%)',
+                  backgroundColor: '#334155',
+                  color: 'white',
+                  borderRadius: '4px',
+                  padding: '0.3rem 0.5rem',
+                  fontSize: '11px',
+                  whiteSpace: 'nowrap',
+                  zIndex: 10,
+                  marginTop: '6px',
+                  boxShadow: '0 2px 5px rgba(0,0,0,0.2)',
+                  textAlign: 'center',
+                }}
+              >
+                {showCode ? "Switch to diagram view" : "Switch to code view"}
+                <div 
+                  style={{
+                    position: 'absolute',
+                    top: '-4px',
+                    left: '50%',
+                    transform: 'translateX(-50%) rotate(45deg)',
+                    width: '8px',
+                    height: '8px',
+                    backgroundColor: '#334155',
+                    zIndex: -1,
+                  }}
+                />
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       <div style={{ 
