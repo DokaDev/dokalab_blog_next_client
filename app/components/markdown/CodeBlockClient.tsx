@@ -47,7 +47,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
     if (button === 'green') setGreenButtonClicked(false);
   };
   
-  // Toggle between code view and diagram view
+  // Toggle between code view and diagram view 
   const toggleView = () => {
     if (setShowCode) {
       setShowCode(!showCode);
