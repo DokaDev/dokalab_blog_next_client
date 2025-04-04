@@ -587,7 +587,7 @@ graph TD
 \`\`\`
 
 ### Sequence Diagram
-\`\`\`mermaid:test.md
+\`\`\`mermaid!:test.md
 sequenceDiagram
     participant Client
     participant API
@@ -604,7 +604,7 @@ sequenceDiagram
 \`\`\`
 
 ### Entity Relationship Diagram
-\`\`\`mermaid
+\`\`\`mermaid!
 erDiagram
     CUSTOMER ||--o{ ORDER : places
     ORDER ||--|{ LINE-ITEM : contains
@@ -625,7 +625,7 @@ gantt
 \`\`\`
 
 ### Pie Chart
-\`\`\`mermaid
+\`\`\`mermaid!
 pie title Programming Languages
     "JavaScript" : 40
     "Python" : 30
@@ -634,7 +634,7 @@ pie title Programming Languages
 \`\`\`
 
 ### Git Graph
-\`\`\`mermaid
+\`\`\`mermaid!
 gitGraph
    commit
    commit
@@ -649,7 +649,7 @@ gitGraph
 \`\`\`
 
 ### User Journey
-\`\`\`mermaid
+\`\`\`mermaid!
 journey
     title User Shopping Experience
     section Browse

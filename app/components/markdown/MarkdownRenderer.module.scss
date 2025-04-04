@@ -225,6 +225,18 @@
     // Detailed styling is handled in the CodeBlock component
   }
   
+  // Code block content container
+  .codeBlockContent {
+    position: relative;
+    min-height: 100px; // Ensure minimum height for content area
+    
+    // Ensure content takes up space even during loading
+    &:empty {
+      min-height: 250px;
+      background-color: #f8fafc;
+    }
+  }
+  
   // Blockquote styles
   .blockquote {
     margin: 1.5em 0;
