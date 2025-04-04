@@ -287,47 +287,116 @@
 
   // Alert boxes styles
   .alertBox {
-    margin: 1.5em 0;
+    margin: 0.5em 0 0.5em;
     padding: 1rem;
     border-radius: 6px;
     display: flex;
     align-items: flex-start;
     gap: 0.75rem;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: -1px;
+      left: -1px;
+      right: -1px;
+      bottom: -1px;
+      border-radius: 7px;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0;
+      transition: all 0.3s ease;
+    }
+    
+    &:hover {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      
+      &::before {
+        opacity: 1;
+      }
+    }
   }
 
   // Tip alert style (pastel green)
   .alertTip {
     background-color: #e6f7f0;
+    border-color: rgba(62, 180, 137, 0.1);
     
     .alertIcon {
       color: #3eb489;
+    }
+    
+    &::before {
+      border: 1px solid #3eb489;
+      box-shadow: 0 0 0 1px rgba(62, 180, 137, 0.1);
+      background: none;
+    }
+    
+    &:hover {
+      border-color: transparent;
     }
   }
 
   // Info alert style (pastel blue)
   .alertInfo {
     background-color: #e6f1fe;
+    border-color: rgba(108, 160, 246, 0.1);
     
     .alertIcon {
       color: #6ca0f6;
+    }
+    
+    &::before {
+      border: 1px solid #6ca0f6;
+      box-shadow: 0 0 0 1px rgba(108, 160, 246, 0.1);
+      background: none;
+    }
+    
+    &:hover {
+      border-color: transparent;
     }
   }
 
   // Warning alert style (pastel yellow/amber)
   .alertWarning {
     background-color: #fef5e6;
+    border-color: rgba(245, 176, 71, 0.1);
     
     .alertIcon {
       color: #f5b047;
+    }
+    
+    &::before {
+      border: 1px solid #f5b047;
+      box-shadow: 0 0 0 1px rgba(245, 176, 71, 0.1);
+      background: none;
+    }
+    
+    &:hover {
+      border-color: transparent;
     }
   }
 
   // Danger alert style (pastel red)
   .alertDanger {
     background-color: #feeaea;
+    border-color: rgba(244, 115, 115, 0.1);
     
     .alertIcon {
       color: #f47373;
+    }
+    
+    &::before {
+      border: 1px solid #f47373;
+      box-shadow: 0 0 0 1px rgba(244, 115, 115, 0.1);
+      background: none;
+    }
+    
+    &:hover {
+      border-color: transparent;
     }
   }
 

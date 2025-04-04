@@ -340,6 +340,9 @@ Here's a helpful tip for optimizing your React Query cache!
 :::
 
 This tip can save you hours of debugging time when working with complex applications.
+This tip can save you hours of debugging time when working with complex applications.
+This tip can save you hours of debugging time when working with complex applications.
+This tip can save you hours of debugging time when working with complex applications.
 
 :::info
 React Query v5 introduces breaking changes in the API.
@@ -357,6 +360,11 @@ Testing your optimistic updates thoroughly in different network conditions is es
 
 :::danger
 Never expose your API keys in client-side code!
+:::
+
+:::warning
+Be careful when implementing optimistic updates with
+complex data structures.
 :::
 
 ## Documentation Links
