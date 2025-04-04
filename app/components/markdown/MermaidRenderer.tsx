@@ -89,7 +89,7 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
     return () => {
       cancelAnimationFrame(timer);
     };
-  }, [code]);
+  }, [code, renderStartTime]);
 
   if (error) {
     return (

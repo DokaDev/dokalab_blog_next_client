@@ -255,18 +255,11 @@ const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
 
 // 스켈레톤 로더를 사용하여 MermaidRenderer 로딩 상태 표시
 const MermaidRenderer = dynamic<DynamicMermaidProps>(
-  // @ts-ignore - 모듈을 찾을 수 없는 TypeScript 오류 무시
+  // @ts-expect-error - 모듈을 찾을 수 없는 TypeScript 오류 무시
   () => import('./MermaidRenderer'), 
   { 
     ssr: false, 
-    loading: ({ code }) => {
-      // 코드를 직접 전달하여 스켈레톤 타입을 즉시 결정
-      try {
-        return <MermaidSkeletonLoader code={code} />
-      } catch (e) {
-        return <MermaidSkeletonLoader />
-      }
-    }
+    loading: () => <MermaidSkeletonLoader />
   }
 );
 
