@@ -33,17 +33,16 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
   const [loading, setLoading] = useState<boolean>(true);
   // 다이어그램 유형을 컴포넌트 초기화 시점에 감지
   const [diagramType, setDiagramType] = useState<string>(detectDiagramType(code));
-  const [renderStartTime, setRenderStartTime] = useState<number>(0);
 
   useEffect(() => {
-    // 컴포넌트가 마운트되자마자 타임스탬프 기록
-    setRenderStartTime(Date.now());
-    
     // 코드가 변경되면 다이어그램 유형도 다시 감지
     setDiagramType(detectDiagramType(code));
     
     // 렌더링 시작 시 명시적으로 로딩 상태로 설정
     setLoading(true);
+    
+    // 현재 시간 기록 (useEffect 내부에서 사용하되 상태 업데이트는 하지 않음)
+    const startTime = Date.now();
     
     // 다음 프레임에서 렌더링 시작 (스켈레톤이 먼저 보이도록)
     // requestAnimationFrame을 사용하여 UI가 먼저 업데이트되도록 함
@@ -70,7 +69,7 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
           setSvg(svg);
           
           // 최소 로딩 시간을 보장
-          const renderTime = Date.now() - renderStartTime;
+          const renderTime = Date.now() - startTime;
           if (renderTime < MIN_LOADING_TIME) {
             setTimeout(() => {
               setLoading(false);
@@ -89,7 +88,7 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
     return () => {
       cancelAnimationFrame(timer);
     };
-  }, [code, renderStartTime]);
+  }, [code]);
 
   if (error) {
     return (

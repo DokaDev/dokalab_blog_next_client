@@ -4,11 +4,6 @@ import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './MarkdownRenderer.module.scss';
 
-// 타입스크립트 에러를 방지하기 위한 더미 타입 정의
-interface DynamicMermaidProps {
-  code: string;
-}
-
 // Dynamically import client components for code rendering
 const CodeBlockClient = dynamic(() => import('./CodeBlockClient'), { ssr: true });
 const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { ssr: true });
@@ -92,124 +87,7 @@ const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
           }} />
         )}
 
-        {diagramType === 'sequence' && (
-          <div style={{ position: 'relative', zIndex: 1, display: 'flex', alignItems: 'flex-start', gap: '50px', width: '80%', height: '150px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '30px', 
-                border: '2px solid #ddd', 
-                borderRadius: '4px',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite'
-              }} />
-              <div style={{ width: '1px', height: '120px', background: '#ddd', marginTop: '5px' }} />
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-              <div style={{ 
-                width: '80px', 
-                height: '30px', 
-                border: '2px solid #ddd', 
-                borderRadius: '4px',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite',
-                animationDelay: '0.2s'
-              }} />
-              <div style={{ width: '1px', height: '120px', background: '#ddd', marginTop: '5px' }} />
-            </div>
-          </div>
-        )}
-
-        {diagramType === 'class' && (
-          <div style={{ position: 'relative', zIndex: 1, display: 'flex', gap: '40px', width: '80%' }}>
-            <div style={{ width: '120px', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ 
-                width: '100%', 
-                height: '30px', 
-                borderTopLeftRadius: '4px', 
-                borderTopRightRadius: '4px', 
-                borderBottom: '1px solid #ccc',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite'
-              }} />
-              <div style={{ 
-                width: '100%', 
-                height: '60px', 
-                borderBottomLeftRadius: '4px', 
-                borderBottomRightRadius: '4px',
-                background: 'linear-gradient(90deg, #f1f1f1 25%, #e8e8e8 50%, #f1f1f1 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite',
-                animationDelay: '0.2s'
-              }} />
-            </div>
-            <div style={{ width: '120px', display: 'flex', flexDirection: 'column' }}>
-              <div style={{ 
-                width: '100%', 
-                height: '30px', 
-                borderTopLeftRadius: '4px', 
-                borderTopRightRadius: '4px', 
-                borderBottom: '1px solid #ccc',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite',
-                animationDelay: '0.4s'
-              }} />
-              <div style={{ 
-                width: '100%', 
-                height: '60px', 
-                borderBottomLeftRadius: '4px', 
-                borderBottomRightRadius: '4px',
-                background: 'linear-gradient(90deg, #f1f1f1 25%, #e8e8e8 50%, #f1f1f1 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite',
-                animationDelay: '0.6s'
-              }} />
-            </div>
-          </div>
-        )}
-
-        {diagramType === 'gantt' && (
-          <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', gap: '15px', width: '80%' }}>
-            <div style={{ width: '100%', height: '30px', display: 'flex', gap: '5px', alignItems: 'center' }}>
-              <div style={{ width: '20%', height: '20px', background: '#ddd' }} />
-              <div style={{ width: '80%', height: '20px', display: 'flex', gap: '3px' }}>
-                {Array(10).fill(0).map((_, i) => (
-                  <div key={i} style={{ width: '10%', height: '20px', background: '#f0f0f0', border: '1px solid #e8e8e8' }} />
-                ))}
-              </div>
-            </div>
-            <div style={{ width: '100%', height: '25px', display: 'flex', gap: '5px' }}>
-              <div style={{ width: '20%', height: '20px', background: '#ddd' }} />
-              <div style={{ 
-                width: '30%', 
-                height: '20px', 
-                borderRadius: '3px',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite'
-              }} />
-            </div>
-            <div style={{ width: '100%', height: '25px', display: 'flex', gap: '5px' }}>
-              <div style={{ width: '20%', height: '20px', background: '#ddd' }} />
-              <div style={{ 
-                width: '40%', 
-                height: '20px',
-                borderRadius: '3px', 
-                marginLeft: '15%',
-                background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
-                backgroundSize: '200% 100%',
-                animation: 'shimmer 1.5s infinite',
-                animationDelay: '0.3s'
-              }} />
-            </div>
-          </div>
-        )}
-
-        {diagramType === 'default' && (
+        {(diagramType !== 'flowchart' && diagramType !== 'pie') && (
           <div style={{
             position: 'relative',
             zIndex: 1,
@@ -254,14 +132,12 @@ const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
 };
 
 // 스켈레톤 로더를 사용하여 MermaidRenderer 로딩 상태 표시
-const MermaidRenderer = dynamic<DynamicMermaidProps>(
-  // @ts-expect-error - 모듈을 찾을 수 없는 TypeScript 오류 무시
-  () => import('./MermaidRenderer'), 
-  { 
-    ssr: false, 
-    loading: () => <MermaidSkeletonLoader />
-  }
-);
+// 타입스크립트 오류를 피하기 위해 any 타입을 사용
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const MermaidRenderer: any = dynamic(() => import('./MermaidRenderer'), {
+  ssr: false,
+  loading: () => <MermaidSkeletonLoader />
+});
 
 interface CodeBlockProps {
   language: string;
