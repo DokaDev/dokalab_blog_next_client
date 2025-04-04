@@ -16,19 +16,19 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({ value, fileName = '',
   const [showFileNameTooltip, setShowFileNameTooltip] = useState(false);
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // 버튼 클릭 상태 추가
+  // Add button click states
   const [redButtonClicked, setRedButtonClicked] = useState(false);
   const [yellowButtonClicked, setYellowButtonClicked] = useState(false);
   const [greenButtonClicked, setGreenButtonClicked] = useState(false);
   
-  // 버튼 마우스 다운 처리 함수
+  // Handle button mouse down function
   const handleButtonDown = (button: 'red' | 'yellow' | 'green') => {
     if (button === 'red') setRedButtonClicked(true);
     if (button === 'yellow') setYellowButtonClicked(true);
     if (button === 'green') setGreenButtonClicked(true);
   };
   
-  // 버튼 마우스 업/리브 처리 함수
+  // Handle button mouse up/leave function
   const handleButtonUp = (button: 'red' | 'yellow' | 'green') => {
     if (button === 'red') setRedButtonClicked(false);
     if (button === 'yellow') setYellowButtonClicked(false);

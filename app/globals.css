@@ -172,17 +172,16 @@ a {
   display: block !important;
   visibility: visible !important;
 }
-
-/* PC 환경에서 코드 블록 스크롤바 강제 표시 */
+/* Force display of scrollbars in code blocks on desktop environments */
 @media (min-width: 769px) {
-  /* 데이터 속성을 통한 오버플로우 감지 - 오버플로우가 있는 경우에만 적용 */
+  /* Overflow detection through data attributes - only applied when overflow exists */
   .code-scroll-container.has-overflow-x::-webkit-scrollbar-thumb,
   .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar-thumb,
   .desktop-scrollbar::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.6) !important;
     visibility: visible !important;
     opacity: 1 !important;
-    border: none !important; /* 테두리 제거 */
+    border: none !important; /* Remove border */
     display: block !important;
   }
   
@@ -190,7 +189,7 @@ a {
   .code-scroll-container[data-has-overflow="true"]:hover::-webkit-scrollbar-thumb,
   .desktop-scrollbar:hover::-webkit-scrollbar-thumb {
     background-color: rgba(100, 116, 139, 0.8) !important;
-    border: none !important; /* 테두리 제거 */
+    border: none !important; /* Remove border */
     display: block !important;
     visibility: visible !important;
   }
@@ -435,14 +434,18 @@ pre .token-line.highlighted-line,
 code .token-line.highlighted-line,
 [class*="language-"] .highlighted-line,
 [class*="language-"] .token-line.highlighted-line {
-  background-color: rgba(100, 74, 201, 0.15) !important;
-  border-left: none !important;
+  background-color: rgba(100, 74, 201, 0.03) !important;
+  border: 1px solid rgba(100, 74, 201, 0.1) !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   display: block !important;
   transition: all 0.3s ease-in-out !important;
   cursor: default !important;
   position: relative !important;
   z-index: 0 !important;
   font-weight: 600 !important;
+  box-shadow: none !important;
 }
 
 /* Hover effects for highlighted lines - high specificity selectors */
@@ -454,10 +457,10 @@ pre .token-line.highlighted-line:hover,
 code .token-line.highlighted-line:hover,
 [class*="language-"] .highlighted-line:hover,
 [class*="language-"] .token-line.highlighted-line:hover {
-  background-color: rgba(100, 74, 201, 0.3) !important;
-  border-left: none !important;
+  background-color: rgba(100, 74, 201, 0.08) !important;
+  border: 1px solid rgba(100, 74, 201, 0.3) !important;
   transform: none !important;
-  box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+  box-shadow: none !important;
   z-index: 1 !important;
 }
 
@@ -492,18 +495,21 @@ code .token-line.highlighted-line:hover .linenumber,
 /* Firefox-specific highlighted line support */
 @-moz-document url-prefix() {
   .highlighted-line {
-    background-color: rgba(100, 74, 201, 0.08) !important;
-    border-left: none !important;
+    background-color: rgba(100, 74, 201, 0.03) !important;
+    border: 1px solid rgba(100, 74, 201, 0.2) !important;
+    border-radius: 6px !important;
+    margin: 0 !important;
+    padding: 0 !important;
     box-shadow: none !important;
     transition: all 0.3s ease-in-out !important;
     position: relative !important;
   }
   
   .highlighted-line:hover {
-    background-color: rgba(100, 74, 201, 0.25) !important;
-    border-left: none !important;
+    background-color: rgba(100, 74, 201, 0.06) !important;
+    border: 1px solid rgba(100, 74, 201, 0.3) !important;
     transform: none !important;
-    box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+    box-shadow: none !important;
     z-index: 1 !important;
   }
   
@@ -535,15 +541,19 @@ body span.token-line.highlighted-line,
 body [class*="react-syntax-highlighter"] .token-line.highlighted-line,
 body [class*="react-syntax-highlighter"] .highlighted-line,
 body [class*="language-"] .token-line.highlighted-line {
-  background-color: rgba(100, 74, 201, 0.15) !important;
-  border-left: none !important;
+  background-color: rgba(100, 74, 201, 0.05) !important;
+  border: 1px solid rgba(100, 74, 201, 0.2) !important;
+  border-radius: 6px !important;
+  margin: 0 !important;
+  padding: 0 !important;
   display: block !important;
   transition: all 0.3s ease-in-out !important;
   cursor: default !important;
   position: relative !important;
   z-index: 0 !important;
-  animation: highlightPulse 4s infinite ease-in-out !important;
+  animation: none !important;
   font-weight: 600 !important;
+  box-shadow: none !important;
 }
 
 body .token-line.highlighted-line:hover,
@@ -553,10 +563,10 @@ body span.token-line.highlighted-line:hover,
 body [class*="react-syntax-highlighter"] .token-line.highlighted-line:hover,
 body [class*="react-syntax-highlighter"] .highlighted-line:hover,
 body [class*="language-"] .token-line.highlighted-line:hover {
-  background-color: rgba(100, 74, 201, 0.3) !important;
-  border-left: none !important;
+  background-color: rgba(100, 74, 201, 0.08) !important;
+  border: 1px solid rgba(100, 74, 201, 0.3) !important;
   transform: none !important;
-  box-shadow: 0 3px 8px rgba(100, 74, 201, 0.2) !important;
+  box-shadow: none !important;
   z-index: 1 !important;
   animation: none !important;
 }

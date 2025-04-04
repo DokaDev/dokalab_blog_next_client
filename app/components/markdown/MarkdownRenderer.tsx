@@ -112,19 +112,18 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
   
   // Process alert boxes after LaTeX processing
   const processedContent = processAlertBoxes(processedLatex);
-
-  // 안전한 클라이언트 전용 useEffect - 하이드레이션 문제 해결
+  // Safe client-only useEffect - resolving hydration issues
   useEffect(() => {
-    // 서버 사이드 렌더링이면 실행하지 않음
+    // Skip execution in server-side rendering
     if (typeof window === 'undefined') return;
 
-    // 브라우저 환경에서만 동작
+    // Only runs in browser environment
     let isMounted = true;
     const timer = setTimeout(() => {
       if (!isMounted) return;
       
       try {
-        // 클라이언트 측에서만 실행되는 DOM 조작
+        // DOM manipulation that only executes on the client side
         document.querySelectorAll('.katex, .katex-display').forEach(el => {
           if (el && el.classList) {
             el.classList.add('katex-repaint');
@@ -138,9 +137,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
       } catch (error) {
         console.error('Error processing KaTeX elements:', error);
       }
-    }, 100); // 약간의 지연을 두어 하이드레이션 완료 후 실행
+    }, 100); // Small delay to ensure execution after hydration completes
 
-    // 클린업 함수
+    // Cleanup function
     return () => {
       isMounted = false;
       clearTimeout(timer);
