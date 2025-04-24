@@ -367,6 +367,15 @@ Be careful when implementing optimistic updates with
 complex data structures.
 :::
 
+## Standard Links
+[Google](https://google.com)
+[Github](https://github.com)
+[Twitter](https://twitter.com)
+[LinkedIn](https://linkedin.com)
+[Instagram](https://instagram.com)
+[Facebook](https://facebook.com)
+
+
 ## Documentation Links
 
 [!docs React Query API Reference](https://tanstack.com/query/latest/docs/react/reference)
@@ -379,15 +388,15 @@ complex data structures.
 Basic Link is like this: [React Query Documentation](https://tanstack.com/query/latest)
 
 ## User Examples
-[!user GitHub Profile](https://github.com/username)
-[!user Twitter](https://twitter.com/username)
-[!user LinkedIn](https://linkedin.com/in/username)
-[!user Instagram](https://instagram.com/username)
+[!lnk GitHub Profile](https://github.com/username)
+[!lnk Twitter](https://twitter.com/username)
+[!lnk LinkedIn](https://linkedin.com/in/username)
+[!lnk Instagram](https://instagram.com/username)
 
-[!user Facebook](https://facebook.com/username)
-[!user YouTube](https://youtube.com/username)
-[!user TikTok](https://tiktok.com/username)
-[!user Pinterest](https://pinterest.com/username)
+[!lnk Facebook](https://facebook.com/username)
+[!lnk YouTube](https://youtube.com/username)
+[!lnk TikTok](https://tiktok.com/username)
+[!lnk Pinterest](https://pinterest.com/username)
 
 ## Header Examples
 

@@ -176,14 +176,136 @@
   
   // Link styles
   .link {
-    color: #644AC9;
+    color: #546E7A;
     text-decoration: none;
-    border-bottom: 1px solid rgba(100, 74, 201, 0.3);
-    transition: all 0.2s ease;
+    position: relative;
+    transition: color 0.3s ease;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 1px;
+    
+    &::before {
+      content: '';
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23546E7A' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'%3E%3C/path%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'%3E%3C/path%3E%3C/svg%3E");
+      width: 12px;
+      height: 12px;
+      display: inline-block;
+      opacity: 0.7;
+      transition: all 0.3s ease;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      width: 100%;
+      height: 1px;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(84, 110, 122, 0.3);
+      opacity: 0;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+      transform: scaleX(0);
+      transform-origin: left;
+    }
     
     &:hover {
-      color: #A3144D;
-      border-bottom-color: rgba(163, 20, 77, 0.5);
+      color: #455A64;
+      
+      &::before {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23455A64' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71'%3E%3C/path%3E%3Cpath d='M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71'%3E%3C/path%3E%3C/svg%3E");
+        opacity: 1;
+      }
+      
+      &::after {
+        opacity: 1;
+        transform: scaleX(1);
+      }
+    }
+  }
+  
+  // Special link styles - common properties
+  .docsLink, .downloadLink, .socialLink {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.75rem;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    margin: 0 0.2rem;
+    font-weight: 500;
+    font-size: 0.95rem;
+    gap: 6px;
+    border: 1px solid #e2e8f0;
+    
+    &:hover {
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+  }
+  
+  // Documentation link
+  .docsLink {
+    color: #3B5D98;
+    background-color: #EEF2FF;
+    border-color: #DBEAFE;
+    
+    &:hover {
+      background-color: #DBEAFE;
+      border-color: #BFDBFE;
+    }
+    
+    .docsIcon {
+      color: #3B82F6;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  // Download link
+  .downloadLink {
+    color: #0F766E;
+    background-color: #ECFDF5;
+    border-color: #D1FAE5;
+    
+    &:hover {
+      background-color: #D1FAE5;
+      border-color: #A7F3D0;
+    }
+    
+    .downloadIcon {
+      color: #10B981;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+  
+  // Social/User link
+  .socialLink {
+    color: #4B5563;
+    background-color: #F9FAFB;
+    border-color: #E5E7EB;
+    
+    &:hover {
+      background-color: #F3F4F6;
+      border-color: #D1D5DB;
+    }
+    
+    .faviconContainer {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 16px;
+      height: 16px;
+      overflow: hidden;
+    }
+    
+    .favicon {
+      width: 16px;
+      height: 16px;
+      object-fit: contain;
     }
   }
   
