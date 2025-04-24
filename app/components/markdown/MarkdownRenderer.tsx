@@ -569,13 +569,10 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             const altText = props.alt || "Markdown image";
             const { pureAltText, width, hasShadow, showCaption, align } = extractImageOptions(altText);
             
-            // 스타일 객체 생성
+            // 스타일 객체 생성 - filter: drop-shadow는 CSS 클래스에서 처리
             const styleObj: React.CSSProperties = {
               ...(width ? { width: `${width}px`, height: 'auto' } : {}),
-              ...(hasShadow ? { 
-                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
-                borderRadius: '8px' 
-              } : {})
+              // hasShadow는 이제 CSS 클래스로만 적용됨
             };
             
             // 정렬 스타일 병합
