@@ -383,22 +383,30 @@
   }
   
   // Image styles
+  .imageContainer {
+    display: block;
+    margin: 1.5rem 0;
+    clear: both;
+    width: 100%;
+    position: relative;
+  }
+  
   .image {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    margin: 1.5em 0;
-    display: block;
+    margin: 0;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: block;
   }
   
   // Image with shadow effect
   .imageShadow {
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+    border-radius: 8px;
     
     &:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
     }
   }
   
@@ -563,6 +571,30 @@
     flex-shrink: 0;
     margin-top: 0.125rem;
   }
+
+  // Image caption
+  .imageCaption {
+    font-size: 0.9rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+    font-style: italic;
+    line-height: 1.4;
+    width: 100%;
+    display: block;
+  }
+
+  // Image caption alignment styles
+  .captionLeft {
+    text-align: left !important;
+  }
+
+  .captionCenter {
+    text-align: center !important;
+  }
+
+  .captionRight {
+    text-align: right !important;
+  }
 }
 
 // Mobile styles
@@ -616,4 +648,61 @@
       }
     }
   }
+}
+
+// Image alignment classes
+.imageLeft {
+  margin-right: auto;
+  margin-left: 0;
+}
+
+.imageCenter {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.imageRight {
+  margin-left: auto;
+  margin-right: 0;
+}
+
+// Image alignment classes - container based
+.imageContainer .imageLeft {
+  align-self: flex-start;
+}
+
+.imageContainer .imageCenter {
+  align-self: center;
+}
+
+.imageContainer .imageRight {
+  align-self: flex-end;
+}
+
+// 컨테이너 정렬 클래스
+.containerLeft {
+  margin-right: auto !important;
+  margin-left: 0 !important;
+  text-align: left !important;
+  display: block !important;
+}
+
+.containerCenter {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+  display: block !important;
+}
+
+.containerRight {
+  margin-left: auto !important;
+  margin-right: 0 !important;
+  text-align: right !important;
+  display: block !important;
+}
+
+// 이미지를 포함하는 단락
+.imageParagraph {
+  margin: 1.25em 0;
+  display: block;
 } 

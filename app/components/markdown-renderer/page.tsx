@@ -450,7 +450,7 @@ Shadow + Center Align (600px):
 Shadow + Right Align (400px):
 ![!shadow !align=right !width=400 Shadow with Right Alignment](https://cdn.aitimes.kr/news/photo/202305/28000_42202_5649.jpg)
 
-Caption Hidden (300px):
+Caption Hidden (300px): 
 ![!width=300 !nocap AI Times Image](https://cdn.aitimes.kr/news/photo/202305/28000_42202_5649.jpg)
 
 Multiple Options with Hidden Caption:

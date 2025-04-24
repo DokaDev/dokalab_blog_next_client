@@ -106,6 +106,59 @@ const processAlertBoxes = (content: string): string => {
   });
 };
 
+/**
+ * 이미지 alt 텍스트를 분석하여 옵션과 순수 텍스트를 추출합니다
+ * @param altText - 원본 alt 텍스트
+ * @returns 처리된 정보 객체 (순수 텍스트, 너비, 그림자 유무, 캡션 표시 여부)
+ */
+const extractImageOptions = (altText: string) => {
+  let processedAlt = altText || "Image";
+  let width: number | undefined;
+  let hasShadow = false;
+  let showCaption = true;
+  let align: string | undefined;
+  
+  // 모든 !로 시작하는 옵션 찾기
+  const optionRegex = /!([\w-]+(=[\w-]+)?)\b/g;
+  const allOptions = processedAlt.match(optionRegex) || [];
+  
+  // 발견된 모든 옵션 처리
+  allOptions.forEach(option => {
+    // 이미 아는 특정 옵션 처리
+    if (option === '!shadow') {
+      hasShadow = true;
+    } else if (option.startsWith('!width=')) {
+      const widthValue = option.match(/!width=(\d+)/)?.[1];
+      if (widthValue) {
+        width = parseInt(widthValue, 10);
+      }
+    } else if (option === '!nocap') {
+      showCaption = false;
+    } else if (option.startsWith('!align=')) {
+      align = option.match(/!align=(\w+)/)?.[1];
+    }
+    
+    // 옵션 텍스트에서 제거
+    processedAlt = processedAlt.replace(option, '');
+  });
+  
+  // 중복 공백 제거 및 트림
+  processedAlt = processedAlt.replace(/\s+/g, ' ').trim();
+  
+  // 빈 텍스트인 경우 기본값 설정
+  if (!processedAlt || processedAlt === '') {
+    processedAlt = "Image";
+  }
+  
+  return {
+    pureAltText: processedAlt,
+    width,
+    hasShadow,
+    showCaption,
+    align
+  };
+};
+
 const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className = '' }) => {
   // Pre-process LaTeX expressions
   const processedLatex = preprocessLatex(content);
@@ -268,6 +321,20 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               node?.children?.[0]?.type === 'text' &&
               (node?.children?.[0]?.value.startsWith('[ ] ') || 
                node?.children?.[0]?.value.startsWith('[x] '));
+            
+            // Check if paragraph contains an image
+            const hasImageChild = node?.children?.some((child: any) => 
+              child?.type === 'element' && child?.tagName === 'img'
+            );
+            
+            if (hasImageChild) {
+              // If paragraph contains an image, use div instead of p
+              return (
+                <div className={styles.imageParagraph} {...props}>
+                  {children}
+                </div>
+              );
+            }
             
             if (isTaskItem) {
               const isChecked = node?.children?.[0]?.value.startsWith('[x] ');
@@ -498,30 +565,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </blockquote>
           ),
           img: ({ src, ...props }: any) => {
-            // 이미지 alt 텍스트에서 옵션 파싱
+            // 이미지 alt 텍스트에서 옵션 추출
             const altText = props.alt || "Markdown image";
-            let width: number | undefined;
-            let hasShadow = false;
-            let processedAlt = altText;
-            
-            // 옵션 순서에 상관없이 모든 옵션 파싱
-            // !shadow 형식 처리
-            if (altText.includes('!shadow')) {
-              hasShadow = true;
-              processedAlt = processedAlt.replace('!shadow ', '').trim();
-            }
-            
-            // !width=XXX 형식 처리
-            const widthMatch = altText.match(/!width=(\d+)/);
-            if (widthMatch && widthMatch[1]) {
-              width = parseInt(widthMatch[1], 10);
-              processedAlt = processedAlt.replace(/!width=\d+\s*/, '').trim();
-            }
-            
-            // 남은 alt 텍스트가 없으면 기본값 설정
-            if (!processedAlt || processedAlt.trim() === '') {
-              processedAlt = "Image";
-            }
+            const { pureAltText, width, hasShadow, showCaption, align } = extractImageOptions(altText);
             
             // 스타일 객체 생성
             const styleObj: React.CSSProperties = {
@@ -532,18 +578,42 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               } : {})
             };
             
-            // 커스텀 클래스 생성
-            const imageClassName = `${styles.image} ${hasShadow ? styles.imageShadow : ''}`;
+            // 정렬 스타일 병합
+            const finalStyle = { ...styleObj };
             
+            // 커스텀 클래스 생성
+            let imageClassName = `${styles.image}`;
+            if (hasShadow) imageClassName += ` ${styles.imageShadow}`;
+            
+            // 이미지 정렬 클래스 결정
+            const alignValue = align || 'center'; // 기본값은 가운데 정렬
+            imageClassName += ` ${styles[`image${alignValue.charAt(0).toUpperCase() + alignValue.slice(1)}`]}`;
+            
+            // 컨테이너 스타일 및 클래스 설정
+            const containerStyle: React.CSSProperties = {};
+            if (width) {
+              containerStyle.width = `${width}px`;
+              containerStyle.maxWidth = '100%';
+            }
+            
+            // 컨테이너 클래스 설정 - 정렬에 따라 항상 적용
+            const containerClassName = `${styles.imageContainer} ${styles[`container${alignValue.charAt(0).toUpperCase() + alignValue.slice(1)}`]}`;
+            
+            // 이미지를 figure 요소로 감싸서 컨텐츠 흐름에서 분리
             return (
-              <img 
-                className={imageClassName} 
-                src={src} 
-                alt={processedAlt}
-                width={width}
-                style={styleObj}
-                {...props} 
-              />
+              <span className={containerClassName} style={containerStyle}>
+                <img 
+                  className={imageClassName} 
+                  src={src} 
+                  alt={pureAltText}
+                  title={showCaption ? pureAltText : ''}
+                  style={finalStyle}
+                  {...props} 
+                />
+                {showCaption && pureAltText !== "Image" && (
+                  <span className={`${styles.imageCaption} ${styles.captionCenter}`}>{pureAltText}</span>
+                )}
+              </span>
             );
           },
           table: ({ children, ...props }: any) => (
