@@ -498,33 +498,50 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </blockquote>
           ),
           img: ({ src, ...props }: any) => {
-            // 이미지 alt 텍스트에서 너비 옵션 파싱
+            // 이미지 alt 텍스트에서 옵션 파싱
             const altText = props.alt || "Markdown image";
             let width: number | undefined;
+            let hasShadow = false;
             let processedAlt = altText;
             
-            // !width=XXX 형식 처리
-            const widthMatch = altText.match(/^!width=(\d+)\s(.*)/);
-            if (widthMatch && widthMatch[1]) {
-              width = parseInt(widthMatch[1], 10);
-              processedAlt = widthMatch[2] || ""; // 옵션을 제외한 실제 alt 텍스트
+            // 옵션 순서에 상관없이 모든 옵션 파싱
+            // !shadow 형식 처리
+            if (altText.includes('!shadow')) {
+              hasShadow = true;
+              processedAlt = processedAlt.replace('!shadow ', '').trim();
             }
             
-            // 너비 옵션이 있으면 적용, 없으면 기본 스타일 사용
-            return width ? (
+            // !width=XXX 형식 처리
+            const widthMatch = altText.match(/!width=(\d+)/);
+            if (widthMatch && widthMatch[1]) {
+              width = parseInt(widthMatch[1], 10);
+              processedAlt = processedAlt.replace(/!width=\d+\s*/, '').trim();
+            }
+            
+            // 남은 alt 텍스트가 없으면 기본값 설정
+            if (!processedAlt || processedAlt.trim() === '') {
+              processedAlt = "Image";
+            }
+            
+            // 스타일 객체 생성
+            const styleObj: React.CSSProperties = {
+              ...(width ? { width: `${width}px`, height: 'auto' } : {}),
+              ...(hasShadow ? { 
+                boxShadow: '0 10px 25px rgba(0, 0, 0, 0.15)',
+                borderRadius: '8px' 
+              } : {})
+            };
+            
+            // 커스텀 클래스 생성
+            const imageClassName = `${styles.image} ${hasShadow ? styles.imageShadow : ''}`;
+            
+            return (
               <img 
-                className={styles.image} 
+                className={imageClassName} 
                 src={src} 
                 alt={processedAlt}
                 width={width}
-                style={{ width: `${width}px`, height: 'auto' }}
-                {...props} 
-              />
-            ) : (
-              <img 
-                className={styles.image} 
-                src={src} 
-                alt={processedAlt} 
+                style={styleObj}
                 {...props} 
               />
             );
