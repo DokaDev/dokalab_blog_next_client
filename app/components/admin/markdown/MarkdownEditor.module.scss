@@ -93,19 +93,22 @@
   border-right: 1px solid #e2e8f0;
 }
 
-.markdownInput {
-  width: 100%;
+// CodeMirror 관련 스타일
+.codeMirrorWrapper {
   height: 100%;
+  width: 100%;
   min-height: 500px;
-  padding: 1.5rem;
-  border: none;
-  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
-  font-size: 0.95rem;
-  line-height: 1.7;
-  resize: none;
-  outline: none;
-  background-color: #f8fafc;
-  color: #334155;
+  
+  :global(.cm-editor) {
+    height: 100%;
+    min-height: 500px;
+  }
+  
+  :global(.cm-scroller) {
+    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
 }
 
 .previewPane {

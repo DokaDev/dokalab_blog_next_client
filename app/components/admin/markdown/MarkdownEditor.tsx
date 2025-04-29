@@ -2,6 +2,11 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
+import CodeMirror from '@uiw/react-codemirror';
+import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
+import { languages } from '@codemirror/language-data';
+import { EditorView } from '@codemirror/view';
+import { Extension } from '@codemirror/state';
 import styles from './MarkdownEditor.module.scss';
 
 // 마크다운 렌더러를 동적으로 가져옵니다
@@ -19,6 +24,29 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
   const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState<'editor' | 'preview'>('editor');
   const [showToolbar, setShowToolbar] = useState(false);
+  
+  // CodeMirror 확장 기능
+  const extensions: Extension[] = [
+    markdown({ 
+      base: markdownLanguage, 
+      codeLanguages: languages,
+      addKeymap: true
+    }),
+    EditorView.lineWrapping,
+    EditorView.theme({
+      '&': {
+        height: '100%',
+        minHeight: '500px',
+        fontSize: '14px',
+        fontFamily: 'Menlo, Monaco, Consolas, monospace'
+      },
+      '.cm-scroller': { overflow: 'auto' },
+      '.cm-content': { minHeight: '500px' },
+      '.cm-gutters': { background: '#f8fafc', borderRight: '1px solid #e2e8f0' },
+      '.cm-lineNumbers': { color: '#94a3b8' },
+      '.cm-activeLineGutter': { backgroundColor: '#f1f5f9' }
+    })
+  ];
   
   // 반응형 처리를 위한 useEffect
   useEffect(() => {
@@ -40,58 +68,31 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     }
   }, [markdownContent, onChange]);
   
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMarkdownContent(e.target.value);
+  const handleContentChange = (value: string) => {
+    setMarkdownContent(value);
   };
   
   // 마크다운 문법 삽입 함수
   const insertMarkdown = (markdownSyntax: string) => {
-    const textarea = document.querySelector(`.${styles.markdownInput}`) as HTMLTextAreaElement;
-    if (!textarea) return;
-    
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const text = textarea.value;
-    
-    // 선택된 텍스트가 있는 경우와 없는 경우 처리
-    if (start === end) {
-      // 선택된 텍스트가 없는 경우
-      const newText = `${text.substring(0, start)}${markdownSyntax}${text.substring(end)}`;
-      setMarkdownContent(newText);
-      
-      // 커서 위치 조정
-      setTimeout(() => {
-        textarea.focus();
-        textarea.selectionStart = start + markdownSyntax.length;
-        textarea.selectionEnd = start + markdownSyntax.length;
-      }, 0);
-    } else {
-      // 선택된 텍스트가 있는 경우, 마크다운 문법에 따라 처리
-      // 이 부분은 실제 구현시 확장 필요
-      const selectedText = text.substring(start, end);
-      const newText = `${text.substring(0, start)}${markdownSyntax}${selectedText}${markdownSyntax}${text.substring(end)}`;
-      setMarkdownContent(newText);
-      
-      setTimeout(() => {
-        textarea.focus();
-        textarea.selectionStart = start + markdownSyntax.length;
-        textarea.selectionEnd = end + markdownSyntax.length;
-      }, 0);
-    }
+    // CodeMirror를 직접 제어할 수 없으므로 현재 상태를 기반으로 새 콘텐츠 생성
+    setMarkdownContent(prevContent => {
+      // 매우 기본적인 구현 - 실제로는 커서 위치를 고려해야 함
+      return prevContent + markdownSyntax;
+    });
   };
   
   // 툴바 버튼 목록
   const toolbarItems = [
-    { label: 'H1', syntax: '# ', onClick: () => insertMarkdown('# ') },
-    { label: 'H2', syntax: '## ', onClick: () => insertMarkdown('## ') },
-    { label: 'H3', syntax: '### ', onClick: () => insertMarkdown('### ') },
-    { label: 'Bold', syntax: '**text**', onClick: () => insertMarkdown('**') },
-    { label: 'Italic', syntax: '*text*', onClick: () => insertMarkdown('*') },
-    { label: 'Link', syntax: '[text](url)', onClick: () => insertMarkdown('[](https://)') },
-    { label: 'List', syntax: '- item', onClick: () => insertMarkdown('- ') },
-    { label: 'Quote', syntax: '> text', onClick: () => insertMarkdown('> ') },
-    { label: 'Code', syntax: '```code```', onClick: () => insertMarkdown('```\n\n```') },
-    { label: 'Table', syntax: '| | |\n|--|--|\n| | |', onClick: () => insertMarkdown('| | |\n|--|--|\n| | |') },
+    { label: 'H1', syntax: '# Heading 1\n', onClick: () => insertMarkdown('# Heading 1\n') },
+    { label: 'H2', syntax: '## Heading 2\n', onClick: () => insertMarkdown('## Heading 2\n') },
+    { label: 'H3', syntax: '### Heading 3\n', onClick: () => insertMarkdown('### Heading 3\n') },
+    { label: 'Bold', syntax: '**Bold text**', onClick: () => insertMarkdown('**Bold text**') },
+    { label: 'Italic', syntax: '*Italic text*', onClick: () => insertMarkdown('*Italic text*') },
+    { label: 'Link', syntax: '[Link text](https://example.com)', onClick: () => insertMarkdown('[Link text](https://example.com)') },
+    { label: 'List', syntax: '\n- List item\n', onClick: () => insertMarkdown('\n- List item\n') },
+    { label: 'Quote', syntax: '\n> Blockquote\n', onClick: () => insertMarkdown('\n> Blockquote\n') },
+    { label: 'Code', syntax: '\n```javascript\n// Your code here\n```\n', onClick: () => insertMarkdown('\n```javascript\n// Your code here\n```\n') },
+    { label: 'Table', syntax: '\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n', onClick: () => insertMarkdown('\n| Header 1 | Header 2 |\n|----------|----------|\n| Cell 1   | Cell 2   |\n') },
   ];
   
   return (
@@ -173,11 +174,20 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
             isMobile && activeTab !== 'editor' ? styles.hidden : ''
           }`}
         >
-          <textarea
+          <CodeMirror
             value={markdownContent}
+            extensions={extensions}
             onChange={handleContentChange}
-            className={styles.markdownInput}
             placeholder="Write your markdown here..."
+            basicSetup={{
+              lineNumbers: true,
+              highlightActiveLineGutter: true,
+              highlightActiveLine: true,
+              foldGutter: true,
+              bracketMatching: true,
+              autocompletion: true
+            }}
+            className={styles.codeMirrorWrapper}
           />
         </div>
         

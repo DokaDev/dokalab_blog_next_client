@@ -18,7 +18,7 @@ export default function AdminPage() {
     {
       title: 'Markdown Editor',
       description: 'Create and edit blog posts with markdown',
-      path: '/admin/markdown-editor'
+      path: '/admin/editor'
     },
     // 추후 다른 관리자 메뉴 추가 예정
   ];
@@ -36,9 +36,6 @@ export default function AdminPage() {
         <nav className={styles.adminNav}>
           <Link href="/admin" className={`${styles.navItem} ${styles.active}`}>
             Dashboard
-          </Link>
-          <Link href="/admin/markdown-editor" className={styles.navItem}>
-            Markdown Editor
           </Link>
           {/* 추후 다른 관리자 메뉴 링크 추가 예정 */}
         </nav>
