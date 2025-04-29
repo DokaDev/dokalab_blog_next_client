@@ -1,0 +1,202 @@
+.editorContainer {
+  width: 100%;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  margin-top: 1rem;
+}
+
+// 에디터 도구 영역
+.toolbar {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+  gap: 0.5rem;
+  overflow-x: auto;
+  
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 3px;
+  }
+}
+
+.toolbarButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.75rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 4px;
+  background-color: white;
+  color: #64748b;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    border-color: #cbd5e1;
+    background-color: #f8fafc;
+    color: #334155;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+  }
+  
+  &.active {
+    background-color: #eff6ff;
+    border-color: #93c5fd;
+    color: #2563eb;
+  }
+}
+
+.toolbarGroup {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0 0.5rem;
+  border-right: 1px solid #e2e8f0;
+  
+  &:last-child {
+    border-right: none;
+  }
+}
+
+// 에디터 콘텐츠 영역
+.editorContent {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  width: 100%;
+  min-height: 500px;
+}
+
+.editorPane, .previewPane {
+  width: 100%;
+  min-height: 500px;
+}
+
+.editorPane {
+  border-right: 1px solid #e2e8f0;
+}
+
+.markdownInput {
+  width: 100%;
+  height: 100%;
+  min-height: 500px;
+  padding: 1.5rem;
+  border: none;
+  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  resize: none;
+  outline: none;
+  background-color: #f8fafc;
+  color: #334155;
+}
+
+.previewPane {
+  padding: 1.5rem;
+  background-color: white;
+  overflow-y: auto;
+}
+
+// 모바일 탭 컨트롤
+.tabControls {
+  display: none;
+  width: 100%;
+  background-color: #f8fafc;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.tabButton {
+  padding: 0.75rem 1rem;
+  background-color: transparent;
+  border: none;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  
+  &:focus {
+    outline: none;
+  }
+  
+  &.active {
+    color: #644AC9;
+    border-bottom: 2px solid #644AC9;
+  }
+}
+
+// 모바일 환경에서 숨겨질 요소
+.hidden {
+  display: none;
+}
+
+// 모바일 토글 버튼
+.mobileToggle {
+  display: none;
+  width: 100%;
+  padding: 0.75rem;
+  background-color: #f8fafc;
+  border: none;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: center;
+  font-weight: 500;
+  color: #64748b;
+  cursor: pointer;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// 반응형 스타일
+@media (max-width: 768px) {
+  .editorContent {
+    grid-template-columns: 1fr;
+  }
+  
+  .editorPane {
+    border-right: none;
+  }
+  
+  .tabControls {
+    display: flex;
+  }
+  
+  .toolbar {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .mobileToggle {
+    display: block;
+  }
+  
+  .toolbarCollapsible {
+    display: none;
+    width: 100%;
+    
+    &.expanded {
+      display: flex;
+      flex-wrap: wrap;
+      padding: 0.5rem;
+      gap: 0.5rem;
+      justify-content: flex-start;
+    }
+  }
+} 
