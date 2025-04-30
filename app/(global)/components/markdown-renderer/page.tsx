@@ -7,7 +7,7 @@ import dynamic from 'next/dynamic';
 
 // Load MarkdownRenderer with dynamic import on the client side
 // If ssr is not set to false, errors may occur when server components try to render on the client
-const MarkdownRenderer = dynamic(() => import('../markdown/MarkdownRenderer'), { ssr: true });
+const MarkdownRenderer = dynamic(() => import('../../../components/markdown/MarkdownRenderer'), { ssr: true });
 
 // Client component for editor mode
 const MarkdownEditor = ({ markdownInput, setMarkdownInput }: { markdownInput: string, setMarkdownInput: (value: string) => void }) => (
@@ -71,6 +71,10 @@ Before diving deep into React Query, it's crucial to understand the distinction 
 ## Key Features of React Query
 
 ### 1. Automatic Background Updates
+
+\`\`\`java
+{}
+\`\`\`
 
 React Query provides sophisticated background update mechanisms:
 

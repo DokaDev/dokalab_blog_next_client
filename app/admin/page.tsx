@@ -1,60 +1,27 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import styles from './page.module.scss';
 
-interface AdminMenuItem {
-  title: string;
-  description: string;
-  path: string;
-}
-
-export default function AdminPage() {
-  const router = useRouter();
-  
-  // 관리자 메뉴 항목 목록
-  const adminMenuItems: AdminMenuItem[] = [
-    {
-      title: 'Markdown Editor',
-      description: 'Create and edit blog posts with markdown',
-      path: '/admin/editor'
-    },
-    // 추후 다른 관리자 메뉴 추가 예정
-  ];
+export default function AdminDashboardPage() {
+  useEffect(() => {
+    // Admin 페이지 초기화 로직을 여기에 작성합니다
+  }, []);
 
   return (
-    <main className="subPage">
-      <div className={styles.container}>
-        <div className={styles.header}>
-          <h1 className={styles.title}>Admin Dashboard</h1>
-          <p className={styles.description}>
-            Manage your blog content and settings from this dashboard.
-          </p>
-        </div>
-        
-        <nav className={styles.adminNav}>
-          <Link href="/admin" className={`${styles.navItem} ${styles.active}`}>
-            Dashboard
+    <div className={styles.container}>
+      <h2 className={styles.title}>관리자 대시보드</h2>
+      
+      <div className={styles.actionCard}>
+        <h3>콘텐츠 관리</h3>
+        <div className={styles.actionLinks}>
+          <Link href="/admin/editor" className={styles.actionLink}>
+            마크다운 에디터
           </Link>
-          {/* 추후 다른 관리자 메뉴 링크 추가 예정 */}
-        </nav>
-        
-        <div className={styles.content}>
-          <div className={styles.adminGrid}>
-            {adminMenuItems.map((item, index) => (
-              <div 
-                key={index}
-                className={styles.adminCard}
-                onClick={() => router.push(item.path)}
-              >
-                <h2>{item.title}</h2>
-                <p>{item.description}</p>
-              </div>
-            ))}
-          </div>
+          {/* 추가 링크들 */}
         </div>
       </div>
-    </main>
+    </div>
   );
 } 
