@@ -73,7 +73,21 @@ Before diving deep into React Query, it's crucial to understand the distinction 
 ### 1. Automatic Background Updates
 
 \`\`\`java
+\`\`\`
+
+\`\`\`java
 {}
+\`\`\`
+
+\`\`\`java
+{
+}
+\`\`\`
+
+\`\`\`java
+{
+    // Your Code is Here
+}
 \`\`\`
 
 React Query provides sophisticated background update mechanisms:
