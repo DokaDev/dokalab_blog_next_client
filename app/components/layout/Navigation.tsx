@@ -52,7 +52,8 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
     { label: 'About', path: '/about' },
     { label: 'Blog', path: '/blog' },
     { label: 'Contact', path: '/contact' },
-    { label: 'Components', path: '/components' }
+    { label: 'Components', path: '/components' },
+    { label: 'Admin', path: '/admin' }
   ];
 
   // Client-side navigation handler
