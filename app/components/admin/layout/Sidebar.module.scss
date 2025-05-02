@@ -10,6 +10,15 @@
   left: 0;
   bottom: 0;
   z-index: 100;
+  transition: transform 0.3s ease;
+  
+  @media (max-width: 992px) {
+    transform: translateX(-100%);
+    
+    &.open {
+      transform: translateX(0);
+    }
+  }
 }
 
 .sidebarHeader {
@@ -122,13 +131,6 @@
 }
 
 // 반응형 스타일
-@media (max-width: 992px) {
-  .sidebar {
-    width: 280px;
-    transform: translateX(-100%);
-  }
-}
-
 @media (max-width: 768px) {
   .sidebar {
     width: 100%;

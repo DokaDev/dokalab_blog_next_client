@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import styles from './Sidebar.module.scss';
@@ -11,13 +10,17 @@ interface MenuItem {
   icon: React.ReactNode;
 }
 
-export default function Sidebar() {
+interface SidebarProps {
+  isOpen: boolean;
+}
+
+export default function Sidebar({ isOpen }: SidebarProps) {
   const pathname = usePathname();
   
-  // 메뉴 아이템 정의
+  // Menu items definition
   const menuItems: MenuItem[] = [
     {
-      name: '대시보드',
+      name: 'Dashboard',
       path: '/admin',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -29,7 +32,7 @@ export default function Sidebar() {
       )
     },
     {
-      name: '글 작성',
+      name: 'Write Post',
       path: '/admin/editor',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -39,7 +42,7 @@ export default function Sidebar() {
       )
     },
     {
-      name: '글 관리',
+      name: 'Posts',
       path: '/admin/posts',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -52,7 +55,7 @@ export default function Sidebar() {
       )
     },
     {
-      name: '카테고리',
+      name: 'Categories',
       path: '/admin/categories',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -61,7 +64,7 @@ export default function Sidebar() {
       )
     },
     {
-      name: '설정',
+      name: 'Settings',
       path: '/admin/settings',
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -73,7 +76,7 @@ export default function Sidebar() {
   ];
   
   return (
-    <aside className={styles.sidebar}>
+    <aside className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
       <div className={styles.sidebarHeader}>
         <h2 className={styles.sidebarTitle}>DokaDev</h2>
       </div>
@@ -105,7 +108,7 @@ export default function Sidebar() {
             <path d="M15 3h6v6" />
             <path d="m10 14 11-11" />
           </svg>
-          <span>사이트 보기</span>
+          <span>View Site</span>
         </Link>
       </div>
     </aside>
