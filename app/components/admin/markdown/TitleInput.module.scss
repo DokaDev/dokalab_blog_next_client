@@ -1,0 +1,113 @@
+.titleInputContainer {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.titleInput {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  
+  &:focus {
+    outline: none;
+    border-color: #644AC9;
+    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+  }
+  
+  &::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+  }
+  
+  &.hasError {
+    border-color: #e53e3e;
+    
+    &:focus {
+      box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+    }
+  }
+}
+
+.titleCounter {
+  position: absolute;
+  right: 1rem;
+  bottom: -1.5rem;
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.warningCount {
+  color: #f59e0b;
+}
+
+// 에러 모달
+.errorModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1000;
+}
+
+.errorModalContent {
+  width: 90%;
+  max-width: 400px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.errorModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  
+  h4 {
+    margin: 0;
+    font-size: 1.1rem;
+  }
+  
+  .closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    color: #b91c1c;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: rgba(185, 28, 28, 0.1);
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
+    }
+  }
+}
+
+.errorMessage {
+  padding: 1.5rem;
+  color: #4b5563;
+  font-size: 1rem;
+  line-height: 1.5;
+} 

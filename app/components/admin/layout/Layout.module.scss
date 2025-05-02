@@ -1,0 +1,30 @@
+.adminLayout {
+  display: flex;
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f8fafc;
+}
+
+.content {
+  flex: 1;
+  padding: 2rem;
+  margin-top: 72px;
+  margin-left: 280px;
+  transition: margin-left 0.3s ease;
+  width: calc(100% - 280px);
+  
+  @media (max-width: 992px) {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+.contentExpanded {
+  margin-left: 80px;
+  width: calc(100% - 80px);
+  
+  @media (max-width: 992px) {
+    margin-left: 0;
+    width: 100%;
+  }
+} 
