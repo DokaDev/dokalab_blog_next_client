@@ -398,11 +398,6 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
             </button>
             <span className={styles.tooltip} id={`tooltip-${index}`} role="tooltip">
               {item.label}
-              {item.syntax && (
-                <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '4px', opacity: 0.9 }}>
-                  {item.syntax.length > 30 ? item.syntax.substring(0, 30) + '...' : item.syntax}
-                </span>
-              )}
             </span>
           </div>
         ))}
