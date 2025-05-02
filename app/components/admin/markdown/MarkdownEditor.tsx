@@ -391,13 +391,19 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
             <button
               className={styles.toolbarButton}
               onClick={item.onClick}
-              title={item.label}
+              aria-label={item.label}
+              data-tooltip-id={`tooltip-${index}`}
             >
               {item.icon}
             </button>
-            <div className={styles.tooltip}>
+            <span className={styles.tooltip} id={`tooltip-${index}`} role="tooltip">
               {item.label}
-            </div>
+              {item.syntax && (
+                <span style={{ display: 'block', fontSize: '0.75rem', marginTop: '4px', opacity: 0.9 }}>
+                  {item.syntax.length > 30 ? item.syntax.substring(0, 30) + '...' : item.syntax}
+                </span>
+              )}
+            </span>
           </div>
         ))}
       </div>
