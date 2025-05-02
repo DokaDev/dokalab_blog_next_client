@@ -382,14 +382,18 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
       {/* 툴바 */}
       <div className={`${styles.toolbar} ${isMobile && !showToolbar ? styles.hidden : ''}`}>
         {toolbarItems.map((item, index) => (
-          <button
-            key={index}
-            className={styles.toolbarButton}
-            onClick={item.onClick}
-            title={item.label}
-          >
-            {item.icon}
-          </button>
+          <div key={index} className={styles.tooltipWrapper}>
+            <button
+              className={styles.toolbarButton}
+              onClick={item.onClick}
+              title={item.label}
+            >
+              {item.icon}
+            </button>
+            <div className={styles.tooltip}>
+              {item.label}
+            </div>
+          </div>
         ))}
       </div>
       

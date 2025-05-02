@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
+import { useState, useEffect, useRef } from 'react';
 import styles from './page.module.scss';
 import MarkdownEditor from '@/app/components/admin/markdown/MarkdownEditor';
 import TitleInput from '@/app/components/admin/markdown/TitleInput';
@@ -14,28 +13,30 @@ export default function MarkdownEditorPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [markdownContent, setMarkdownContent] = useState('');
   const [isDirty, setIsDirty] = useState(false);
+  const [titleError, setTitleError] = useState('');
+  const [isTitleValid, setIsTitleValid] = useState(true);
   
   // 마크다운 예시 콘텐츠
-  const exampleMarkdown = `# Welcome to Markdown Editor
+  const exampleMarkdown = `# 마크다운 에디터에 오신 것을 환영합니다
 
-This is a simple example of how the markdown editor works.
+이것은 마크다운 에디터 작동 방식의 간단한 예시입니다.
 
-## Features
+## 기능
 
-- **Bold text** and *italic text*
-- Lists (ordered and unordered)
-- [Links](https://example.com)
-- Code blocks:
+- **굵은 텍스트**와 *기울임 텍스트*
+- 목록 (순서 있는 목록과 없는 목록)
+- [링크](https://example.com)
+- 코드 블록:
 
 \`\`\`javascript
 function hello() {
-  console.log("Hello World");
+  console.log("안녕하세요");
 }
 \`\`\`
 
-> Blockquotes are also supported
+> 인용구도 지원됩니다
 
-Enjoy writing with markdown!
+마크다운으로 즐겁게 작성하세요!
 `;
 
   // 초기 마크다운 콘텐츠 설정
@@ -57,6 +58,12 @@ Enjoy writing with markdown!
     setTitle(newTitle);
   };
   
+  // 타이틀 유효성 검사 핸들러
+  const handleTitleValidation = (isValid: boolean, errorMessage: string) => {
+    setIsTitleValid(isValid);
+    setTitleError(errorMessage);
+  };
+  
   // 카테고리 변경 핸들러
   const handleCategoryChange = (newCategory: string) => {
     setCategory(newCategory);
@@ -74,6 +81,17 @@ Enjoy writing with markdown!
   
   // 저장 핸들러 (현재는 콘솔에 출력만)
   const handleSave = () => {
+    // 제목 유효성 검사
+    if (!isTitleValid) {
+      alert(titleError || '제목을 올바르게 입력해주세요.');
+      return;
+    }
+    
+    if (title.trim() === '') {
+      alert('제목을 입력해주세요.');
+      return;
+    }
+    
     console.log({
       title,
       category,
@@ -81,46 +99,23 @@ Enjoy writing with markdown!
       markdownContent
     });
     
-    alert('Post saved successfully! (This is a placeholder)');
+    alert('글이 저장되었습니다! (임시 알림)');
     setIsDirty(false);
   };
   
   return (
     <main className={styles.container}>
-      <div className={styles.header}>
-        <Link href="/admin" className={styles.backLink}>
-          ← Back to Dashboard
-        </Link>
-        
-        <h1 className={styles.title}>Markdown Editor</h1>
-        
-        <div className={styles.actions}>
-          <button 
-            className={styles.saveButton}
-            onClick={handleSave}
-            disabled={!isDirty}
-          >
-            Save Post
-          </button>
-        </div>
-      </div>
-      
       <div className={styles.editorForm}>
-        <div className={styles.metadataSection}>
+        <div className={styles.titleSection}>
           <TitleInput 
             initialTitle={title}
             onChange={handleTitleChange}
+            onValidate={handleTitleValidation}
           />
-          
-          <div className={styles.metadataColumns}>
+          <div className={styles.categoryWrapper}>
             <CategorySelector 
               initialCategory={category}
               onChange={handleCategoryChange}
-            />
-            
-            <TagsInput 
-              initialTags={tags}
-              onChange={handleTagsChange}
             />
           </div>
         </div>
@@ -129,6 +124,21 @@ Enjoy writing with markdown!
           initialContent={markdownContent}
           onChange={handleMarkdownChange}
         />
+        
+        <div className={styles.footerSection}>
+          <TagsInput 
+            initialTags={tags}
+            onChange={handleTagsChange}
+          />
+          
+          <button 
+            className={styles.saveButton}
+            onClick={handleSave}
+            disabled={!isDirty}
+          >
+            저장하기
+          </button>
+        </div>
       </div>
     </main>
   );

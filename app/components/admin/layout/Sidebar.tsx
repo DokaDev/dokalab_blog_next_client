@@ -13,7 +13,6 @@ interface MenuItem {
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const [collapsed, setCollapsed] = useState(false);
   
   // 메뉴 아이템 정의
   const menuItems: MenuItem[] = [
@@ -73,30 +72,10 @@ export default function Sidebar() {
     }
   ];
   
-  // 사이드바 토글 핸들러
-  const toggleSidebar = () => {
-    setCollapsed(!collapsed);
-  };
-  
   return (
-    <aside className={`${styles.sidebar} ${collapsed ? styles.collapsed : ''}`}>
+    <aside className={styles.sidebar}>
       <div className={styles.sidebarHeader}>
         <h2 className={styles.sidebarTitle}>DokaDev</h2>
-        <button 
-          className={styles.collapseButton} 
-          onClick={toggleSidebar}
-          aria-label="Toggle sidebar"
-        >
-          {collapsed ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          )}
-        </button>
       </div>
       
       <nav className={styles.navigation}>
@@ -111,7 +90,7 @@ export default function Sidebar() {
                   className={`${styles.menuLink} ${isActive ? styles.active : ''}`}
                 >
                   <span className={styles.menuIcon}>{item.icon}</span>
-                  {!collapsed && <span className={styles.menuText}>{item.name}</span>}
+                  <span className={styles.menuText}>{item.name}</span>
                 </Link>
               </li>
             );
@@ -126,7 +105,7 @@ export default function Sidebar() {
             <path d="M15 3h6v6" />
             <path d="m10 14 11-11" />
           </svg>
-          {!collapsed && <span>사이트 보기</span>}
+          <span>사이트 보기</span>
         </Link>
       </div>
     </aside>

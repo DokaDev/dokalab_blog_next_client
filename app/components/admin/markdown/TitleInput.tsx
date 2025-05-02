@@ -6,9 +6,10 @@ import styles from './TitleInput.module.scss';
 interface TitleInputProps {
   initialTitle?: string;
   onChange?: (title: string) => void;
+  onValidate?: (isValid: boolean, errorMessage: string) => void;
 }
 
-export default function TitleInput({ initialTitle = '', onChange }: TitleInputProps) {
+export default function TitleInput({ initialTitle = '', onChange, onValidate }: TitleInputProps) {
   const [title, setTitle] = useState(initialTitle);
   const [error, setError] = useState('');
   const [showError, setShowError] = useState(false);
@@ -20,8 +21,12 @@ export default function TitleInput({ initialTitle = '', onChange }: TitleInputPr
     }
     
     // 실시간 유효성 검사를 위한 로직 (선택적)
-    validateTitle(title, false);
-  }, [title, onChange]);
+    const isValid = validateTitle(title, false);
+    
+    if (onValidate) {
+      onValidate(isValid, error);
+    }
+  }, [title, onChange, onValidate, error]);
   
   // 제목 변경 핸들러
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +34,7 @@ export default function TitleInput({ initialTitle = '', onChange }: TitleInputPr
   };
   
   // 제목 유효성 검사
-  const validateTitle = (value: string, showErrorMessage = true) => {
+  const validateTitle = (value: string, showErrorMessage = false) => {
     if (value.trim() === '') {
       setError('Title cannot be empty');
       if (showErrorMessage) setShowError(true);
@@ -46,14 +51,14 @@ export default function TitleInput({ initialTitle = '', onChange }: TitleInputPr
     return true;
   };
   
-  // 포커스를 잃었을 때 유효성 검사
-  const handleBlur = () => {
-    validateTitle(title, true);
-  };
-  
   // 에러 모달 닫기
   const handleCloseError = () => {
     setShowError(false);
+  };
+  
+  // 외부에서 에러 표시를 트리거하는 메소드 (ref를 통해 호출 가능)
+  const showErrorMessage = () => {
+    validateTitle(title, true);
   };
   
   return (
@@ -63,7 +68,6 @@ export default function TitleInput({ initialTitle = '', onChange }: TitleInputPr
         className={`${styles.titleInput} ${error ? styles.hasError : ''}`}
         value={title}
         onChange={handleTitleChange}
-        onBlur={handleBlur}
         placeholder="Enter post title..."
         aria-label="Post title"
         maxLength={255}

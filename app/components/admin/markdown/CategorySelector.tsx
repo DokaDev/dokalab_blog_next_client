@@ -26,8 +26,6 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
   const [category, setCategory] = useState(initialCategory);
   const [showModal, setShowModal] = useState(false);
   const [searchTerm, setSearchTerm] = useState('');
-  const [error, setError] = useState('');
-  const [showError, setShowError] = useState(false);
   
   const searchInputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
@@ -69,23 +67,6 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
     setSearchTerm(e.target.value);
   };
   
-  // 카테고리 유효성 검사
-  const validateCategory = () => {
-    if (category === 'No Category') {
-      setError('Please select a category');
-      setShowError(true);
-      return false;
-    }
-    
-    setError('');
-    return true;
-  };
-  
-  // 에러 모달 닫기
-  const handleCloseError = () => {
-    setShowError(false);
-  };
-  
   // 모달 외부 클릭 처리
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -105,23 +86,24 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
   
   return (
     <div className={styles.categorySelector}>
-      <div 
-        className={styles.selectedCategory}
+      <button 
+        className={styles.categoryButton}
         onClick={toggleModal}
+        type="button"
       >
         <span className={category === 'No Category' ? styles.noCategory : ''}>
           {category}
         </span>
-        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="m6 9 6 6 6-6"/>
         </svg>
-      </div>
+      </button>
       
       {/* 카테고리 선택 모달 */}
       {showModal && (
         <div className={styles.categoryModal} ref={modalRef}>
           <div className={styles.modalHeader}>
-            <h3>Select Category</h3>
+            <h3>카테고리 선택</h3>
             <button 
               className={styles.closeButton}
               onClick={toggleModal}
@@ -138,7 +120,7 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="Search categories..."
+              placeholder="검색..."
               value={searchTerm}
               onChange={handleSearchChange}
               ref={searchInputRef}
@@ -147,19 +129,6 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
               <circle cx="11" cy="11" r="8"></circle>
               <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
             </svg>
-            
-            {searchTerm && (
-              <button 
-                className={styles.clearButton}
-                onClick={() => setSearchTerm('')}
-                aria-label="Clear search"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            )}
           </div>
           
           <div className={styles.categoriesList}>
@@ -182,46 +151,9 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
               ))
             ) : (
               <div className={styles.noResults}>
-                No categories found matching "{searchTerm}"
+                "{searchTerm}" 검색 결과가 없습니다
               </div>
             )}
-          </div>
-          
-          <div className={styles.modalFooter}>
-            <button 
-              className={styles.validateButton}
-              onClick={() => {
-                if (validateCategory()) {
-                  setShowModal(false);
-                }
-              }}
-            >
-              Confirm Selection
-            </button>
-          </div>
-        </div>
-      )}
-      
-      {/* 에러 모달 */}
-      {showError && error && (
-        <div className={styles.errorModal}>
-          <div className={styles.errorModalContent}>
-            <div className={styles.errorModalHeader}>
-              <h4>Error</h4>
-              <button 
-                className={styles.closeButton}
-                onClick={handleCloseError}
-                aria-label="Close error message"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <line x1="18" y1="6" x2="6" y2="18"></line>
-                  <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-              </button>
-            </div>
-            <div className={styles.errorMessage}>
-              {error}
-            </div>
           </div>
         </div>
       )}

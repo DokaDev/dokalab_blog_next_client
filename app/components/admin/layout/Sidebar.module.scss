@@ -5,24 +5,18 @@
   height: 100%;
   background-color: #f8fafc;
   border-right: 1px solid #e2e8f0;
-  transition: all 0.3s ease;
   position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
   z-index: 100;
-  
-  &.collapsed {
-    width: 80px;
-  }
 }
 
 .sidebarHeader {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 1.5rem 1.5rem;
-  border-bottom: 1px solid #e2e8f0;
 }
 
 .sidebarTitle {
@@ -33,30 +27,6 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.collapseButton {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 6px;
-  border: none;
-  background-color: white;
-  color: #64748b;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: #f1f5f9;
-    color: #334155;
-  }
-  
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
-  }
 }
 
 .navigation {
@@ -129,7 +99,6 @@
 
 .sidebarFooter {
   padding: 1.5rem;
-  border-top: 1px solid #e2e8f0;
 }
 
 .viewSiteLink {
@@ -155,12 +124,8 @@
 // 반응형 스타일
 @media (max-width: 992px) {
   .sidebar {
-    width: 240px;
-    
-    &.collapsed {
-      width: 0;
-      transform: translateX(-100%);
-    }
+    width: 280px;
+    transform: translateX(-100%);
   }
 }
 
@@ -168,10 +133,6 @@
   .sidebar {
     width: 100%;
     max-width: 280px;
-    
-    &.collapsed {
-      width: 0;
-      transform: translateX(-100%);
-    }
+    transform: translateX(-100%);
   }
 } 
