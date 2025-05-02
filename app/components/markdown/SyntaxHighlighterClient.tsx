@@ -31,6 +31,16 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
+  // 코드 줄 수를 계산
+  const lineCount = value.split('\n').length;
+  // 줄 수에 따라 패딩을 동적으로 조정
+  const getContentPadding = () => {
+    if (lineCount <= 2) {
+      return isMobile ? '0.5rem 0.8rem' : '0.75rem 1.25rem';  // 줄 수가 적을 때 패딩 감소
+    }
+    return isMobile ? '0.8rem' : '1.25rem';  // 기본 패딩
+  };
+  
   // Detect screen size
   useEffect(() => {
     const checkIfMobile = () => {
@@ -181,7 +191,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       ...oneLight['pre[class*="language-"]'],
       fontSize: fontSizeBase,
       margin: 0,
-      padding: isMobile ? '0.8rem' : '1.25rem',
+      padding: getContentPadding(), // 줄 수에 따라 패딩 적용
       borderRadius: 0,
       background: '#f8fafc',
     },
@@ -302,12 +312,14 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
         className={`code-scroll-container 
           ${isScrolling ? 'is-scrolling' : ''} 
           ${hasOverflowX ? 'has-overflow-x' : ''} 
-          ${!isMobile && hasOverflowX ? 'desktop-scrollbar' : ''}`}
+          ${!isMobile && hasOverflowX ? 'desktop-scrollbar' : ''}
+          ${lineCount <= 2 ? 'few-lines' : ''}`}
         onScroll={handleScroll}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         data-has-overflow={hasOverflowX ? 'true' : 'false'}
         data-is-desktop={!isMobile ? 'true' : 'false'}
+        data-line-count={lineCount}
       >
         <SyntaxHighlighter
           style={customStyle}
@@ -345,7 +357,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
           }}
           customStyle={{
             margin: 0,
-            padding: isMobile ? '0.8rem' : '1.25rem',
+            padding: getContentPadding(), // 줄 수에 따라 패딩 적용
             background: '#f8fafc',
             borderRadius: 0,
             minWidth: 'max-content',
