@@ -133,13 +133,13 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
   return (
     <div className={styles.tagsInputContainer}>
       <div className={styles.tagsHeader}>
-        <h3>태그</h3>
+        <h3>Tags</h3>
         <button 
           className={styles.manageButton}
           onClick={openTagsModal}
           type="button"
         >
-          태그 관리
+          Manage Tags
         </button>
       </div>
       
@@ -168,7 +168,7 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            placeholder={tags.length === 0 ? "태그 추가..." : ""}
+            placeholder={tags.length === 0 ? "Add tags..." : ""}
             ref={inputRef}
           />
         </div>
@@ -191,7 +191,7 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
       </div>
       
       <div className={styles.tagsInfo}>
-        <p><kbd>Enter</kbd> 키를 눌러 태그를 추가하세요. 태그는 #으로 시작해야 합니다.</p>
+        <p>Press <kbd>Enter</kbd> to add a tag. Tags must start with #.</p>
       </div>
       
       {/* 태그 관리 모달 */}
@@ -199,11 +199,11 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
         <div className={styles.modalOverlay}>
           <div className={styles.modal}>
             <div className={styles.modalHeader}>
-              <h3>태그 관리</h3>
+              <h3>Manage Tags</h3>
               <button 
                 className={styles.closeButton}
                 onClick={closeTagsModal}
-                aria-label="태그 관리 닫기"
+                aria-label="Close tag management"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -214,19 +214,19 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
             
             <div className={styles.modalBody}>
               <div className={styles.tagsList}>
-                <h4>모든 태그</h4>
+                <h4>All Tags</h4>
                 <div className={styles.allTags}>
                   {sampleTags.map((tag) => (
                     <div key={tag.id} className={styles.tagListItem}>
                       <span className={styles.tagName}>{tag.name}</span>
-                      <span className={styles.tagCount}>{tag.count} 개의 글</span>
+                      <span className={styles.tagCount}>{tag.count} posts</span>
                     </div>
                   ))}
                 </div>
               </div>
               
               <div className={styles.selectedTagsList}>
-                <h4>선택된 태그</h4>
+                <h4>Selected Tags</h4>
                 {tags.length > 0 ? (
                   <div className={styles.selectedTagsItems}>
                     {tags.map((tag, index) => (
@@ -235,7 +235,7 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
                         <button 
                           className={styles.removeTagButton}
                           onClick={() => removeTag(index)}
-                          aria-label={`${tag} 태그 제거`}
+                          aria-label={`Remove tag ${tag}`}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -246,7 +246,7 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
                     ))}
                   </div>
                 ) : (
-                  <p className={styles.noTags}>선택된 태그가 없습니다</p>
+                  <p className={styles.noTags}>No tags selected</p>
                 )}
               </div>
             </div>
@@ -256,7 +256,7 @@ export default function TagsInput({ initialTags = [], onChange }: TagsInputProps
                 className={styles.doneButton}
                 onClick={closeTagsModal}
               >
-                완료
+                Done
               </button>
             </div>
           </div>

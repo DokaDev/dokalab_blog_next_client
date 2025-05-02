@@ -26,6 +26,11 @@ interface ToolbarItem {
   onClick?: () => void;
 }
 
+// 코드미러 참조 타입 정의
+interface CodeMirrorRef {
+  view: EditorView;
+}
+
 export default function MarkdownEditor({ initialContent = '', onChange }: MarkdownEditorProps) {
   const [markdownContent, setMarkdownContent] = useState(initialContent);
   const [isMobile, setIsMobile] = useState(false);
@@ -35,7 +40,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState<{ title: string, content: React.ReactNode }>({ title: '', content: null });
   
-  const codeMirrorRef = useRef<any>(null);
+  const codeMirrorRef = useRef<CodeMirrorRef | null>(null);
   
   // CodeMirror 확장 기능
   const extensions: Extension[] = [

@@ -103,7 +103,7 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
       {showModal && (
         <div className={styles.categoryModal} ref={modalRef}>
           <div className={styles.modalHeader}>
-            <h3>카테고리 선택</h3>
+            <h3>Select Category</h3>
             <button 
               className={styles.closeButton}
               onClick={toggleModal}
@@ -120,7 +120,7 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
             <input
               type="text"
               className={styles.searchInput}
-              placeholder="검색..."
+              placeholder="Search categories..."
               value={searchTerm}
               onChange={handleSearchChange}
               ref={searchInputRef}
@@ -151,7 +151,7 @@ export default function CategorySelector({ initialCategory = 'No Category', onCh
               ))
             ) : (
               <div className={styles.noResults}>
-                "{searchTerm}" 검색 결과가 없습니다
+                No categories found matching "{searchTerm}"
               </div>
             )}
           </div>

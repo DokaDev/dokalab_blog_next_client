@@ -17,26 +17,26 @@ export default function MarkdownEditorPage() {
   const [isTitleValid, setIsTitleValid] = useState(true);
   
   // 마크다운 예시 콘텐츠
-  const exampleMarkdown = `# 마크다운 에디터에 오신 것을 환영합니다
+  const exampleMarkdown = `# Welcome to Markdown Editor
 
-이것은 마크다운 에디터 작동 방식의 간단한 예시입니다.
+This is a simple example of how the markdown editor works.
 
-## 기능
+## Features
 
-- **굵은 텍스트**와 *기울임 텍스트*
-- 목록 (순서 있는 목록과 없는 목록)
-- [링크](https://example.com)
-- 코드 블록:
+- **Bold text** and *italic text*
+- Lists (ordered and unordered)
+- [Links](https://example.com)
+- Code blocks:
 
 \`\`\`javascript
 function hello() {
-  console.log("안녕하세요");
+  console.log("Hello World");
 }
 \`\`\`
 
-> 인용구도 지원됩니다
+> Blockquotes are also supported
 
-마크다운으로 즐겁게 작성하세요!
+Enjoy writing with markdown!
 `;
 
   // 초기 마크다운 콘텐츠 설정
@@ -83,12 +83,12 @@ function hello() {
   const handleSave = () => {
     // 제목 유효성 검사
     if (!isTitleValid) {
-      alert(titleError || '제목을 올바르게 입력해주세요.');
+      alert(titleError || 'Please enter a valid title.');
       return;
     }
     
     if (title.trim() === '') {
-      alert('제목을 입력해주세요.');
+      alert('Title cannot be empty.');
       return;
     }
     
@@ -99,7 +99,7 @@ function hello() {
       markdownContent
     });
     
-    alert('글이 저장되었습니다! (임시 알림)');
+    alert('Post saved successfully! (This is a placeholder)');
     setIsDirty(false);
   };
   
@@ -136,7 +136,7 @@ function hello() {
             onClick={handleSave}
             disabled={!isDirty}
           >
-            저장하기
+            Save Post
           </button>
         </div>
       </div>
