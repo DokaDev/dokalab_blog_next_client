@@ -127,11 +127,11 @@
     overflow: hidden;
     
     &:hover {
-      color: #6b9aff;
+      color: #fda4af;
     }
     
     &.active {
-      color: #6b9aff;
+      color: #fda4af;
       font-weight: 700;
       position: relative;
       transition: all 0.3s ease;
@@ -144,7 +144,7 @@
         transform: translateY(-50%);
         height: 70%;
         width: 3px;
-        background-color: #6b9aff;
+        background-color: #fda4af;
         border-radius: 0 2px 2px 0;
         animation: slideIn 0.3s ease forwards;
       }
@@ -249,11 +249,11 @@
   overflow: hidden;
   
   &:hover {
-    color: #6b9aff;
+    color: #fda4af;
   }
   
   &.active {
-    color: #6b9aff;
+    color: #fda4af;
     font-weight: 600;
     position: relative;
     transform: translateX(3px);
@@ -267,7 +267,7 @@
       transform: translateY(-50%);
       height: 70%;
       width: 3px;
-      background-color: #6b9aff;
+      background-color: #fda4af;
       border-radius: 0 2px 2px 0;
       animation: slideIn 0.3s ease forwards;
     }
@@ -283,11 +283,11 @@
   transition: all 0.3s ease;
   
   .categoryLink:hover & {
-    color: #6b9aff;
+    color: #fda4af;
   }
   
   .categoryLink.active & {
-    color: #6b9aff;
+    color: #fda4af;
     background-color: #eee;
     animation: pulseCount 0.3s ease;
   }
