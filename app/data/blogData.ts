@@ -401,16 +401,28 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-// Helper function to get posts by category ID
-export const getPostsByCategoryId = (categoryId: number): BlogPost[] => {
-  return blogPosts.filter(post => post.categoryId === categoryId);
-};
+// Function to get a category by its ID
+export function getCategoryById(id: number) {
+  return categoryGroups
+    .flatMap(group => group.categories)
+    .find(category => category.id === id);
+}
 
-// Helper function to get category by ID
-export const getCategoryById = (categoryId: number) => {
-  for (const group of categoryGroups) {
-    const category = group.categories.find(cat => cat.id === categoryId);
-    if (category) return category;
-  }
-  return null;
-}; 
+// Function to get posts by category ID
+export function getPostsByCategoryId(categoryId: number) {
+  return blogPosts.filter(post => post.categoryId === categoryId);
+}
+
+// Function to get a tag by its ID
+export function getTagById(id: number) {
+  return blogPosts
+    .flatMap(post => post.tags)
+    .find(tag => tag.id === id);
+}
+
+// Function to get posts by tag ID
+export function getPostsByTagId(tagId: number) {
+  return blogPosts.filter(post => 
+    post.tags.some(tag => tag.id === tagId)
+  );
+} 

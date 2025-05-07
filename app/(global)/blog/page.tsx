@@ -1,159 +1,94 @@
-'use client';
-
-import { useState, useMemo, useEffect } from 'react';
-import { blogPosts, categoryGroups } from '@/app/data/blogData';
+import { blogPosts, categoryGroups, getCategoryById, getPostsByCategoryId } from '@/app/data/blogData';
 import CategorySidebar from '@/app/components/blog/CategorySidebar';
-import BlogPostCard from '@/app/components/blog/BlogPostCard';
+import BlogSearch from '@/app/components/blog/BlogSearch';
 import styles from './page.module.scss';
+import { Metadata } from 'next';
 
-// Pagination component
-const Pagination = ({ 
-  currentPage, 
-  totalPages, 
-  onPageChange 
-}: { 
-  currentPage: number; 
-  totalPages: number; 
-  onPageChange: (page: number) => void 
-}) => {
-  return (
-    <div className={styles.pagination}>
-      <button 
-        onClick={() => onPageChange(currentPage - 1)} 
-        disabled={currentPage === 1}
-        className={styles.paginationButton}
-      >
-        Previous
-      </button>
-      
-      <span className={styles.pageInfo}>
-        {currentPage} / {totalPages}
-      </span>
-      
-      <button 
-        onClick={() => onPageChange(currentPage + 1)} 
-        disabled={currentPage === totalPages}
-        className={styles.paginationButton}
-      >
-        Next
-      </button>
-    </div>
-  );
+type PageProps = {
+  searchParams: { 
+    category?: string;
+    tag?: string;
+  }
 };
 
-export default function BlogPage() {
-  const POSTS_PER_PAGE = 12;
-  const [columnCount, setColumnCount] = useState(3); // 기본값은 3컬럼
-  const [currentPage, setCurrentPage] = useState(1);
+export function generateMetadata({ searchParams }: PageProps): Metadata {
+  const categoryId = searchParams.category ? parseInt(searchParams.category, 10) : null;
+  const tagId = searchParams.tag ? parseInt(searchParams.tag, 10) : null;
   
-  // 화면 크기에 따른 컬럼 수 조정
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 768) {
-        setColumnCount(1);
-      } else if (window.innerWidth <= 1024) {
-        setColumnCount(2);
-      } else {
-        setColumnCount(3);
-      }
-    };
-    
-    // 초기 설정
-    handleResize();
-    
-    // 리사이즈 이벤트 리스너 등록
-    window.addEventListener('resize', handleResize);
-    
-    // 클린업 함수
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
+  // Default title for main blog page
+  let title = 'Blog';
+  
+  // If category is specified, update title to include category name
+  if (categoryId !== null) {
+    const category = getCategoryById(categoryId);
+    if (category) {
+      title = `${category.name} - Blog`;
+    }
+  }
+
+  // If tag is specified, update title to include tag name
+  if (tagId !== null) {
+    const tag = blogPosts.flatMap(post => post.tags).find(tag => tag.id === tagId);
+    if (tag) {
+      title = `${tag.name} - Blog`;
+    }
+  }
+  
+  return {
+    title,
+    description: 'Explore our latest articles, tutorials, and updates',
+  };
+}
+
+export default function BlogPage({ searchParams }: PageProps) {
+  // Check if we have a category filter
+  const categoryId = searchParams.category ? parseInt(searchParams.category, 10) : null;
+  // Check if we have a tag filter
+  const tagId = searchParams.tag ? parseInt(searchParams.tag, 10) : null;
+  
+  let filteredPosts = [...blogPosts];
+  let categoryName = 'All Posts';
+  
+  // Filter posts by category if needed
+  if (categoryId !== null) {
+    const category = getCategoryById(categoryId);
+    if (category) {
+      filteredPosts = getPostsByCategoryId(categoryId);
+      categoryName = category.name;
+    }
+  }
+  
+  // Filter posts by tag if needed
+  if (tagId !== null) {
+    const tagName = filteredPosts.flatMap(post => post.tags).find(tag => tag.id === tagId)?.name;
+    filteredPosts = filteredPosts.filter(post => post.tags.some(tag => tag.id === tagId));
+    if (tagName) {
+      categoryName = `Tagged with '${tagName}'`;
+    }
+  }
   
   // Sort posts by date (newest first)
-  const sortedPosts = useMemo(() => {
-    return [...blogPosts].sort((a, b) => {
-      const dateA = new Date(a.publishedAt);
-      const dateB = new Date(b.publishedAt);
-      return dateB.getTime() - dateA.getTime();
-    });
-  }, []);
-  
-  // Calculate total pages
-  const totalPages = Math.ceil(sortedPosts.length / POSTS_PER_PAGE);
-  
-  // Get current page posts
-  const indexOfLastPost = currentPage * POSTS_PER_PAGE;
-  const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
-  const currentPosts = sortedPosts.slice(indexOfFirstPost, indexOfLastPost);
-  
-  // Distribute posts in columns for masonry effect while preserving order
-  const masonryColumns = useMemo(() => {
-    // Initialize columns array - each column is an array of posts
-    const columns = Array.from({ length: columnCount }, () => [] as typeof blogPosts);
-    
-    // Keep track of next column to place a post (zigzag pattern)
-    let currentColumn = 0;
-    
-    // Place posts in columns in sequential order
-    currentPosts.forEach(post => {
-      columns[currentColumn].push(post);
-      currentColumn = (currentColumn + 1) % columnCount;
-    });
-    
-    return columns;
-  }, [currentPosts, columnCount]);
-  
-  // Handle page change
-  const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
-    // Scroll to top of posts section
-    document.querySelector(`.${styles.posts}`)?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const sortedPosts = filteredPosts.sort((a, b) => {
+    const dateA = new Date(a.publishedAt);
+    const dateB = new Date(b.publishedAt);
+    return dateB.getTime() - dateA.getTime();
+  });
 
   return (
     <div className={styles.container}>
       <div className={styles.content}>
         <div className={styles.sidebar}>
-          <CategorySidebar categoryGroups={categoryGroups} />
+          <CategorySidebar 
+            categoryGroups={categoryGroups} 
+            selectedCategoryId={categoryId} 
+          />
         </div>
         
         <div className={styles.posts}>
-          <div className={styles.postsHeader}>
-            <h2 className={styles.postsTitle}>All Posts</h2>
-            <div className={styles.postsCount}>{sortedPosts.length} articles</div>
-          </div>
-          
-          {sortedPosts.length > 0 ? (
-            <>
-              <div className={styles.masonryGrid}>
-                {masonryColumns.map((column, columnIndex) => (
-                  <div key={`column-${columnIndex}`} className={styles.masonryColumn}>
-                    {column.map((post, postIndex) => (
-                      <div key={post.id} className={styles.postCard}>
-                        <BlogPostCard
-                          post={post}
-                          featured={postIndex === 0 && columnIndex === 0}
-                        />
-                      </div>
-                    ))}
-                  </div>
-                ))}
-              </div>
-              
-              {totalPages > 1 && (
-                <Pagination 
-                  currentPage={currentPage} 
-                  totalPages={totalPages} 
-                  onPageChange={handlePageChange} 
-                />
-              )}
-            </>
-          ) : (
-            <div className={styles.emptyState}>
-              <p>No posts found.</p>
-            </div>
-          )}
+          <BlogSearch 
+            posts={sortedPosts} 
+            categoryName={categoryName} 
+          />
         </div>
       </div>
     </div>

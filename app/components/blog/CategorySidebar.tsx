@@ -2,17 +2,19 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { CategoryGroup } from '@/app/types/blog';
 import { getPostsByCategoryId, blogPosts } from '@/app/data/blogData';
 import styles from './CategorySidebar.module.scss';
 
 interface CategorySidebarProps {
   categoryGroups: CategoryGroup[];
+  selectedCategoryId?: number | null;
 }
 
-const CategorySidebar: React.FC<CategorySidebarProps> = ({ categoryGroups }) => {
-  const pathname = usePathname();
+const CategorySidebar: React.FC<CategorySidebarProps> = ({ 
+  categoryGroups,
+  selectedCategoryId = null  
+}) => {
   const [expandedGroups, setExpandedGroups] = useState<Record<string, boolean>>(() => {
     // By default, expand all category groups
     return categoryGroups.reduce((acc, group) => {
@@ -29,12 +31,12 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categoryGroups }) => 
   };
 
   const isActiveCategory = (categoryId: number): boolean => {
-    return pathname === `/blog/${categoryId}`;
+    return selectedCategoryId === categoryId;
   };
 
-  // Check if we're on the main blog page
+  // Check if we're on the main blog page with no category filter
   const isAllPostsActive = (): boolean => {
-    return pathname === '/blog';
+    return selectedCategoryId === null;
   };
 
   // Get post count for each category
@@ -77,11 +79,11 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({ categoryGroups }) => 
                 </span>
               </div>
               
-              <ul className={styles.categoryList}>
+              <ul className={`${styles.categoryList} ${expandedGroups[group.name] ? styles.expanded : ''}`}>
                 {group.categories.map((category) => (
                   <li key={category.id} className={styles.categoryItem}>
                     <Link 
-                      href={`/blog/${category.id}`}
+                      href={`/blog?category=${category.id}`}
                       className={`${styles.categoryLink} ${isActiveCategory(category.id) ? styles.active : ''}`}
                       title={category.description}
                     >

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { BlogPost } from '@/app/types/blog';
 import { formatDate } from '../../lib/utils';
 import styles from './BlogPostCard.module.scss';
+import { useRouter } from 'next/navigation';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -13,6 +14,13 @@ interface BlogPostCardProps {
 
 const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) => {
   const hasImage = post.coverImage && post.coverImage.trim() !== '';
+  const router = useRouter();
+  
+  const handleTagClick = (e: React.MouseEvent, tagId: number) => {
+    e.preventDefault(); // 링크 기본 동작 방지
+    e.stopPropagation(); // 이벤트 버블링 방지
+    router.push(`/blog?tag=${tagId}`);
+  };
   
   return (
     <article 
@@ -36,7 +44,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
             {post.tags && post.tags.length > 0 && (
               <div className={styles.tags}>
                 {post.tags.slice(0, 2).map((tag) => (
-                  <span key={tag.id} className={styles.tag}>
+                  <span 
+                    key={tag.id} 
+                    className={styles.tag}
+                    onClick={(e) => handleTagClick(e, tag.id)}
+                  >
                     {tag.name}
                   </span>
                 ))}
@@ -54,7 +66,11 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
           {!hasImage && post.tags && post.tags.length > 0 && (
             <div className={styles.inlineTags}>
               {post.tags.map((tag) => (
-                <span key={tag.id} className={styles.inlineTag}>
+                <span 
+                  key={tag.id} 
+                  className={styles.inlineTag}
+                  onClick={(e) => handleTagClick(e, tag.id)}
+                >
                   {tag.name}
                 </span>
               ))}

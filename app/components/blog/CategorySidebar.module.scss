@@ -50,20 +50,43 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
   position: sticky;
-  top: calc(70px + 4rem); /* 헤더 높이(70px) + 늘어난 마진(4rem) */
-  max-height: calc(100vh - 6rem - 70px); /* 늘어난 마진에 맞게 최대 높이 조정 */
-  overflow-y: auto;
-  transition: all 0.3s ease;
-  z-index: 10; /* 헤더의 z-index(1000)보다 낮게 설정 */
+  top: 90px;
+  height: auto;
+  max-height: calc(100vh - 120px);
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+  z-index: 10;
+  contain: layout;
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
+  transition: box-shadow 0.3s ease, border 0.3s ease;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+  }
   
   @media (max-width: 768px) {
     position: relative;
     top: 0;
     max-height: none;
-    margin-top: calc(60px + 2rem); /* 모바일에서도 여백 늘림 */
+    margin-top: 1rem;
     margin-bottom: 1.5rem;
     box-shadow: none;
     border: 1px solid #eaeaea;
+    overflow-y: auto;
   }
 }
 
@@ -183,15 +206,14 @@
   max-height: 0;
   opacity: 0;
   transform: translateY(-10px);
-  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease, margin 0.3s ease;
-  will-change: max-height, opacity, transform; 
+  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+  will-change: max-height, opacity, transform;
   
   .categoryGroupItem:has(.toggleIcon.expanded) & {
-    max-height: 500px; /* 충분히 큰 값으로 설정 */
+    max-height: 1000px; /* 더 충분한 값으로 증가 */
     opacity: 1;
     transform: translateY(0);
     margin: 0.75rem 0 1.25rem;
-    animation: fadeInDown 0.4s ease forwards;
   }
 }
 

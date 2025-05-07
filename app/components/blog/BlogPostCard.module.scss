@@ -7,9 +7,16 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  transform: translateZ(0);
+  will-change: transform, box-shadow;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
   
   &:hover {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-5px) translateZ(0);
     
     .coverImage {
       transform: scale(1.05);
@@ -101,6 +108,12 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.7);
+  }
 }
 
 .inlineTags {
@@ -117,6 +130,13 @@
   padding: 4px 8px;
   border-radius: 4px;
   font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #e0e0e0;
+    color: #0070f3;
+  }
 }
 
 .content {
@@ -124,6 +144,7 @@
   display: flex;
   flex-direction: column;
   flex-grow: 1;
+  min-height: 210px;
 }
 
 .title {
@@ -132,6 +153,12 @@
   margin: 0 0 0.75rem;
   color: #333;
   line-height: 1.4;
+  min-height: 1.4em;
+  max-height: 4.2em; /* 3줄까지 허용 (1.4em * 3) */
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3; /* 2줄에서 3줄로 늘림 */
+  -webkit-box-orient: vertical;
   
   @media (max-width: 768px) {
     font-size: 1.1rem;
@@ -144,6 +171,10 @@
   line-height: 1.6;
   margin: 0 0 1rem;
   flex-grow: 1;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 }
 
 .meta {
