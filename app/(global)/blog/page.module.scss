@@ -96,6 +96,13 @@
   width: 100%;
   gap: 1.5rem;
   
+  @media (max-width: 1024px) and (min-width: 769px) {
+    // 중간 크기 화면에서 2열로 변경
+    .masonryColumn:nth-child(3) {
+      display: none;
+    }
+  }
+  
   @media (max-width: 768px) {
     flex-direction: column;
   }
@@ -106,6 +113,11 @@
   flex-direction: column;
   flex: 1;
   gap: 1.5rem;
+  
+  @media (max-width: 1024px) and (min-width: 769px) {
+    // 중간 크기에서는 각 열이 더 많은 공간 차지
+    flex: 0 0 calc(50% - 0.75rem);
+  }
 }
 
 .postCard {

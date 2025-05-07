@@ -12,7 +12,6 @@ interface CategoryPageProps {
 
 export default function CategoryPage({ params }: CategoryPageProps) {
   const POSTS_PER_PAGE = 12;
-  const COLUMNS = 3; // Number of columns in the layout
   
   const categoryId = parseInt(params.id, 10);
   
@@ -38,8 +37,9 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
   const currentPosts = categoryPosts.slice(indexOfFirstPost, indexOfLastPost);
   
-  // Distribute posts in columns for masonry effect while preserving order
-  const masonryColumns = Array.from({ length: COLUMNS }, () => [] as typeof categoryPosts);
+  // 항상 3개의 컬럼을 생성하지만, CSS에서 미디어 쿼리로 2개 또는 1개만 표시
+  const columnCount = 3;
+  const masonryColumns = Array.from({ length: columnCount }, () => [] as typeof categoryPosts);
   
   // Keep track of next column to place a post (zigzag pattern)
   let currentColumn = 0;
@@ -47,7 +47,7 @@ export default function CategoryPage({ params }: CategoryPageProps) {
   // Place posts in columns in sequential order
   currentPosts.forEach(post => {
     masonryColumns[currentColumn].push(post);
-    currentColumn = (currentColumn + 1) % COLUMNS;
+    currentColumn = (currentColumn + 1) % columnCount;
   });
 
   return (

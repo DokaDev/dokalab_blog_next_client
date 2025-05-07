@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { blogPosts, categoryGroups } from '@/app/data/blogData';
 import CategorySidebar from '@/app/components/blog/CategorySidebar';
 import BlogPostCard from '@/app/components/blog/BlogPostCard';
@@ -43,8 +43,32 @@ const Pagination = ({
 
 export default function BlogPage() {
   const POSTS_PER_PAGE = 12;
-  const COLUMNS = 3; // Number of columns in the layout
+  const [columnCount, setColumnCount] = useState(3); // 기본값은 3컬럼
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // 화면 크기에 따른 컬럼 수 조정
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 768) {
+        setColumnCount(1);
+      } else if (window.innerWidth <= 1024) {
+        setColumnCount(2);
+      } else {
+        setColumnCount(3);
+      }
+    };
+    
+    // 초기 설정
+    handleResize();
+    
+    // 리사이즈 이벤트 리스너 등록
+    window.addEventListener('resize', handleResize);
+    
+    // 클린업 함수
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
   
   // Sort posts by date (newest first)
   const sortedPosts = useMemo(() => {
@@ -66,7 +90,7 @@ export default function BlogPage() {
   // Distribute posts in columns for masonry effect while preserving order
   const masonryColumns = useMemo(() => {
     // Initialize columns array - each column is an array of posts
-    const columns = Array.from({ length: COLUMNS }, () => [] as typeof blogPosts);
+    const columns = Array.from({ length: columnCount }, () => [] as typeof blogPosts);
     
     // Keep track of next column to place a post (zigzag pattern)
     let currentColumn = 0;
@@ -74,11 +98,11 @@ export default function BlogPage() {
     // Place posts in columns in sequential order
     currentPosts.forEach(post => {
       columns[currentColumn].push(post);
-      currentColumn = (currentColumn + 1) % COLUMNS;
+      currentColumn = (currentColumn + 1) % columnCount;
     });
     
     return columns;
-  }, [currentPosts]);
+  }, [currentPosts, columnCount]);
   
   // Handle page change
   const handlePageChange = (pageNumber: number) => {
