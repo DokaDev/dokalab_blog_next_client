@@ -165,10 +165,10 @@
   color: #333;
   line-height: 1.4;
   min-height: 1.4em;
-  max-height: 4.2em; /* 3줄까지 허용 (1.4em * 3) */
+  max-height: 4.2em; /* Allow up to 3 lines (1.4em * 3) */
   overflow: hidden;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* 2줄에서 3줄로 늘림 */
+  -webkit-line-clamp: 3; /* Increased from 2 to 3 lines */
   -webkit-box-orient: vertical;
   
   @media (max-width: 768px) {

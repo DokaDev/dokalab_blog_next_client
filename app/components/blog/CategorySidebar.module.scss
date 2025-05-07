@@ -210,7 +210,7 @@
   will-change: max-height, opacity, transform;
   
   .categoryGroupItem:has(.toggleIcon.expanded) & {
-    max-height: 1000px; /* 더 충분한 값으로 증가 */
+    max-height: 1000px; /* Increased to a sufficient value */
     opacity: 1;
     transform: translateY(0);
     margin: 0.75rem 0 1.25rem;

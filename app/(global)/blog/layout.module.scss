@@ -2,7 +2,7 @@
   position: relative;
   width: 100%;
   
-  /* 불필요한 상단 헤더 숨기기 위한 스타일 */
+  /* Styles to hide unnecessary top header */
   :global(h1[title="Web Development"]),
   :global(.subPage > h1),
   :global(.subPage > h1 + p) {

@@ -20,22 +20,22 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
   const currentCategory = searchParams.get('category');
   
   const handleTagClick = (e: React.MouseEvent, tagId: number) => {
-    e.preventDefault(); // 링크 기본 동작 방지
-    e.stopPropagation(); // 이벤트 버블링 방지
+    e.preventDefault(); // Prevent default link behavior
+    e.stopPropagation(); // Prevent event bubbling
     
-    // 현재 선택된 태그와 동일한 태그를 클릭했는지 확인
+    // Check if the clicked tag is already active
     const isCurrentlyActive = activeTagId === tagId;
     
-    // 이미 선택된 태그를 다시 클릭한 경우 태그 필터링 제거
-    // 그렇지 않으면 새 태그로 필터링
+    // If already selected tag is clicked again, remove tag filtering
+    // Otherwise, filter by the new tag
     let url;
     if (isCurrentlyActive) {
-      // 태그 필터링 제거하고 카테고리만 유지
+      // Remove tag filtering and maintain only category
       url = currentCategory 
         ? `/blog?category=${currentCategory}`
         : `/blog`;
     } else {
-      // 새 태그로 필터링 적용
+      // Apply filtering with new tag
       url = currentCategory 
         ? `/blog?category=${currentCategory}&tag=${tagId}`
         : `/blog?tag=${tagId}`;
