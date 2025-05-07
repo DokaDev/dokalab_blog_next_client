@@ -23,10 +23,23 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
     e.preventDefault(); // 링크 기본 동작 방지
     e.stopPropagation(); // 이벤트 버블링 방지
     
-    // 현재 카테고리를 유지하면서 태그 정보만 업데이트
-    const url = currentCategory 
-      ? `/blog?category=${currentCategory}&tag=${tagId}`
-      : `/blog?tag=${tagId}`;
+    // 현재 선택된 태그와 동일한 태그를 클릭했는지 확인
+    const isCurrentlyActive = activeTagId === tagId;
+    
+    // 이미 선택된 태그를 다시 클릭한 경우 태그 필터링 제거
+    // 그렇지 않으면 새 태그로 필터링
+    let url;
+    if (isCurrentlyActive) {
+      // 태그 필터링 제거하고 카테고리만 유지
+      url = currentCategory 
+        ? `/blog?category=${currentCategory}`
+        : `/blog`;
+    } else {
+      // 새 태그로 필터링 적용
+      url = currentCategory 
+        ? `/blog?category=${currentCategory}&tag=${tagId}`
+        : `/blog?tag=${tagId}`;
+    }
       
     router.push(url);
   };
