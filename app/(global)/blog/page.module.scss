@@ -154,8 +154,8 @@
   
   &:hover, &:focus {
     outline: none;
-    color: #0070f3;
-    border-bottom-color: #0070f3;
+    color: #fda4af;
+    border-bottom-color: #fda4af;
   }
   
   &:focus {
@@ -175,7 +175,7 @@
   
   &:focus {
     outline: none;
-    border-bottom-color: #0070f3;
+    border-bottom-color: #fda4af;
   }
 }
 
@@ -193,7 +193,7 @@
   transition: all 0.2s ease;
   
   &:hover {
-    color: #0070f3;
+    color: #fda4af;
   }
   
   &:focus {
@@ -231,7 +231,7 @@
     box-shadow: none;
     text-decoration: none;
     border: 1px solid #ddd;
-    color: #0070f3;
+    color: #fda4af;
   }
   
   &:disabled {
@@ -302,7 +302,7 @@
   &:hover:not(:disabled) {
     border: 1px solid #ddd;
     text-decoration: none;
-    color: #0070f3;
+    color: #fda4af;
   }
   
   &:disabled {
