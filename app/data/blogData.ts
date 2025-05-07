@@ -1,4 +1,4 @@
-import { CategoryGroup, BlogPost } from '../types/blog';
+import { CategoryGroup, BlogPost, BlogPostNoAuthor } from '../types/blog';
 
 // Mock category data
 export const categoryGroups: CategoryGroup[] = [
@@ -401,7 +401,45 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
-// Function to get a category by its ID
+/* COMPONENT SWAP GUIDE:
+ * When using components with author information (BlogPostCard),
+ * you can directly use the blogPosts array:
+ *
+ * // In your component file:
+ * import { BlogPost } from '@/app/types/blog';
+ * import { blogPosts } from '@/app/data/blogData';
+ *
+ * // Example props interface:
+ * interface MyComponentProps {
+ *   posts: BlogPost[];
+ * }
+ *
+ * // Example component usage:
+ * export default function MyComponent({ posts }: MyComponentProps) {
+ *   return (
+ *     <div>
+ *       {posts.map(post => (
+ *         <BlogPostCard key={post.id} post={post} />
+ *       ))}
+ *     </div>
+ *   );
+ * }
+ */
+
+// Mock blog posts without author information
+export const blogPostsNoAuthor: BlogPostNoAuthor[] = blogPosts.map(post => ({
+  id: post.id,
+  title: post.title,
+  excerpt: post.excerpt,
+  content: post.content,
+  coverImage: post.coverImage,
+  categoryId: post.categoryId,
+  tags: post.tags,
+  publishedAt: post.publishedAt,
+  readingTime: post.readingTime
+}));
+
+// Helper functions
 export function getCategoryById(id: number) {
   return categoryGroups
     .flatMap(group => group.categories)
@@ -411,6 +449,14 @@ export function getCategoryById(id: number) {
 // Function to get posts by category ID
 export function getPostsByCategoryId(categoryId: number) {
   return blogPosts.filter(post => post.categoryId === categoryId);
+}
+
+/* COMPONENT SWAP GUIDE:
+ * If you're using the version without author information,
+ * use this function instead of getPostsByCategoryId
+ */
+export function getPostsByCategoryIdNoAuthor(categoryId: number) {
+  return blogPostsNoAuthor.filter(post => post.categoryId === categoryId);
 }
 
 // Function to get a tag by its ID
@@ -423,6 +469,30 @@ export function getTagById(id: number) {
 // Function to get posts by tag ID
 export function getPostsByTagId(tagId: number) {
   return blogPosts.filter(post => 
+    post.tags.some(tag => tag.id === tagId)
+  );
+}
+
+/* COMPONENT SWAP GUIDE:
+ * Helper functions for posts without author information
+ * Use these functions when working with blogPostsNoAuthor data
+ */
+
+// Function to get posts without author by category ID
+export function getPostsNoAuthorByCategoryId(categoryId: number) {
+  return blogPostsNoAuthor.filter(post => post.categoryId === categoryId);
+}
+
+// Function to get a tag by its ID from posts without author
+export function getTagNoAuthorById(id: number) {
+  return blogPostsNoAuthor
+    .flatMap(post => post.tags)
+    .find(tag => tag.id === id);
+}
+
+// Function to get posts without author by tag ID
+export function getPostsNoAuthorByTagId(tagId: number) {
+  return blogPostsNoAuthor.filter(post => 
     post.tags.some(tag => tag.id === tagId)
   );
 } 

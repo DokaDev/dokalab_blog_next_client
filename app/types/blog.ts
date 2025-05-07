@@ -35,4 +35,17 @@ export interface BlogPost {
   tags: Tag[];
   publishedAt: string;
   readingTime: number;
+}
+
+// Blog post without author information
+export interface BlogPostNoAuthor {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  coverImage?: string;
+  categoryId: number;
+  tags: Tag[];
+  publishedAt: string;
+  readingTime: number;
 } 

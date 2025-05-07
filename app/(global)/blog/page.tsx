@@ -1,8 +1,23 @@
-import { blogPosts, categoryGroups, getCategoryById, getPostsByCategoryId } from '@/app/data/blogData';
+import { 
+  blogPosts, 
+  categoryGroups, 
+  getCategoryById, 
+  getPostsByCategoryId 
+  /* COMPONENT SWAP GUIDE:
+   * If you want to use the version without author information,
+   * import blogPostsNoAuthor and related helper functions:
+   * blogPostsNoAuthor,
+   */
+} from '@/app/data/blogData';
 import CategorySidebar from '@/app/components/blog/CategorySidebar';
 import BlogSearch from '@/app/components/blog/BlogSearch';
 import styles from './page.module.scss';
 import { Metadata } from 'next';
+
+/* COMPONENT SWAP GUIDE:
+ * If you want to use BlogPostNoAuthor instead of BlogPost, import the appropriate types:
+ * import { BlogPostNoAuthor } from '@/app/types/blog';
+ */
 
 type PageProps = {
   searchParams: { 
@@ -32,6 +47,10 @@ export function generateMetadata({ searchParams }: PageProps): Metadata {
 
   // If tag is specified, update title to include tag name
   if (tagId !== null) {
+    /* COMPONENT SWAP GUIDE:
+     * When using blogPostsNoAuthor, replace blogPosts with blogPostsNoAuthor here:
+     * const tag = blogPostsNoAuthor.flatMap(post => post.tags).find(tag => tag.id === tagId);
+     */
     const tag = blogPosts.flatMap(post => post.tags).find(tag => tag.id === tagId);
     if (tag) {
       title = categoryId ? `${title} - Tagged with '${tag.name}'` : `Tagged with '${tag.name}' - Blog`;
@@ -60,6 +79,13 @@ export default function BlogPage({ searchParams }: PageProps) {
   const searchQuery = searchParams.q || '';
   const searchType = searchParams.searchType || 'both';
   
+  /* COMPONENT SWAP GUIDE:
+   * Option 1: For data with author information
+   * let filteredPosts = [...blogPosts];
+   *
+   * Option 2: For data without author information
+   * let filteredPosts = [...blogPostsNoAuthor];
+   */
   let filteredPosts = [...blogPosts];
   let categoryName = 'All Posts';
   
@@ -125,6 +151,10 @@ export default function BlogPage({ searchParams }: PageProps) {
         </div>
         
         <div className={styles.posts}>
+          {/* COMPONENT SWAP GUIDE:
+           * When using BlogPostCardNoAuthor component in BlogSearch.tsx,
+           * make sure you're passing the appropriate data type here (BlogPostNoAuthor[] instead of BlogPost[])
+           */}
           <BlogSearch 
             posts={sortedPosts} 
             categoryName={categoryName} 
