@@ -45,148 +45,98 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## Component Swap Guide
 
-This project provides two versions of blog post cards: one with author information (`BlogPostCard`) and one without (`BlogPostCardNoAuthor`). You can choose which version to use based on your requirements.
+This blog template provides flexibility with two component variants: one that displays author information and one that doesn't. This guide explains how to switch between these options.
 
-### Understanding the Types
+### Available Variants
 
-#### With Author Information
+#### 1. Blog posts with author information (`BlogPostCard`)
+- Displays author avatar, name, and bio
+- Uses the `BlogPost` type and `blogPosts` dataset
+- Suitable for multi-author blogs or when author attribution is important
+
+#### 2. Blog posts without author information (`BlogPostCardNoAuthor`)
+- Omits author details, focusing only on content
+- Uses the `BlogPostNoAuthor` type and `blogPostsNoAuthor` dataset
+- Ideal for single-author blogs or when author details aren't necessary
+
+### How to Switch Between Variants
+
+The codebase contains clearly marked comments to guide you through the component swap process. Look for `COMPONENT SWAP GUIDE` sections throughout the code.
+
+#### Step 1: Import the Correct Components and Types
+
 ```typescript
-// BlogPost type (includes author data)
-export interface BlogPost {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  coverImage?: string;
-  author: Author;         // Author information included
-  categoryId: number;
-  tags: Tag[];
-  publishedAt: string;
-  readingTime: number;
-}
-```
-
-#### Without Author Information
-```typescript
-// BlogPostNoAuthor type (without author data)
-export interface BlogPostNoAuthor {
-  id: number;
-  title: string;
-  excerpt: string;
-  content: string;
-  coverImage?: string;
-  categoryId: number;
-  tags: Tag[];
-  publishedAt: string;
-  readingTime: number;
-}
-```
-
-### Data Sources
-
-The project provides two sets of data and helper functions:
-
-1. **With Author**: Uses `blogPosts` array and standard helper functions
-2. **Without Author**: Uses `blogPostsNoAuthor` array and corresponding helper functions
-
-### Swapping Components
-
-#### 1. Import the Appropriate Types and Components
-
-**For components with author information:**
-```typescript
-import { BlogPost } from '@/app/types/blog';
-import { blogPosts, getPostsByCategoryId, getPostsByTagId } from '@/app/data/blogData';
-import BlogPostCard from '@/app/components/blog/BlogPostCard';
-```
-
-**For components without author information:**
-```typescript
-import { BlogPostNoAuthor } from '@/app/types/blog';
-import { blogPostsNoAuthor, getPostsByCategoryIdNoAuthor, getPostsByTagIdNoAuthor } from '@/app/data/blogData';
-import BlogPostCardNoAuthor from '@/app/components/blog/BlogPostCardNoAuthor';
-```
-
-#### 2. Update Data Processing Functions
-
-Replace the helper functions based on which version you're using:
-
-**With Author:**
-```typescript
-const categoryPosts = getPostsByCategoryId(categoryId);
-const tagPosts = getPostsByTagId(tagId);
-```
-
-**Without Author:**
-```typescript
-const categoryPosts = getPostsByCategoryIdNoAuthor(categoryId);
-const tagPosts = getPostsByTagIdNoAuthor(tagId);
-```
-
-#### 3. Update Component Arrays and Typings
-
-When working with arrays or collections:
-
-**With Author:**
-```typescript
-const columns = Array.from({ length: columnCount }, () => [] as BlogPost[]);
-```
-
-**Without Author:**
-```typescript
-const columns = Array.from({ length: columnCount }, () => [] as BlogPostNoAuthor[]);
-```
-
-#### 4. Rendering Components
-
-**With Author:**
-```tsx
-<BlogPostCard 
-  post={post}
-  featured={featured}
-/>
-```
-
-**Without Author:**
-```tsx
-<BlogPostCardNoAuthor 
-  post={post}
-  featured={featured}
-/>
-```
-
-### Example Implementation
-
-Below is an example of a component that displays a list of blog posts:
-
-```tsx
-'use client';
-
-import { useState } from 'react';
-
-// Option 1: For components with author information
+// Option 1: With author information
 import { BlogPost } from '@/app/types/blog';
 import { blogPosts } from '@/app/data/blogData';
 import BlogPostCard from '@/app/components/blog/BlogPostCard';
 
-// Option 2: For components without author information
+// Option 2: Without author information
+import { BlogPostNoAuthor } from '@/app/types/blog';
+import { blogPostsNoAuthor } from '@/app/data/blogData';
+import BlogPostCardNoAuthor from '@/app/components/blog/BlogPostCardNoAuthor';
+```
+
+#### Step 2: Use the Appropriate Helper Functions
+
+Each variant has its own set of helper functions:
+
+```typescript
+// With author information
+const categoryPosts = getPostsByCategoryId(categoryId);
+const tagPosts = getPostsByTagId(tagId);
+
+// Without author information
+const categoryPosts = getPostsByCategoryIdNoAuthor(categoryId);
+const tagPosts = getPostsByTagIdNoAuthor(tagId);
+```
+
+#### Step 3: Apply the Correct Type Annotations
+
+```typescript
+// With author information
+const posts: BlogPost[] = blogPosts;
+
+// Without author information
+const posts: BlogPostNoAuthor[] = blogPostsNoAuthor;
+```
+
+#### Step 4: Render the Appropriate Component
+
+```tsx
+{/* With author information */}
+<BlogPostCard post={post} featured={featured} />
+
+{/* Without author information */}
+<BlogPostCardNoAuthor post={post} featured={featured} />
+```
+
+### Sample Implementation
+
+Here's a simplified example showing how to implement a blog list with either variant:
+
+```tsx
+'use client';
+
+// Choose ONE of these import sets:
+import { BlogPost } from '@/app/types/blog';
+import { blogPosts } from '@/app/data/blogData';
+import BlogPostCard from '@/app/components/blog/BlogPostCard';
+
+// OR
+
 // import { BlogPostNoAuthor } from '@/app/types/blog';
 // import { blogPostsNoAuthor } from '@/app/data/blogData';
 // import BlogPostCardNoAuthor from '@/app/components/blog/BlogPostCardNoAuthor';
 
 export default function BlogList() {
-  // Choose the appropriate data source
-  const posts = blogPosts; // or blogPostsNoAuthor
+  const posts = blogPosts; // OR blogPostsNoAuthor
   
   return (
     <div className="grid gap-4">
       {posts.map(post => (
         <div key={post.id}>
-          {/* Option 1: With author information */}
-          <BlogPostCard post={post} />
-          
-          {/* Option 2: Without author information */}
-          {/* <BlogPostCardNoAuthor post={post} /> */}
+          <BlogPostCard post={post} /> {/* OR <BlogPostCardNoAuthor post={post} /> */}
         </div>
       ))}
     </div>
@@ -194,4 +144,4 @@ export default function BlogList() {
 }
 ```
 
-By following this guide, you can easily switch between displaying blog posts with or without author information throughout your application.
+This flexible structure allows you to easily choose the presentation style that best fits your blog's needs.

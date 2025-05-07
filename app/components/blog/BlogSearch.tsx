@@ -5,13 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 /* COMPONENT SWAP GUIDE:
  * Option 1: For components with author information
  * import { BlogPost } from '@/app/types/blog';
- * import { blogPosts, getPostsByCategoryId, getPostsByTagId } from '@/app/data/blogData';
  * import BlogPostCard from './BlogPostCard';
  * 
  * Option 2: For components without author information
+ * import { BlogPostNoAuthor } from '@/app/types/blog';
+ * import BlogPostCardNoAuthor from './BlogPostCardNoAuthor';
  */
-import { BlogPostNoAuthor } from '@/app/types/blog';
-import BlogPostCardNoAuthor from './BlogPostCardNoAuthor';
+import { BlogPost } from '@/app/types/blog';
+import BlogPostCard from './BlogPostCard';
 import styles from '../../(global)/blog/page.module.scss';
 
 // Search type definition
@@ -61,9 +62,13 @@ const Pagination = ({
  * }
  *
  * Option 2: For components without author information
+ * interface BlogSearchProps {
+ *   posts: BlogPostNoAuthor[];
+ *   categoryName?: string;
+ * }
  */
 interface BlogSearchProps {
-  posts: BlogPostNoAuthor[];
+  posts: BlogPost[];
   categoryName?: string;
 }
 
@@ -130,8 +135,9 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
      * const columns = Array.from({ length: columnCount }, () => [] as BlogPost[]);
      *
      * Option 2: For components without author information
+     * const columns = Array.from({ length: columnCount }, () => [] as BlogPostNoAuthor[]);
      */
-    const columns = Array.from({ length: columnCount }, () => [] as BlogPostNoAuthor[]);
+    const columns = Array.from({ length: columnCount }, () => [] as BlogPost[]);
     
     // Keep track of next column to place a post (zigzag pattern)
     let currentColumn = 0;
@@ -256,21 +262,10 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
         <>
           <div className={styles.masonryGrid}>
             {masonryColumns.map((column, columnIndex) => (
-              <div key={`column-${columnIndex}`} className={styles.masonryColumn}>
+              <div key={columnIndex} className={styles.masonryColumn}>
                 {column.map((post, postIndex) => (
                   <div key={post.id} className={styles.postCard}>
-                    {/* COMPONENT SWAP GUIDE:
-                     * Change the component based on whether you want to display author information or not:
-                     *
-                     * Option 1: For displaying author information
-                     * <BlogPostCard
-                     *   post={post} 
-                     *   featured={postIndex === 0 && columnIndex === 0}
-                     * />
-                     *
-                     * Option 2: For hiding author information
-                     */}
-                    <BlogPostCardNoAuthor
+                    <BlogPostCard
                       post={post}
                       featured={postIndex === 0 && columnIndex === 0}
                     />
