@@ -350,12 +350,21 @@
   // Code block content container
   .codeBlockContent {
     position: relative;
-    min-height: 100px; // Ensure minimum height for content area
+    min-height: auto;
     
     // Ensure content takes up space even during loading
     &:empty {
       min-height: 250px;
       background-color: #f8fafc;
+    }
+  }
+  
+  // 줄 수가 적은 코드블록에 대한 스타일
+  :global(.few-lines) {
+    pre div {
+      margin: 0 !important;
+      padding-top: 0.5rem !important;
+      padding-bottom: 0.5rem !important;
     }
   }
   
