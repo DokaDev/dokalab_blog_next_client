@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useMemo, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { BlogPost } from '@/app/types/blog';
 import BlogPostCard from './BlogPostCard';
 import styles from '../../(global)/blog/page.module.scss';
@@ -51,12 +52,25 @@ interface BlogSearchProps {
 export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSearchProps) {
   const POSTS_PER_PAGE = 12;
   const [columnCount, setColumnCount] = useState(3); // Default is 3 columns
-  const [currentPage, setCurrentPage] = useState(1);
   
-  // Search state
-  const [searchTerm, setSearchTerm] = useState('');
-  const [searchType, setSearchType] = useState<SearchType>('both');
-  const [isSearching, setIsSearching] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  
+  // Get search parameters from URL
+  const q = searchParams.get('q') || '';
+  const searchType = (searchParams.get('searchType') as SearchType) || 'both';
+  const pageParam = searchParams.get('page');
+  const currentPage = pageParam ? parseInt(pageParam, 10) : 1;
+  
+  // Input state for controlled component
+  const [searchTerm, setSearchTerm] = useState(q);
+  const [searchTypeState, setSearchTypeState] = useState<SearchType>(searchType);
+  
+  // Update input state when URL params change
+  useEffect(() => {
+    setSearchTerm(q);
+    setSearchTypeState(searchType as SearchType);
+  }, [q, searchType]);
   
   // Adjust column count based on screen size
   useEffect(() => {
@@ -82,33 +96,13 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
     };
   }, []);
   
-  // Filter posts based on search term
-  const filteredPosts = useMemo(() => {
-    if (!searchTerm.trim() || !isSearching) {
-      return posts;
-    }
-    
-    const term = searchTerm.toLowerCase();
-    return posts.filter(post => {
-      if (searchType === 'title') {
-        return post.title.toLowerCase().includes(term);
-      } else if (searchType === 'content') {
-        return post.excerpt.toLowerCase().includes(term);
-      } else {
-        // Title + Content
-        return post.title.toLowerCase().includes(term) || 
-               post.excerpt.toLowerCase().includes(term);
-      }
-    });
-  }, [searchTerm, searchType, isSearching, posts]);
-  
   // Calculate total pages
-  const totalPages = Math.ceil(filteredPosts.length / POSTS_PER_PAGE);
+  const totalPages = Math.ceil(posts.length / POSTS_PER_PAGE);
   
   // Get current page posts
   const indexOfLastPost = currentPage * POSTS_PER_PAGE;
   const indexOfFirstPost = indexOfLastPost - POSTS_PER_PAGE;
-  const currentPosts = filteredPosts.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = posts.slice(indexOfFirstPost, indexOfLastPost);
   
   // Distribute posts in columns for masonry effect while preserving order
   const masonryColumns = useMemo(() => {
@@ -129,28 +123,45 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
   
   // Handle page change
   const handlePageChange = (pageNumber: number) => {
-    setCurrentPage(pageNumber);
+    // Create a new URLSearchParams object based on the current URL
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // Update or add the page parameter
+    params.set('page', pageNumber.toString());
+    
+    // Navigate to the URL with updated parameters
+    router.push(`/blog?${params.toString()}`);
+    
     // Scroll to top of posts section
     document.querySelector(`.${styles.posts}`)?.scrollIntoView({ behavior: 'smooth' });
   };
   
   // Perform search
   const handleSearch = () => {
-    setIsSearching(true);
-    setCurrentPage(1); // Reset to first page when searching
+    if (!searchTerm.trim()) return;
+    
+    // Create a new URLSearchParams object based on the current URL
+    const params = new URLSearchParams(searchParams.toString());
+    
+    // Update search parameters
+    params.set('q', searchTerm);
+    params.set('searchType', searchTypeState);
+    
+    // Reset page to 1 when performing a new search
+    params.set('page', '1');
+    
+    // Navigate to the URL with updated parameters
+    router.push(`/blog?${params.toString()}`);
   };
   
   // Handle search input change
   const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
-    if (e.target.value === '') {
-      setIsSearching(false); // Clear search state when input is empty
-    }
   };
   
   // Handle search type change
   const handleSearchTypeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSearchType(e.target.value as SearchType);
+    setSearchTypeState(e.target.value as SearchType);
   };
 
   return (
@@ -158,13 +169,13 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
       <div className={styles.postsHeader}>
         <div className={styles.titleSection}>
           <h2 className={styles.postsTitle}>{categoryName}</h2>
-          <div className={styles.postsCount}>{filteredPosts.length} articles</div>
+          <div className={styles.postsCount}>{posts.length} articles</div>
         </div>
         
         <div className={styles.searchSection}>
           <div className={styles.searchBox}>
             <select 
-              value={searchType} 
+              value={searchTypeState} 
               onChange={handleSearchTypeChange}
               className={styles.searchTypeSelect}
             >
@@ -179,7 +190,7 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
               onChange={handleSearchInputChange}
               placeholder="Search articles..."
               className={styles.searchInput}
-              onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
+              onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
             />
             
             <button 
@@ -217,7 +228,7 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
         </div>
       )}
       
-      {filteredPosts.length > 0 ? (
+      {posts.length > 0 ? (
         <>
           <div className={styles.masonryGrid}>
             {masonryColumns.map((column, columnIndex) => (

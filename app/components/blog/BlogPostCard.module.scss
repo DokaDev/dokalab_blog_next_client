@@ -114,6 +114,12 @@
   &:hover {
     background-color: rgba(0, 0, 0, 0.7);
   }
+  
+  &.active {
+    background-color: rgba(253, 164, 175, 0.85);
+    color: white;
+    font-weight: 600;
+  }
 }
 
 .inlineTags {
@@ -136,6 +142,12 @@
   &:hover {
     background-color: #e0e0e0;
     color: #0070f3;
+  }
+  
+  &.active {
+    background-color: #fda4af;
+    color: white;
+    font-weight: 600;
   }
 }
 

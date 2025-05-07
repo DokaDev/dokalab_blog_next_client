@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { BlogPost } from '@/app/types/blog';
 import { formatDate } from '../../lib/utils';
 import styles from './BlogPostCard.module.scss';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -15,11 +15,20 @@ interface BlogPostCardProps {
 const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) => {
   const hasImage = post.coverImage && post.coverImage.trim() !== '';
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTagId = searchParams.get('tag') ? parseInt(searchParams.get('tag') as string, 10) : null;
+  const currentCategory = searchParams.get('category');
   
   const handleTagClick = (e: React.MouseEvent, tagId: number) => {
     e.preventDefault(); // 링크 기본 동작 방지
     e.stopPropagation(); // 이벤트 버블링 방지
-    router.push(`/blog?tag=${tagId}`);
+    
+    // 현재 카테고리를 유지하면서 태그 정보만 업데이트
+    const url = currentCategory 
+      ? `/blog?category=${currentCategory}&tag=${tagId}`
+      : `/blog?tag=${tagId}`;
+      
+    router.push(url);
   };
   
   return (
@@ -46,7 +55,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
                 {post.tags.slice(0, 2).map((tag) => (
                   <span 
                     key={tag.id} 
-                    className={styles.tag}
+                    className={`${styles.tag} ${activeTagId === tag.id ? styles.active : ''}`}
                     onClick={(e) => handleTagClick(e, tag.id)}
                   >
                     {tag.name}
@@ -68,7 +77,7 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
               {post.tags.map((tag) => (
                 <span 
                   key={tag.id} 
-                  className={styles.inlineTag}
+                  className={`${styles.inlineTag} ${activeTagId === tag.id ? styles.active : ''}`}
                   onClick={(e) => handleTagClick(e, tag.id)}
                 >
                   {tag.name}
