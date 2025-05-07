@@ -1,0 +1,11 @@
+.blogLayout {
+  position: relative;
+  width: 100%;
+  
+  /* 불필요한 상단 헤더 숨기기 위한 스타일 */
+  :global(h1[title="Web Development"]),
+  :global(.subPage > h1),
+  :global(.subPage > h1 + p) {
+    display: none;
+  }
+} 
