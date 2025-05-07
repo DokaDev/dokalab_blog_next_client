@@ -50,15 +50,17 @@
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   padding: 1.5rem;
   position: sticky;
-  top: 2rem;
-  max-height: calc(100vh - 4rem);
+  top: calc(70px + 4rem); /* 헤더 높이(70px) + 늘어난 마진(4rem) */
+  max-height: calc(100vh - 6rem - 70px); /* 늘어난 마진에 맞게 최대 높이 조정 */
   overflow-y: auto;
   transition: all 0.3s ease;
+  z-index: 10; /* 헤더의 z-index(1000)보다 낮게 설정 */
   
   @media (max-width: 768px) {
     position: relative;
     top: 0;
     max-height: none;
+    margin-top: calc(60px + 2rem); /* 모바일에서도 여백 늘림 */
     margin-bottom: 1.5rem;
     box-shadow: none;
     border: 1px solid #eaeaea;

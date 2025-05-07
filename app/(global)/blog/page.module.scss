@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 1400px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 0 1rem 2rem;
 }
 
 .header {
@@ -36,6 +36,8 @@
   display: grid;
   grid-template-columns: 280px 1fr;
   gap: 2rem;
+  position: relative;
+  padding-top: calc(70px + 1rem);
   
   @media (max-width: 1024px) {
     grid-template-columns: 240px 1fr;
@@ -44,6 +46,7 @@
   
   @media (max-width: 768px) {
     grid-template-columns: 1fr;
+    padding-top: calc(60px + 1rem);
   }
 }
 
