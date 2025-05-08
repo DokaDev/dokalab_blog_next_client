@@ -12,9 +12,6 @@ const nextConfig: NextConfig = {
     // ESLint 오류가 있어도 빌드가 진행됩니다
     ignoreDuringBuilds: true,
   },
-  images: {
-    domains: ['placehold.co', 'static.vecteezy.com'],
-  },
 };
 
 export default nextConfig;

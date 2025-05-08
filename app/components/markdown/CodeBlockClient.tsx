@@ -28,9 +28,9 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
   const tooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const toggleTooltipTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Calculate number of code lines
+  // 코드 줄 수 계산
   const lineCount = value.split('\n').length;
-  // Adjust padding based on line count
+  // 줄 수에 따라 패딩 조정
   const getHeaderPadding = () => {
     if (lineCount <= 2) {
       return isMobile ? '0.4rem 0.8rem' : '0.5rem 1rem';
@@ -135,7 +135,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
         justifyContent: 'space-between',
         backgroundColor: '#f8fafc',
         borderBottom: '1px solid #e2e8f0',
-        padding: getHeaderPadding(), // Adjust padding based on line count
+        padding: getHeaderPadding(), // 줄 수에 따라 패딩 조정
         margin: 0,
         boxSizing: 'border-box',
         height: 'auto',
