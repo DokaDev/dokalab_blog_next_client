@@ -9,7 +9,7 @@ import { EditorView } from '@codemirror/view';
 import { Extension } from '@codemirror/state';
 import styles from './MarkdownEditor.module.scss';
 
-// 마크다운 렌더러를 동적으로 가져옵니다
+// Dynamically import the Markdown renderer
 const MarkdownRenderer = dynamic(() => import('@/app/components/markdown/MarkdownRenderer'), { 
   ssr: true 
 });
@@ -26,7 +26,7 @@ interface ToolbarItem {
   onClick?: () => void;
 }
 
-// 코드미러 참조 타입 정의
+// Define CodeMirror ref type
 interface CodeMirrorRef {
   view: EditorView;
 }
@@ -42,7 +42,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
   
   const codeMirrorRef = useRef<CodeMirrorRef | null>(null);
   
-  // CodeMirror 확장 기능
+  // CodeMirror extensions
   const extensions: Extension[] = [
     markdown({ 
       base: markdownLanguage, 
@@ -65,20 +65,20 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     })
   ];
   
-  // 반응형 처리를 위한 useEffect
+  // useEffect for responsive handling
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth < 768);
     };
     
-    // 초기 설정
+    // Initial setup
     handleResize();
     
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
   
-  // 전체화면 이벤트 핸들러
+  // Fullscreen event handler
   useEffect(() => {
     const handleFullscreenChange = () => {
       setIsFullscreen(!!document.fullscreenElement);
@@ -88,7 +88,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
   }, []);
   
-  // 내용이 변경될 때마다 상위 컴포넌트에 알림
+  // Notify parent component whenever content changes
   useEffect(() => {
     if (onChange) {
       onChange(markdownContent);
@@ -99,7 +99,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     setMarkdownContent(value);
   };
   
-  // 마크다운 문법 삽입 함수
+  // Function to insert Markdown syntax
   const insertMarkdown = (syntax: string) => {
     const editor = codeMirrorRef.current;
     
@@ -112,12 +112,12 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
       });
       dispatch(transaction);
     } else {
-      // CodeMirror 인스턴스가 없는 경우 기존 로직 사용
+      // Use existing logic if CodeMirror instance is not available
       setMarkdownContent(prevContent => prevContent + syntax);
     }
   };
   
-  // 마크다운 문법 아이콘 컴포넌트
+  // Markdown syntax icon components
   const HeadingIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M6 12h12"/>
@@ -232,7 +232,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     </svg>
   );
   
-  // 툴바 버튼 목록
+  // Toolbar button list
   const toolbarItems: ToolbarItem[] = [
     { 
       label: 'Heading', 
@@ -243,17 +243,17 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
           title: 'Headings',
           content: (
             <div className={styles.modalContent}>
-              <p>마크다운에서는 <code>#</code> 기호를 사용하여 제목을 표시합니다. <code>#</code>의 개수에 따라 제목의 크기가 달라집니다.</p>
+              <p>In Markdown, use the <code>#</code> symbol to indicate headings. The number of <code>#</code> symbols determines the heading size.</p>
               <div className={styles.modalExample}>
                 <div className={styles.modalCodeBlock}>
                   <pre>
                     <code>
-                      # 제목 1<br/>
-                      ## 제목 2<br/>
-                      ### 제목 3<br/>
-                      #### 제목 4<br/>
-                      ###### 제목 5<br/>
-                      ###### 제목 6
+                      # Heading 1<br/>
+                      ## Heading 2<br/>
+                      ### Heading 3<br/>
+                      #### Heading 4<br/>
+                      ###### Heading 5<br/>
+                      ###### Heading 6
                     </code>
                   </pre>
                 </div>
@@ -337,7 +337,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
       icon: <ImageIcon />, 
       syntax: '![Image Alt Text](https://example.com/image.jpg)', 
       onClick: () => {
-        // 이미지 업로드 로직을 여기에 추가
+        // Add image upload logic here
         insertMarkdown('![Image Alt Text](https://example.com/image.jpg)');
       } 
     },
@@ -346,7 +346,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
       icon: <FileIcon />, 
       syntax: '[Download File](https://example.com/file.pdf)', 
       onClick: () => {
-        // 파일 업로드 로직을 여기에 추가
+        // Add file upload logic here
         insertMarkdown('[Download File](https://example.com/file.pdf)');
       } 
     },
@@ -367,14 +367,14 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     },
   ];
   
-  // 모달 닫기 함수
+  // Function to close modal
   const closeModal = () => {
     setShowModal(false);
   };
   
   return (
     <div className={`${styles.editorContainer} ${isFullscreen ? styles.fullscreen : ''}`}>
-      {/* 모바일 환경에서 툴바 토글 버튼 */}
+      {/* Toolbar toggle button in mobile environment */}
       {isMobile && (
         <button 
           className={styles.mobileToggle}
@@ -384,7 +384,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
         </button>
       )}
       
-      {/* 툴바 */}
+      {/* Toolbar */}
       <div className={`${styles.toolbar} ${isMobile && !showToolbar ? styles.hidden : ''}`}>
         {toolbarItems.map((item, index) => (
           <div key={index} className={styles.tooltipWrapper}>
@@ -403,7 +403,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
         ))}
       </div>
       
-      {/* 모바일 탭 컨트롤 */}
+      {/* Mobile tab controls */}
       {isMobile && (
         <div className={styles.tabControls}>
           <button 
@@ -421,7 +421,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
         </div>
       )}
       
-      {/* 에디터 내용 */}
+      {/* Editor content */}
       <div className={styles.editorContent}>
         <div 
           className={`${styles.editorPane} ${
@@ -455,7 +455,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
         </div>
       </div>
       
-      {/* 문법 도움말 모달 */}
+      {/* Syntax help modal */}
       {showModal && (
         <div className={styles.modalOverlay} onClick={closeModal}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
