@@ -70,13 +70,13 @@ export default function Navigation({ isMobileMenuOpen, setIsMobileMenuOpen }: Na
   
   // Helper function to determine if a nav item should be active
   const isActive = (path: string) => {
-    // Root path ('/') is active only when it exactly matches
+    // 루트 경로('/')는 정확히 일치하는 경우에만 active
     if (path === '/') {
       return pathname === '/';
     }
     
-    // Other menu items check if the pathname starts with their path
-    // Example: Components menu is active for all paths starting with '/components'
+    // 다른 메뉴 항목들은 경로의 시작 부분이 일치하는지 확인
+    // 예: '/components'로 시작하는 모든 경로에서 Components 메뉴가 active
     return pathname.startsWith(path);
   };
   

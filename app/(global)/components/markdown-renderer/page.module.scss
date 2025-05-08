@@ -61,7 +61,7 @@
   transition: all 0.3s ease;
 }
 
-// View mode layout
+// 뷰 모드일 때 레이아웃
 .viewModeActive {
   grid-template-columns: 1fr;
 }
@@ -77,7 +77,7 @@
   transition: all 0.3s ease;
 }
 
-// Style for output section taking full width
+// 출력 섹션이 전체 너비를 차지할 때 스타일
 .fullWidth {
   grid-column: 1 / -1;
   max-width: 900px;
@@ -122,7 +122,7 @@
   }
 }
 
-// Developer mode toggle button
+// 개발자 모드 토글 버튼
 .devModeToggle {
   position: absolute;
   top: 0;
@@ -150,7 +150,7 @@
   }
 }
 
-// Editor mode style
+// 에디터 모드 스타일
 .editorContainer {
   margin-top: 2rem;
   width: 100%;
@@ -181,7 +181,7 @@
   text-align: center;
 }
 
-// Blog post style
+// 블로그 포스트 스타일
 .articleContent {
   width: 100%;
   max-width: 900px;
@@ -245,7 +245,7 @@
   }
 }
 
-// Responsive style
+// 반응형 스타일
 @media (max-width: 768px) {
   .container {
     padding: 42px 24px;

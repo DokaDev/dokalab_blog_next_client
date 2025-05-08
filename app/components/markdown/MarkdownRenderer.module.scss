@@ -359,7 +359,7 @@
     }
   }
   
-  // Style for code blocks with few lines
+  // 줄 수가 적은 코드블록에 대한 스타일
   :global(.few-lines) {
     pre div {
       margin: 0 !important;
@@ -687,7 +687,7 @@
   align-self: flex-end;
 }
 
-// Container alignment classes
+// 컨테이너 정렬 클래스
 .containerLeft {
   margin-right: auto !important;
   margin-left: 0 !important;
@@ -709,7 +709,7 @@
   display: block !important;
 }
 
-// Paragraph containing images
+// 이미지를 포함하는 단락
 .imageParagraph {
   margin: 1.25em 0;
   display: block;
