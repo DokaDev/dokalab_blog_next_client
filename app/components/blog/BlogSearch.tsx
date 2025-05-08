@@ -2,17 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-/* COMPONENT SWAP GUIDE:
- * Option 1: For components with author information
- * import { BlogPost } from '@/app/types/blog';
- * import BlogPostCard from './BlogPostCard';
- * 
- * Option 2: For components without author information
- * import { BlogPostNoAuthor } from '@/app/types/blog';
- * import BlogPostCardNoAuthor from './BlogPostCardNoAuthor';
- */
-import { BlogPost } from '@/app/types/blog';
-import BlogPostCard from './BlogPostCard';
+import { BlogPostNoAuthor } from '@/app/types/blog';
+import BlogPostCardNoAuthor from './BlogPostCardNoAuthor';
 import styles from '../../(global)/blog/page.module.scss';
 
 // Search type definition
@@ -53,22 +44,8 @@ const Pagination = ({
   );
 };
 
-/* COMPONENT SWAP GUIDE:
- * Change this interface based on which data type you're using:
- * Option 1: For components with author information
- * interface BlogSearchProps {
- *   posts: BlogPost[];
- *   categoryName?: string;
- * }
- *
- * Option 2: For components without author information
- * interface BlogSearchProps {
- *   posts: BlogPostNoAuthor[];
- *   categoryName?: string;
- * }
- */
 interface BlogSearchProps {
-  posts: BlogPost[];
+  posts: BlogPostNoAuthor[];
   categoryName?: string;
 }
 
@@ -129,15 +106,7 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
   
   // Distribute posts in columns for masonry effect while preserving order
   const masonryColumns = useMemo(() => {
-    /* COMPONENT SWAP GUIDE:
-     * Change the type here based on which data type you're using:
-     * Option 1: For components with author information
-     * const columns = Array.from({ length: columnCount }, () => [] as BlogPost[]);
-     *
-     * Option 2: For components without author information
-     * const columns = Array.from({ length: columnCount }, () => [] as BlogPostNoAuthor[]);
-     */
-    const columns = Array.from({ length: columnCount }, () => [] as BlogPost[]);
+    const columns = Array.from({ length: columnCount }, () => [] as BlogPostNoAuthor[]);
     
     // Keep track of next column to place a post (zigzag pattern)
     let currentColumn = 0;
@@ -265,7 +234,7 @@ export default function BlogSearch({ posts, categoryName = 'All Posts' }: BlogSe
               <div key={columnIndex} className={styles.masonryColumn}>
                 {column.map((post, postIndex) => (
                   <div key={post.id} className={styles.postCard}>
-                    <BlogPostCard
+                    <BlogPostCardNoAuthor
                       post={post}
                       featured={postIndex === 0 && columnIndex === 0}
                     />
