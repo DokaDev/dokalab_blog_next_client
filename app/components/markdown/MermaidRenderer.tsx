@@ -7,10 +7,10 @@ interface MermaidRendererProps {
   code: string;
 }
 
-// 렌더링 지연 방지를 위해 초기 로딩 시간을 짧게 설정
-const MIN_LOADING_TIME = 300; // 최소 300ms 동안은 로딩 상태 유지
+// Set initial loading time short to prevent rendering delays
+const MIN_LOADING_TIME = 300; // Keep loading state for at least 300ms
 
-// 다이어그램 유형을 감지하는 함수
+// Function to detect diagram type
 const detectDiagramType = (code: string): string => {
   const trimmedCode = code.trim();
   if (trimmedCode.startsWith('graph') || trimmedCode.startsWith('flowchart')) {
@@ -31,23 +31,23 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
   const [svg, setSvg] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(true);
-  // 다이어그램 유형을 컴포넌트 초기화 시점에 감지
+  // Detect diagram type at component initialization
   const [diagramType, setDiagramType] = useState<string>(detectDiagramType(code));
 
   useEffect(() => {
-    // 코드가 변경되면 다이어그램 유형도 다시 감지
+    // Re-detect diagram type when code changes
     setDiagramType(detectDiagramType(code));
     
-    // 렌더링 시작 시 명시적으로 로딩 상태로 설정
+    // Explicitly set loading state at the start of rendering
     setLoading(true);
     
-    // 현재 시간 기록 (useEffect 내부에서 사용하되 상태 업데이트는 하지 않음)
+    // Record current time (use within useEffect but don't update state)
     const startTime = Date.now();
     
-    // 다음 프레임에서 렌더링 시작 (스켈레톤이 먼저 보이도록)
-    // requestAnimationFrame을 사용하여 UI가 먼저 업데이트되도록 함
+    // Start rendering in the next frame (to allow skeleton to be displayed first)
+    // Use requestAnimationFrame to ensure UI is updated first
     const timer = requestAnimationFrame(() => {
-      // 추가 타임아웃으로 스켈레톤이 확실히 보이도록 함
+      // Additional timeout to ensure skeleton is definitely visible
       setTimeout(async () => {
         try {
           // Initialize mermaid
@@ -68,7 +68,7 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
           const { svg } = await mermaid.render(id, code);
           setSvg(svg);
           
-          // 최소 로딩 시간을 보장
+          // Ensure minimum loading time
           const renderTime = Date.now() - startTime;
           if (renderTime < MIN_LOADING_TIME) {
             setTimeout(() => {
@@ -82,7 +82,7 @@ const MermaidRenderer: React.FC<MermaidRendererProps> = ({ code }) => {
           setError('Failed to render diagram. Check your Mermaid syntax.');
           setLoading(false);
         }
-      }, 50); // 스켈레톤이 렌더링될 시간 확보 (50ms)
+      }, 50); // Allow time for skeleton to render (50ms)
     });
     
     return () => {

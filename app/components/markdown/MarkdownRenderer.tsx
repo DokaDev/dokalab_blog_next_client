@@ -107,9 +107,9 @@ const processAlertBoxes = (content: string): string => {
 };
 
 /**
- * 이미지 alt 텍스트를 분석하여 옵션과 순수 텍스트를 추출합니다
- * @param altText - 원본 alt 텍스트
- * @returns 처리된 정보 객체 (순수 텍스트, 너비, 그림자 유무, 캡션 표시 여부)
+ * Analyze image alt text to extract options and pure text
+ * @param altText - Original alt text
+ * @returns Processed information object (pure text, width, shadow presence, caption display)
  */
 const extractImageOptions = (altText: string) => {
   let processedAlt = altText || "Image";
@@ -118,13 +118,13 @@ const extractImageOptions = (altText: string) => {
   let showCaption = true;
   let align: string | undefined;
   
-  // 모든 !로 시작하는 옵션 찾기
+  // Find all options starting with !
   const optionRegex = /!([\w-]+(=[\w-]+)?)\b/g;
   const allOptions = processedAlt.match(optionRegex) || [];
   
-  // 발견된 모든 옵션 처리
+  // Process all discovered options
   allOptions.forEach(option => {
-    // 이미 아는 특정 옵션 처리
+    // Process known specific options
     if (option === '!shadow') {
       hasShadow = true;
     } else if (option.startsWith('!width=')) {
@@ -138,14 +138,14 @@ const extractImageOptions = (altText: string) => {
       align = option.match(/!align=(\w+)/)?.[1];
     }
     
-    // 옵션 텍스트에서 제거
+    // Remove option from text
     processedAlt = processedAlt.replace(option, '');
   });
   
-  // 중복 공백 제거 및 트림
+  // Remove duplicate spaces and trim
   processedAlt = processedAlt.replace(/\s+/g, ' ').trim();
   
-  // 빈 텍스트인 경우 기본값 설정
+  // Set default value if text is empty
   if (!processedAlt || processedAlt === '') {
     processedAlt = "Image";
   }
@@ -565,38 +565,38 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             </blockquote>
           ),
           img: ({ src, ...props }: any) => {
-            // 이미지 alt 텍스트에서 옵션 추출
+            // Extract options from image alt text
             const altText = props.alt || "Markdown image";
             const { pureAltText, width, hasShadow, showCaption, align } = extractImageOptions(altText);
             
-            // 스타일 객체 생성 - filter: drop-shadow는 CSS 클래스에서 처리
+            // Create style object - filter: drop-shadow is handled in CSS class
             const styleObj: React.CSSProperties = {
               ...(width ? { width: `${width}px`, height: 'auto' } : {}),
-              // hasShadow는 이제 CSS 클래스로만 적용됨
+              // hasShadow is now applied only through CSS class
             };
             
-            // 정렬 스타일 병합
+            // Merge alignment style
             const finalStyle = { ...styleObj };
             
-            // 커스텀 클래스 생성
+            // Create custom class
             let imageClassName = `${styles.image}`;
             if (hasShadow) imageClassName += ` ${styles.imageShadow}`;
             
-            // 이미지 정렬 클래스 결정
-            const alignValue = align || 'center'; // 기본값은 가운데 정렬
+            // Determine image alignment class
+            const alignValue = align || 'center'; // Default is center alignment
             imageClassName += ` ${styles[`image${alignValue.charAt(0).toUpperCase() + alignValue.slice(1)}`]}`;
             
-            // 컨테이너 스타일 및 클래스 설정
+            // Set container style and class
             const containerStyle: React.CSSProperties = {};
             if (width) {
               containerStyle.width = `${width}px`;
               containerStyle.maxWidth = '100%';
             }
             
-            // 컨테이너 클래스 설정 - 정렬에 따라 항상 적용
+            // Set container class - always applied according to alignment
             const containerClassName = `${styles.imageContainer} ${styles[`container${alignValue.charAt(0).toUpperCase() + alignValue.slice(1)}`]}`;
             
-            // 이미지를 figure 요소로 감싸서 컨텐츠 흐름에서 분리
+            // Wrap image in figure element to separate from content flow
             return (
               <span className={containerClassName} style={containerStyle}>
                 <img 
