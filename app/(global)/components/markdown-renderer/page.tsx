@@ -735,28 +735,33 @@ Test
 
 ## Collapsible Content Examples
 
-:::details{summary="Basic Example"}
+@details{Basic Example}0
 This is a basic example of collapsible content.
 You can put any markdown content here!
 
 - List items
 - More items
-:::
+$@0
 
-:::details{summary="Code Example"}
+@details{Code Example}0
 Here's some code:
 
 \`\`\`typescript
 function hello() {
     console.log("Hello from collapsible section!");
 }
-\`\`\`:::
+\`\`\`
+$@0
 
-:::details{summary="Nested Example"}
-You cannot nest these!
-:::warning
-**Nesting Limitation**: Currently, the details directive does not support nesting. Each details section should be used independently at the same level.
-:::
+@details{Nested Example}0
+You can nest these!
+
+@details{Inner Example}1
+You can nest these too!
+$@1
+
+$@0
+
 `);
 
   return (
