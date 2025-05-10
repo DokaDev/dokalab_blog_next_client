@@ -1,3 +1,7 @@
+.globals {
+  /* Added local class to meet CSS Module requirements */
+}
+
 :global(html) {
   scrollbar-gutter: stable;
   overflow-y: scroll;
