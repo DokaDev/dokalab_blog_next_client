@@ -1,29 +1,5 @@
 .globals {
-  /* Added local class to meet CSS Module requirements */
-}
-
-:global(html) {
-  scrollbar-gutter: stable;
-  overflow-y: scroll;
-}
-
-:global(*::-webkit-scrollbar) {
-  width: 6px;
-  height: 6px;
-}
-
-:global(*::-webkit-scrollbar-track) {
-  background: transparent;
-}
-
-:global(*::-webkit-scrollbar-thumb) {
-  background-color: rgba(0, 0, 0, 0.1);
-  border-radius: 6px;
-}
-
-:global(*) {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
+  /* Local class to meet CSS Module requirements */
 }
 
 .container {
