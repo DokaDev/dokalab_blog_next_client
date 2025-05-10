@@ -31,14 +31,14 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   const scrollTimer = useRef<NodeJS.Timeout | null>(null);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-  // 코드 줄 수를 계산
+  // Calculate the number of lines of code
   const lineCount = value.split('\n').length;
-  // 줄 수에 따라 패딩을 동적으로 조정
+  // Dynamically adjust padding based on line count
   const getContentPadding = () => {
     if (lineCount <= 2) {
-      return isMobile ? '0.5rem 0.8rem' : '0.75rem 1.25rem';  // 줄 수가 적을 때 패딩 감소
+      return isMobile ? '0.5rem 0.8rem' : '0.75rem 1.25rem';  // Decrease padding when there are few lines
     }
-    return isMobile ? '0.8rem' : '1.25rem';  // 기본 패딩
+    return isMobile ? '0.8rem' : '1.25rem';  // Default padding
   };
   
   // Detect screen size
@@ -191,7 +191,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       ...oneLight['pre[class*="language-"]'],
       fontSize: fontSizeBase,
       margin: 0,
-      padding: getContentPadding(), // 줄 수에 따라 패딩 적용
+      padding: getContentPadding(), // Apply padding based on line count
       borderRadius: 0,
       background: '#f8fafc',
     },
@@ -357,7 +357,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
           }}
           customStyle={{
             margin: 0,
-            padding: getContentPadding(), // 줄 수에 따라 패딩 적용
+            padding: getContentPadding(), // Apply padding based on line count
             background: '#f8fafc',
             borderRadius: 0,
             minWidth: 'max-content',
