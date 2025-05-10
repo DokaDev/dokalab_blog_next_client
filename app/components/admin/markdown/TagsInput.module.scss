@@ -1,0 +1,371 @@
+.tagsInputContainer {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.tagsHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  
+  h3 {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #334155;
+    margin: 0;
+  }
+}
+
+.manageButton {
+  padding: 0.5rem 0.75rem;
+  background-color: #eff6ff;
+  color: #644AC9;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #dbeafe;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+  }
+}
+
+.tagsInput {
+  position: relative;
+  width: 100%;
+}
+
+.selectedTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  min-height: 50px;
+  background-color: white;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  background-color: #eff6ff;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  color: #644AC9;
+  
+  span {
+    font-weight: 500;
+  }
+  
+  &:hover {
+    .removeTag {
+      opacity: 1;
+    }
+  }
+}
+
+.removeTag {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: none;
+  background-color: transparent;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+  padding: 0;
+  
+  &:hover {
+    color: #644AC9;
+  }
+  
+  &:focus {
+    outline: none;
+    opacity: 1;
+  }
+}
+
+.tagInput {
+  flex: 1;
+  min-width: 100px;
+  border: none;
+  outline: none;
+  font-size: 0.95rem;
+  padding: 0.25rem;
+  background-color: transparent;
+  
+  &::placeholder {
+    color: #94a3b8;
+  }
+}
+
+// 태그 자동완성
+.suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  max-height: 200px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  overflow-y: auto;
+  margin-top: 0.5rem;
+  border: 1px solid #e2e8f0;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 3px;
+  }
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #f1f5f9;
+  }
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid #f1f5f9;
+  }
+}
+
+.tagName {
+  font-weight: 500;
+  color: #334155;
+}
+
+.tagCount {
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+.tagsInfo {
+  margin-top: 0.5rem;
+  
+  p {
+    font-size: 0.85rem;
+    color: #94a3b8;
+    margin: 0;
+  }
+  
+  kbd {
+    display: inline-block;
+    padding: 0.1rem 0.35rem;
+    background-color: #f1f5f9;
+    border-radius: 3px;
+    border: 1px solid #e2e8f0;
+    font-size: 0.8rem;
+    font-family: monospace;
+    color: #64748b;
+  }
+}
+
+// 태그 관리 모달
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  width: 90%;
+  max-width: 600px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  max-height: 80vh;
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  
+  h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #334155;
+  }
+  
+  .closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background-color: transparent;
+    color: #64748b;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    
+    &:hover {
+      background-color: #f1f5f9;
+      color: #334155;
+    }
+    
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+  }
+}
+
+.modalBody {
+  padding: 1.5rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  overflow-y: auto;
+  
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+  }
+  
+  h4 {
+    margin-top: 0;
+    font-size: 1rem;
+    color: #334155;
+    margin-bottom: 1rem;
+  }
+}
+
+.tagsList, .selectedTagsList {
+  display: flex;
+  flex-direction: column;
+}
+
+.allTags, .selectedTagsItems {
+  flex: 1;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  max-height: 250px;
+  
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: #f8fafc;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background-color: #e2e8f0;
+    border-radius: 3px;
+  }
+}
+
+.tagListItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1rem;
+  
+  &:not(:last-child) {
+    border-bottom: 1px solid #f1f5f9;
+  }
+}
+
+.removeTagButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: none;
+  background-color: #f1f5f9;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  
+  &:hover {
+    background-color: #fee2e2;
+    color: #b91c1c;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(185, 28, 28, 0.2);
+  }
+}
+
+.noTags {
+  padding: 2rem 1rem;
+  text-align: center;
+  color: #94a3b8;
+  font-style: italic;
+}
+
+.modalFooter {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid #e2e8f0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.doneButton {
+  padding: 0.75rem 1.5rem;
+  background-color: #644AC9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  
+  &:hover {
+    background-color: #5038af;
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+  }
+} 
