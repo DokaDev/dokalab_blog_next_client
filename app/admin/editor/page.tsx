@@ -6,6 +6,7 @@ import MarkdownEditor from '@/app/components/admin/markdown/MarkdownEditor';
 import TitleInput from '@/app/components/admin/markdown/TitleInput';
 import CategorySelector from '@/app/components/admin/markdown/CategorySelector';
 import TagsInput from '@/app/components/admin/markdown/TagsInput';
+import ErrorModal from '@/app/components/common/ErrorModal';
 
 export default function MarkdownEditorPage() {
   const [title, setTitle] = useState('');
@@ -13,8 +14,11 @@ export default function MarkdownEditorPage() {
   const [tags, setTags] = useState<string[]>([]);
   const [markdownContent, setMarkdownContent] = useState('');
   const [isDirty, setIsDirty] = useState(false);
-  const [titleError, setTitleError] = useState('');
   const [isTitleValid, setIsTitleValid] = useState(true);
+  const [titleValidationError, setTitleValidationError] = useState('');
+  const [showErrorModal, setShowErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [errorModalTitle, setErrorModalTitle] = useState('Validation Error');
   
   // 마크다운 예시 콘텐츠
   const exampleMarkdown = `# Welcome to Markdown Editor
@@ -59,9 +63,9 @@ Enjoy writing with markdown!
   };
   
   // 타이틀 유효성 검사 핸들러
-  const handleTitleValidation = (isValid: boolean, errorMessage: string) => {
+  const handleTitleValidation = (isValid: boolean, validationMessage: string) => {
     setIsTitleValid(isValid);
-    setTitleError(errorMessage);
+    setTitleValidationError(validationMessage);
   };
   
   // 카테고리 변경 핸들러
@@ -83,12 +87,24 @@ Enjoy writing with markdown!
   const handleSave = () => {
     // 제목 유효성 검사
     if (!isTitleValid) {
-      alert(titleError || 'Please enter a valid title.');
+      setErrorModalTitle('Invalid Title');
+      setErrorMessage(titleValidationError || 'Please enter a valid title (1-255 characters).');
+      setShowErrorModal(true);
       return;
     }
     
     if (title.trim() === '') {
-      alert('Title cannot be empty.');
+      setErrorModalTitle('Title Required');
+      setErrorMessage('Title cannot be empty. Please enter a title.');
+      setShowErrorModal(true);
+      return;
+    }
+    
+    // 카테고리 유효성 검사
+    if (category === 'No Category') {
+      setErrorModalTitle('Category Required');
+      setErrorMessage('Please select a category for the post.');
+      setShowErrorModal(true);
       return;
     }
     
@@ -140,6 +156,13 @@ Enjoy writing with markdown!
           </button>
         </div>
       </div>
+
+      <ErrorModal 
+        isOpen={showErrorModal}
+        onClose={() => setShowErrorModal(false)}
+        title={errorModalTitle}
+        message={errorMessage}
+      />
     </main>
   );
 } 
