@@ -8,7 +8,7 @@ import styles from './MarkdownRenderer.module.scss';
 const CodeBlockClient = dynamic(() => import('./CodeBlockClient'), { ssr: true });
 const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { ssr: true });
 
-// 간단한 스켈레톤 로딩 컴포넌트
+// Simple skeleton loading component
 const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
   // Extract diagram type from code
   let diagramType = 'default';
@@ -131,8 +131,8 @@ const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
   );
 };
 
-// 스켈레톤 로더를 사용하여 MermaidRenderer 로딩 상태 표시
-// 타입스크립트 오류를 피하기 위해 any 타입을 사용
+// Using skeleton loader to display MermaidRenderer loading state
+// Using any type to avoid TypeScript errors
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const MermaidRenderer: any = dynamic(() => import('./MermaidRenderer'), {
   ssr: false,
