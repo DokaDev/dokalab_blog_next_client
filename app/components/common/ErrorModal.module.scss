@@ -1,0 +1,107 @@
+// 에러 모달
+.errorModal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.6); // 약간 더 어둡게 조정
+  z-index: 1050; // 카테고리 모달보다 위에 오도록
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.errorModal.open {
+  opacity: 1;
+  visibility: visible;
+}
+
+.errorModalContent {
+  width: 90%;
+  max-width: 420px; // 약간 너비 조정
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 6px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+
+.errorModal.open .errorModalContent {
+  transform: scale(1);
+}
+
+.errorModalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem; // 패딩 조정
+  background-color: #f8d7da; // 부드러운 빨간색 배경 (예시)
+  border-bottom: 1px solid #f5c6cb; // 헤더 구분선 (예시)
+
+  h4 {
+    margin: 0;
+    font-size: 1.15rem; // 약간 크게
+    font-weight: 600; // 굵게
+    color: #721c24; // 어두운 빨간색 텍스트 (예시)
+  }
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem; // 패딩 약간 추가
+  color: #721c24; // 헤더 텍스트와 동일한 색상 (예시)
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 1;
+  }
+
+  svg {
+    display: block;
+    width: 20px; // 아이콘 크기 조정
+    height: 20px;
+  }
+}
+
+.errorMessage {
+  padding: 1.5rem;
+  color: #343a40; // 본문 텍스트 색상
+  font-size: 1rem;
+  line-height: 1.6;
+  text-align: center; // 메시지 중앙 정렬
+}
+
+.errorModalFooter {
+  padding: 0.75rem 1.5rem; // 패딩 조정
+  border-top: 1px solid #e9ecef; // 푸터 구분선
+  display: flex;
+  justify-content: flex-end; // 버튼 오른쪽 정렬
+}
+
+.confirmButton {
+  padding: 0.6rem 1.2rem; // 패딩 조정
+  background-color: #dc3545; // 확인 버튼 빨간색 (예시)
+  color: white;
+  border: none;
+  border-radius: 5px; // 약간 둥글게
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #c82333; // 호버 시 더 어둡게 (예시)
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(220, 53, 69, 0.3); // 포커스 시 그림자 (예시)
+  }
+} 

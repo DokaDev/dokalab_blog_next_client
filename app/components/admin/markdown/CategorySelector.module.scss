@@ -8,23 +8,27 @@
   background-color: #644AC9;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color 0.2s, transform 0.2s, box-shadow 0.2s;
   display: flex;
   align-items: center;
   justify-content: space-between;
   min-width: 180px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
   &:hover {
     background-color: #5038af;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   }
 
   &:focus {
     outline: none;
-    box-shadow: 0 0 0 2px rgba(100, 74, 201, 0.2);
+    box-shadow: 0 0 0 3px rgba(100, 74, 201, 0.2);
   }
 
   .noCategory {

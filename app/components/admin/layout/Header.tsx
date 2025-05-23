@@ -7,24 +7,48 @@ import styles from './Header.module.scss';
 interface HeaderProps {
   toggleSidebar: () => void;
   isSidebarOpen: boolean;
+  isMobile?: boolean;
 }
 
-export default function Header({ toggleSidebar, isSidebarOpen }: HeaderProps) {
+export default function Header({ toggleSidebar, isSidebarOpen, isMobile }: HeaderProps) {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   
+  const getMenuIcon = () => {
+    if (isMobile) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <line x1="3" y1="12" x2="21" y2="12" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <line x1="3" y1="18" x2="21" y2="18" />
+        </svg>
+      );
+    }
+    if (isSidebarOpen) {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="11 17 6 12 11 7"></polyline>
+          <polyline points="18 17 13 12 18 7"></polyline>
+        </svg>
+      );
+    } else {
+      return (
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="13 17 18 12 13 7"></polyline>
+          <polyline points="6 17 11 12 6 7"></polyline>
+        </svg>
+      );
+    }
+  };
+
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${!isSidebarOpen && !isMobile ? styles.headerShifted : ''}`}>
       <div className={styles.headerLeft}>
         <button 
           className={styles.menuToggle} 
           onClick={toggleSidebar}
           aria-label={isSidebarOpen ? "Close sidebar" : "Open sidebar"}
         >
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <line x1="3" y1="12" x2="21" y2="12" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <line x1="3" y1="18" x2="21" y2="18" />
-          </svg>
+          {getMenuIcon()}
         </button>
       </div>
       

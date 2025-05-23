@@ -46,7 +46,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   return (
     <div className={styles.adminLayout}>
       <Sidebar isOpen={isSidebarOpen} />
-      <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} />
+      <Header toggleSidebar={toggleSidebar} isSidebarOpen={isSidebarOpen} isMobile={isMobile} />
       <main className={`${styles.content} ${isSidebarOpen ? '' : styles.contentExpanded}`}>
         {children}
       </main>
