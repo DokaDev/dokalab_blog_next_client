@@ -495,4 +495,42 @@ export function getPostsNoAuthorByTagId(tagId: number) {
   return blogPostsNoAuthor.filter(post => 
     post.tags.some(tag => tag.id === tagId)
   );
+}
+
+// Function to get a single post by ID (with author)
+export function getPostById(id: number) {
+  return blogPosts.find(post => post.id === id);
+}
+
+// Function to get a single post by ID (without author)
+export function getPostNoAuthorById(id: number) {
+  return blogPostsNoAuthor.find(post => post.id === id);
+}
+
+// Function to get previous and next posts (with author)
+export function getAdjacentPosts(currentId: number) {
+  const sortedPosts = [...blogPosts].sort((a, b) => 
+    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+  
+  const currentIndex = sortedPosts.findIndex(post => post.id === currentId);
+  
+  return {
+    previous: currentIndex > 0 ? sortedPosts[currentIndex - 1] : null,
+    next: currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null
+  };
+}
+
+// Function to get previous and next posts (without author)
+export function getAdjacentPostsNoAuthor(currentId: number) {
+  const sortedPosts = [...blogPostsNoAuthor].sort((a, b) => 
+    new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+  );
+  
+  const currentIndex = sortedPosts.findIndex(post => post.id === currentId);
+  
+  return {
+    previous: currentIndex > 0 ? sortedPosts[currentIndex - 1] : null,
+    next: currentIndex < sortedPosts.length - 1 ? sortedPosts[currentIndex + 1] : null
+  };
 } 
