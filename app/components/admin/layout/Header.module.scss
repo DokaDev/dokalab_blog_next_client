@@ -11,10 +11,15 @@
   right: 0;
   left: 280px;
   z-index: 99;
+  transition: left 0.3s ease-in-out;
   
   @media (max-width: 992px) {
     left: 0;
   }
+}
+
+.headerShifted {
+  left: 0;
 }
 
 .headerLeft {
@@ -37,10 +42,6 @@
   &:hover {
     background-color: #f1f5f9;
     color: #334155;
-  }
-  
-  @media (min-width: 993px) {
-    display: none;
   }
 }
 
