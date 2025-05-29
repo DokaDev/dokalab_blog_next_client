@@ -261,18 +261,30 @@
   &:hover {
     border-color: #fda4af;
     box-shadow: 0 4px 12px rgba(253, 164, 175, 0.1);
-    transform: translateY(-2px);
+  }
+}
+
+.navCardDisabled {
+  background-color: #f8f9fa;
+  border-color: #e9ecef;
+  cursor: not-allowed;
+  opacity: 0.6;
+  
+  &:hover {
+    border-color: #e9ecef;
+    box-shadow: none;
   }
   
-  &:only-child {
-    grid-column: span 2;
-    max-width: 400px;
-    margin: 0 auto;
-    
-    @media (max-width: 768px) {
-      grid-column: span 1;
-      max-width: none;
-    }
+  .navDirection {
+    color: #adb5bd;
+  }
+  
+  .navTitle {
+    color: #6c757d;
+  }
+  
+  .navMeta {
+    color: #adb5bd;
   }
 }
 
@@ -300,29 +312,4 @@
 .navMeta {
   font-size: 0.8rem;
   color: #666;
-}
-
-// Back to Blog
-.backToBlog {
-  text-align: center;
-  padding-top: 2rem;
-  border-top: 1px solid #eee;
-}
-
-.backLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.5rem;
-  background-color: #f8f9fa;
-  color: #666;
-  text-decoration: none;
-  border-radius: 8px;
-  font-weight: 500;
-  transition: all 0.2s ease;
-  
-  &:hover {
-    background-color: #fda4af;
-    color: white;
-  }
 } 

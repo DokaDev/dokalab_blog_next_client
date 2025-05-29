@@ -240,20 +240,6 @@ For further reading and deeper understanding, check out these resources:
             ))}
           </div>
         )}
-
-        {/* Cover Image */}
-        {post.coverImage && (
-          <div className={styles.coverImageContainer}>
-            <Image
-              src={post.coverImage}
-              alt={post.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1200px"
-              className={styles.coverImage}
-              priority
-            />
-          </div>
-        )}
       </header>
 
       {/* Article Content */}
@@ -262,38 +248,43 @@ For further reading and deeper understanding, check out these resources:
       </article>
 
       {/* Navigation to Previous/Next Posts */}
-      {(previous || next) && (
-        <nav className={styles.postNavigation}>
-          <div className={styles.navigationGrid}>
-            {previous && (
-              <Link href={`/blog/post/${previous.id}`} className={styles.navCard}>
-                <div className={styles.navDirection}>← Previous</div>
-                <div className={styles.navTitle}>{previous.title}</div>
-                <div className={styles.navMeta}>
-                  {formatDate(previous.publishedAt)} • {previous.readingTime} min read
-                </div>
-              </Link>
-            )}
-            
-            {next && (
-              <Link href={`/blog/post/${next.id}`} className={styles.navCard}>
-                <div className={styles.navDirection}>Next →</div>
-                <div className={styles.navTitle}>{next.title}</div>
-                <div className={styles.navMeta}>
-                  {formatDate(next.publishedAt)} • {next.readingTime} min read
-                </div>
-              </Link>
-            )}
-          </div>
-        </nav>
-      )}
-
-      {/* Back to Blog Link */}
-      <div className={styles.backToBlog}>
-        <Link href="/blog" className={styles.backLink}>
-          ← Back to All Posts
-        </Link>
-      </div>
+      <nav className={styles.postNavigation}>
+        <div className={styles.navigationGrid}>
+          {/* Previous Post - Always show, either with content or as disabled */}
+          {previous ? (
+            <Link href={`/blog/post/${previous.id}`} className={styles.navCard}>
+              <div className={styles.navDirection}>← Previous</div>
+              <div className={styles.navTitle}>{previous.title}</div>
+              <div className={styles.navMeta}>
+                {formatDate(previous.publishedAt)} • {previous.readingTime} min read
+              </div>
+            </Link>
+          ) : (
+            <div className={`${styles.navCard} ${styles.navCardDisabled}`}>
+              <div className={styles.navDirection}>← Previous</div>
+              <div className={styles.navTitle}>No previous post</div>
+              <div className={styles.navMeta}>This is the first post</div>
+            </div>
+          )}
+          
+          {/* Next Post - Always show, either with content or as disabled */}
+          {next ? (
+            <Link href={`/blog/post/${next.id}`} className={styles.navCard}>
+              <div className={styles.navDirection}>Next →</div>
+              <div className={styles.navTitle}>{next.title}</div>
+              <div className={styles.navMeta}>
+                {formatDate(next.publishedAt)} • {next.readingTime} min read
+              </div>
+            </Link>
+          ) : (
+            <div className={`${styles.navCard} ${styles.navCardDisabled}`}>
+              <div className={styles.navDirection}>Next →</div>
+              <div className={styles.navTitle}>No next post</div>
+              <div className={styles.navMeta}>This is the latest post</div>
+            </div>
+          )}
+        </div>
+      </nav>
     </div>
   );
 } 
