@@ -169,6 +169,14 @@ For further reading and deeper understanding, check out these resources:
     <div className={styles.container}>
       {/* Breadcrumb Navigation */}
       <nav className={styles.breadcrumb}>
+        <Link href="/" className={styles.breadcrumbLink}>
+          Home
+        </Link>
+        <span className={styles.breadcrumbSeparator}>&gt;</span>
+        <Link href="/blog" className={styles.breadcrumbLink}>
+          Blog
+        </Link>
+        <span className={styles.breadcrumbSeparator}>&gt;</span>
         {category && (
           <>
             <Link 
