@@ -9,12 +9,6 @@ export default function MainWrapper({ children }: { children: React.ReactNode })
   
   return (
     <main className={isHomePage ? 'homePage' : isBlogPage ? 'blogPage' : 'subPage'}>
-      {!isBlogPage && !isHomePage && (
-        <>
-          <h1>Web Development</h1>
-          <p>Articles about frontend and backend web development</p>
-        </>
-      )}
       {children}
     </main>
   );
