@@ -24,5 +24,7 @@ jobs:
         script: |
           cd /${{ secrets.USERNAME }}/dokalab_blog_next_client
           git pull
+          echo "RECAPTCHA_SECRET=${{ secrets.RECAPTCHA_SECRET }}" > .env.production
+          echo "NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${{ secrets.RECAPTCHA_SITE_KEY }}" >> .env.production
           docker compose down -v
           docker compose up -d --build
