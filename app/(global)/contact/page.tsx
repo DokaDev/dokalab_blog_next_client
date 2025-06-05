@@ -1,9 +1,10 @@
 'use client';
 
 import { useState } from 'react';
+import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import styles from './page.module.scss';
 
-export default function ContactPage() {
+function ContactForm() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -12,6 +13,7 @@ export default function ContactPage() {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -26,18 +28,24 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
-    // Simulate form submission for now
-    setTimeout(() => {
+    try {
+      if (!executeRecaptcha) throw new Error('reCAPTCHA not ready');
+      await executeRecaptcha('contact_form');
+      // TODO: send token and form data to backend
+      setTimeout(() => {
+        setIsSubmitting(false);
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          subject: '',
+          message: ''
+        });
+      }, 1000);
+    } catch {
       setIsSubmitting(false);
-      setSubmitStatus('success');
-      // Reset form on success
-      setFormData({
-        name: '',
-        email: '',
-        subject: '',
-        message: ''
-      });
-    }, 1000);
+      setSubmitStatus('error');
+    }
   };
 
   const isFormValid = formData.name && formData.email && formData.subject && formData.message;
@@ -47,14 +55,14 @@ export default function ContactPage() {
       <div className={styles.contactHeader}>
         <h1>Get In Touch</h1>
         <p>
-          I'd love to hear from you! Whether you have questions about my posts, 
+          I&apos;d love to hear from you! Whether you have questions about my posts,
           suggestions for topics, or just want to connect, feel free to reach out.
         </p>
       </div>
 
       <div className={styles.contactContent}>
         <div className={styles.contactInfo}>
-          <h2>Let's Connect</h2>
+          <h2>Let&apos;s Connect</h2>
           <div className={styles.contactMethods}>
             <div className={styles.contactMethod}>
               <strong>Email</strong>
@@ -110,7 +118,7 @@ export default function ContactPage() {
               value={formData.subject}
               onChange={handleInputChange}
               required
-              placeholder="What's this about?"
+              placeholder="What&apos;s this about?"
             />
           </div>
 
@@ -137,7 +145,7 @@ export default function ContactPage() {
 
           {submitStatus === 'success' && (
             <div className={styles.successMessage}>
-              Thank you for your message! I'll get back to you soon.
+              Thank you for your message! I&apos;ll get back to you soon.
             </div>
           )}
 
@@ -150,4 +158,12 @@ export default function ContactPage() {
       </div>
     </div>
   );
-} 
+}
+
+export default function ContactPage() {
+  return (
+    <GoogleReCaptchaProvider reCaptchaKey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ?? ''}>
+      <ContactForm />
+    </GoogleReCaptchaProvider>
+  );
+}

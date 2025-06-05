@@ -145,3 +145,14 @@ export default function BlogList() {
 ```
 
 This flexible structure allows you to easily choose the presentation style that best fits your blog's needs.
+
+## Environment Variables
+
+Sensitive values such as reCAPTCHA keys are injected during deployment from GitHub Actions secrets. An `.env.example` file shows the required variables:
+
+```
+NEXT_PUBLIC_RECAPTCHA_SITE_KEY=your_site_key
+RECAPTCHA_SECRET=your_secret_key
+```
+
+Set `RECAPTCHA_SITE_KEY` and `RECAPTCHA_SECRET` in your repository secrets so the workflow can generate `.env.production` for the Docker build.
