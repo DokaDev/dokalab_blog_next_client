@@ -2,32 +2,38 @@
 
 import React, {useState} from "react";
 import QrScanner from "qr-scanner"
-import QRCode from "qrcode";
+import QRCode from 'qrcode';
 import QRCodeLib from "react-qr-code";
 
 
-const Qrcode:React.FC = () => {
+interface QRcodeProps {
+    url: string;
+    width?: number;
+}
 
+
+const Qrcode:React.FC<QRcodeProps> = ({url, width = 256}) => {
+      
     const [inputQrValue, setInputQrValue] = useState("")
     const [result, setResult] = useState("")
 
     const download = async () =>  {
         const canvas = document.createElement('canvas');
-        await QRCode.toCanvas(canvas, inputQrValue, {errorCorrectionLevel: 'H'});
+        await QRCode.toCanvas(canvas, url, {errorCorrectionLevel: 'H'});
 
         const pngUrl = canvas.toDataURL('image/png');
 
         const downloadLink = document.createElement('a');
         downloadLink.href = pngUrl;
-        downloadLink.download = `${inputQrValue}.png`;
+        downloadLink.download = `${url}.png`;
         document.body.appendChild(downloadLink);
         downloadLink.click();
         document.body.removeChild(downloadLink);
     };
 
 
-    const qrScanner = (e) => {
-        const file = e.target.files[0];
+    const qrScanner = (e : React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.value;
         if (!file) {
             return;
         }
@@ -38,7 +44,7 @@ const Qrcode:React.FC = () => {
 
     return (
         <div style={{
-            backgroundColor: "#f6f8fb",  // 연한 파스텔톤 배경
+            backgroundColor: "#f6f8fb",
             padding: "2rem",
             borderRadius: "1rem",
             boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
@@ -104,7 +110,7 @@ const Qrcode:React.FC = () => {
                     whiteSpace: "normal",
                     textAlign: "center"
                 }}>
-                    <h3> ☑️ 해당 QR 경로 ☑️</h3>
+                    <h3> ☑️ QR path ☑️</h3>
                     {result}
                 </div>
             </div>
