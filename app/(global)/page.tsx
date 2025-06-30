@@ -6,6 +6,72 @@ import { useRef, useEffect } from 'react';
 export default function Home() {
   const sectionsRef = useRef<HTMLDivElement>(null);
 
+  /*
+   * API CALL: Get homepage statistics and featured content
+   * 
+   * GET /api/home/stats
+   * 
+   * Response:
+   * {
+   *   "data": {
+   *     "stats": {
+   *       "totalPosts": 150,
+   *       "totalViews": 45678,
+   *       "totalCategories": 9,
+   *       "totalTags": 25
+   *     },
+   *     "featuredPosts": [
+   *       {
+   *         "id": 1,
+   *         "title": "Getting Started with Next.js",
+   *         "excerpt": "Learn how to build modern web applications...",
+   *         "coverImage": "https://example.com/image.jpg",
+   *         "publishedAt": "2023-09-15T00:00:00Z",
+   *         "readingTime": 8,
+   *         "category": { "id": 1, "name": "Web Development" },
+   *         "slug": "getting-started-with-nextjs"
+   *       }
+   *     ],
+   *     "popularCategories": [
+   *       {
+   *         "id": 1,
+   *         "name": "Web Development",
+   *         "slug": "web-development",
+   *         "postCount": 45,
+   *         "icon": "🌐"
+   *       },
+   *       {
+   *         "id": 4,
+   *         "name": "Machine Learning",
+   *         "slug": "machine-learning",
+   *         "postCount": 38,
+   *         "icon": "🤖"
+   *       },
+   *       {
+   *         "id": 7,
+   *         "name": "Distributed Systems",
+   *         "slug": "distributed-systems",
+   *         "postCount": 32,
+   *         "icon": "🔗"
+   *       }
+   *     ],
+   *     "recentActivity": {
+   *       "lastPostDate": "2023-09-20T10:00:00Z",
+   *       "postsThisMonth": 12,
+   *       "commentsThisWeek": 234
+   *     }
+   *   }
+   * }
+   */
+
+  /*
+   * API CALL: Get latest posts for homepage (optional)
+   * 
+   * GET /api/posts?page=1&pageSize=6&sort=date&order=desc
+   * 
+   * Response: Same as blog list page
+   */
+
   useEffect(() => {
     const handleWheel = (e: WheelEvent) => {
       if (sectionsRef.current) {
