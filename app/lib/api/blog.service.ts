@@ -1,140 +1,256 @@
 /**
- * Blog API Service Layer
- * Currently returns dummy data, but structured to easily switch to real API calls
+ * Blog API Service Layer - New Implementation
+ * Extends BaseApiService for unified error handling and logging
+ * Provides clean API contract for backend implementation with dummy data fallback
  */
 
-// import { config } from '@/config/env'; // TODO: Use when real API is implemented
+import { BaseApiService, ApiError, ErrorCode, PaginatedResponse } from '@/lib/api/base';
 import { BlogPost, BlogPostNoAuthor, Category, Tag } from '@/app/types/blog';
 import { 
-  // blogPosts, // TODO: Use when author info is needed
   blogPostsNoAuthor, 
   categoryGroups,
   getPostById as getPostByIdDummy,
   getPostNoAuthorById as getPostNoAuthorByIdDummy
 } from '@/app/data/blogData';
 
-// API response types
-interface PaginatedResponse<T> {
-  data: T[];
-  total: number;
-  page: number;
-  pageSize: number;
-  totalPages: number;
+// Blog-specific API parameters
+interface BlogPostParams {
+  page?: number;
+  pageSize?: number;
+  categoryId?: number;
+  tagId?: number;
+  search?: string;
+  sortBy?: 'date' | 'views' | 'likes';
+  order?: 'asc' | 'desc';
 }
 
-// interface ApiError { // TODO: Use when real API is implemented
-//   message: string;
-//   code: string;
-//   status: number;
-// }
+interface SearchOptions {
+  searchIn?: ('title' | 'content' | 'tags')[];
+  limit?: number;
+}
 
-// Error handling
-class BlogApiError extends Error {
-  constructor(
-    message: string,
-    public code: string,
-    public status: number
-  ) {
-    super(message);
-    this.name = 'BlogApiError';
+/**
+ * Blog API Service Class
+ * Defines the contract that backend should implement
+ */
+class BlogApiService extends BaseApiService {
+  protected getServiceName(): string {
+    return 'BlogApiService';
   }
-}
 
-/**
- * Fetch wrapper with error handling
- * TODO: Add retry logic, request cancellation, and caching
- */
-// async function fetchApi<T>(
-//   endpoint: string,
-//   options?: RequestInit
-// ): Promise<T> {
-//   // TODO: When backend is ready, uncomment this block
-//   /*
-//   try {
-//     const url = `${config.apiUrl}${endpoint}`;
-//     const response = await fetch(url, {
-//       ...options,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         ...options?.headers,
-//       },
-//     });
+  /**
+   * API Endpoints Definition - Contract for Backend Implementation
+   */
+  private readonly endpoints = {
+    posts: '/api/blog/posts',
+    post: (id: number) => `/api/blog/posts/${id}`,
+    categories: '/api/blog/categories',
+    tags: '/api/blog/tags',
+    popularPosts: '/api/blog/posts/popular',
+    relatedPosts: (id: number) => `/api/blog/posts/${id}/related`,
+    searchPosts: '/api/blog/posts/search'
+  } as const;
 
-//     if (!response.ok) {
-//       const error: ApiError = await response.json();
-//       throw new BlogApiError(
-//         error.message || 'API request failed',
-//         error.code || 'UNKNOWN_ERROR',
-//         response.status
-//       );
-//     }
-
-//     return response.json();
-//   } catch (error) {
-//     if (error instanceof BlogApiError) {
-//       throw error;
-//     }
-//     throw new BlogApiError(
-//       'Network error or server unavailable',
-//       'NETWORK_ERROR',
-//       500
-//     );
-//   }
-//   */
-
-//   // Simulate API delay for development
-//   await new Promise(resolve => setTimeout(resolve, 100));
-  
-//   // Return dummy data for now
-//   throw new Error('API not implemented - using dummy data fallback');
-// }
-
-/**
- * Blog API Service
- */
-export const blogService = {
   /**
    * Get all blog posts with pagination and filters
    */
-  async getPosts(params?: {
-    page?: number;
-    pageSize?: number;
-    categoryId?: number;
-    tagId?: number;
-    search?: string;
-    sortBy?: 'date' | 'views' | 'likes';
-    order?: 'asc' | 'desc';
-  }): Promise<PaginatedResponse<BlogPostNoAuthor>> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<PaginatedResponse<BlogPostNoAuthor>>(
-        `/posts?${new URLSearchParams(params as any).toString()}`
-      );
-      */
-      
-      // Dummy data implementation
-      return this._getDummyPosts(params);
-    } catch (error) {
-      // Direct fallback to prevent infinite recursion
-      console.error('Error in getPosts:', error);
-      return this._getDummyPosts(params);
-    }
-  },
+  async getPosts(params?: BlogPostParams): Promise<PaginatedResponse<BlogPostNoAuthor>> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        const queryParams = new URLSearchParams();
+        if (params?.page) queryParams.set('page', params.page.toString());
+        if (params?.pageSize) queryParams.set('pageSize', params.pageSize.toString());
+        if (params?.categoryId) queryParams.set('categoryId', params.categoryId.toString());
+        if (params?.tagId) queryParams.set('tagId', params.tagId.toString());
+        if (params?.search) queryParams.set('search', params.search);
+        if (params?.sortBy) queryParams.set('sortBy', params.sortBy);
+        if (params?.order) queryParams.set('order', params.order);
+
+        // For now, throw to trigger fallback
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // const endpoint = `${this.endpoints.posts}?${queryParams.toString()}`;
+        // return await this.fetchApi<PaginatedResponse<BlogPostNoAuthor>>(endpoint);
+      },
+      () => this.getDummyPosts(params),
+      'getPosts'
+    );
+  }
 
   /**
-   * Internal method to process dummy data
-   * Extracted to prevent infinite recursion in error handling
+   * Get single blog post by ID
    */
-  _getDummyPosts(params?: {
-    page?: number;
-    pageSize?: number;
-    categoryId?: number;
-    tagId?: number;
-    search?: string;
-    sortBy?: 'date' | 'views' | 'likes';
-    order?: 'asc' | 'desc';
-  }): PaginatedResponse<BlogPostNoAuthor> {
+  async getPost(id: number, includeAuthor = false): Promise<BlogPost | BlogPostNoAuthor> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        // For now, throw to trigger fallback
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // const endpoint = includeAuthor 
+        //   ? `${this.endpoints.post(id)}?include=author` 
+        //   : this.endpoints.post(id);
+        // return await this.fetchApi<BlogPost | BlogPostNoAuthor>(endpoint);
+      },
+      () => {
+        const post = includeAuthor 
+          ? getPostByIdDummy(id) 
+          : getPostNoAuthorByIdDummy(id);
+          
+        if (!post) {
+          throw new ApiError('Post not found', ErrorCode.NOT_FOUND, 404);
+        }
+        
+        return post;
+      },
+      `getPost(${id})`
+    );
+  }
+
+  /**
+   * Get all categories
+   */
+  async getCategories(): Promise<Category[]> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // return await this.fetchApi<Category[]>(this.endpoints.categories);
+      },
+      () => categoryGroups.flatMap(group => group.categories),
+      'getCategories'
+    );
+  }
+
+  /**
+   * Get all tags
+   */
+  async getTags(): Promise<Tag[]> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // return await this.fetchApi<Tag[]>(this.endpoints.tags);
+      },
+      () => {
+        const tagMap = new Map<number, Tag>();
+        blogPostsNoAuthor.forEach(post => {
+          post.tags.forEach(tag => {
+            tagMap.set(tag.id, tag);
+          });
+        });
+        return Array.from(tagMap.values());
+      },
+      'getTags'
+    );
+  }
+
+  /**
+   * Get related posts
+   */
+  async getRelatedPosts(postId: number, limit = 5): Promise<BlogPostNoAuthor[]> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // const endpoint = `${this.endpoints.relatedPosts(postId)}?limit=${limit}`;
+        // return await this.fetchApi<BlogPostNoAuthor[]>(endpoint);
+      },
+      () => {
+        const currentPost = getPostNoAuthorByIdDummy(postId);
+        if (!currentPost) return [];
+        
+        return blogPostsNoAuthor
+          .filter(p => 
+            p.id !== postId && 
+            p.categoryId === currentPost.categoryId
+          )
+          .slice(0, limit);
+      },
+      `getRelatedPosts(${postId})`
+    );
+  }
+
+  /**
+   * Get popular posts
+   */
+  async getPopularPosts(limit = 10): Promise<BlogPostNoAuthor[]> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // const endpoint = `${this.endpoints.popularPosts}?limit=${limit}`;
+        // return await this.fetchApi<BlogPostNoAuthor[]>(endpoint);
+      },
+      () => {
+        return blogPostsNoAuthor
+          .sort((a, b) => 
+            new Date(b.publishedAt).getTime() - 
+            new Date(a.publishedAt).getTime()
+          )
+          .slice(0, limit);
+      },
+      'getPopularPosts'
+    );
+  }
+
+  /**
+   * Search posts
+   */
+  async searchPosts(query: string, options?: SearchOptions): Promise<BlogPostNoAuthor[]> {
+    return this.safeExecute(
+      async () => {
+        // TODO: Real API call when backend is ready
+        const queryParams = new URLSearchParams();
+        queryParams.set('q', query);
+        if (options?.searchIn) queryParams.set('searchIn', options.searchIn.join(','));
+        if (options?.limit) queryParams.set('limit', options.limit.toString());
+        
+        throw new Error('API not implemented - using dummy data fallback');
+        
+        // Future real API call:
+        // const endpoint = `${this.endpoints.searchPosts}?${queryParams.toString()}`;
+        // return await this.fetchApi<BlogPostNoAuthor[]>(endpoint);
+      },
+      () => {
+        const term = query.toLowerCase();
+        const searchIn = options?.searchIn || ['title', 'content'];
+        
+        return blogPostsNoAuthor.filter(post => {
+          if (searchIn.includes('title') && post.title.toLowerCase().includes(term)) {
+            return true;
+          }
+          if (searchIn.includes('content') && 
+              (post.excerpt.toLowerCase().includes(term) || 
+               post.content.toLowerCase().includes(term))) {
+            return true;
+          }
+          if (searchIn.includes('tags') && 
+              post.tags.some(tag => tag.name.toLowerCase().includes(term))) {
+            return true;
+          }
+          return false;
+        }).slice(0, options?.limit || 20);
+      },
+      `searchPosts("${query}")`
+    );
+  }
+
+  /**
+   * Internal method to process dummy data with pagination
+   */
+  private getDummyPosts(params?: BlogPostParams): PaginatedResponse<BlogPostNoAuthor> {
     try {
       let posts = [...blogPostsNoAuthor];
       
@@ -174,8 +290,7 @@ export const blogService = {
         totalPages: Math.ceil(posts.length / pageSize)
       };
     } catch (error) {
-      // Last resort: return empty result to prevent any recursion
-      console.error('Critical error in _getDummyPosts:', error);
+      this.logError('getDummyPosts', error);
       return {
         data: [],
         total: 0,
@@ -184,190 +299,11 @@ export const blogService = {
         totalPages: 0
       };
     }
-  },
-
-  /**
-   * Get single blog post by ID
-   */
-  async getPost(id: number, includeAuthor = false): Promise<BlogPost | BlogPostNoAuthor> {
-    try {
-      // TODO: Real API call
-      /*
-      const endpoint = includeAuthor ? `/posts/${id}?include=author` : `/posts/${id}`;
-      return await fetchApi<BlogPost | BlogPostNoAuthor>(endpoint);
-      */
-      
-      // Dummy data implementation
-      const post = includeAuthor 
-        ? getPostByIdDummy(id) 
-        : getPostNoAuthorByIdDummy(id);
-        
-      if (!post) {
-        throw new BlogApiError('Post not found', 'NOT_FOUND', 404);
-      }
-      
-      return post;
-    } catch (error) {
-      if (error instanceof BlogApiError && error.status === 404) {
-        throw error;
-      }
-      // Fallback to dummy data on other errors
-      const post = includeAuthor 
-        ? getPostByIdDummy(id) 
-        : getPostNoAuthorByIdDummy(id);
-        
-      if (!post) {
-        throw new BlogApiError('Post not found', 'NOT_FOUND', 404);
-      }
-      
-      return post;
-    }
-  },
-
-  /**
-   * Get all categories
-   */
-  async getCategories(): Promise<Category[]> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<Category[]>('/categories');
-      */
-      
-      // Dummy data implementation
-      return categoryGroups.flatMap(group => group.categories);
-    } catch {
-      // Fallback to dummy data
-      return categoryGroups.flatMap(group => group.categories);
-    }
-  },
-
-  /**
-   * Get all tags
-   */
-  async getTags(): Promise<Tag[]> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<Tag[]>('/tags');
-      */
-      
-      // Dummy data implementation
-      const tagMap = new Map<number, Tag>();
-      blogPostsNoAuthor.forEach(post => {
-        post.tags.forEach(tag => {
-          tagMap.set(tag.id, tag);
-        });
-      });
-      return Array.from(tagMap.values());
-    } catch {
-      // Fallback to dummy data
-      const tagMap = new Map<number, Tag>();
-      blogPostsNoAuthor.forEach(post => {
-        post.tags.forEach(tag => {
-          tagMap.set(tag.id, tag);
-        });
-      });
-      return Array.from(tagMap.values());
-    }
-  },
-
-  /**
-   * Get related posts
-   */
-  async getRelatedPosts(
-    postId: number, 
-    limit = 5
-  ): Promise<BlogPostNoAuthor[]> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<BlogPostNoAuthor[]>(
-        `/posts/${postId}/related?limit=${limit}`
-      );
-      */
-      
-      // Dummy implementation: Get posts from same category
-      const currentPost = getPostNoAuthorByIdDummy(postId);
-      if (!currentPost) return [];
-      
-      return blogPostsNoAuthor
-        .filter(p => 
-          p.id !== postId && 
-          p.categoryId === currentPost.categoryId
-        )
-        .slice(0, limit);
-    } catch {
-      return [];
-    }
-  },
-
-  /**
-   * Get popular posts
-   */
-  async getPopularPosts(limit = 10): Promise<BlogPostNoAuthor[]> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<BlogPostNoAuthor[]>(
-        `/posts/popular?limit=${limit}`
-      );
-      */
-      
-      // Dummy implementation: Return recent posts
-      return blogPostsNoAuthor
-        .sort((a, b) => 
-          new Date(b.publishedAt).getTime() - 
-          new Date(a.publishedAt).getTime()
-        )
-        .slice(0, limit);
-    } catch {
-      return [];
-    }
-  },
-
-  /**
-   * Search posts
-   */
-  async searchPosts(
-    query: string,
-    options?: {
-      searchIn?: ('title' | 'content' | 'tags')[];
-      limit?: number;
-    }
-  ): Promise<BlogPostNoAuthor[]> {
-    try {
-      // TODO: Real API call
-      /*
-      return await fetchApi<BlogPostNoAuthor[]>(
-        `/posts/search?q=${encodeURIComponent(query)}&${new URLSearchParams(options as any)}`
-      );
-      */
-      
-      // Dummy implementation
-      const term = query.toLowerCase();
-      return blogPostsNoAuthor.filter(post => {
-        const searchIn = options?.searchIn || ['title', 'content'];
-        
-        if (searchIn.includes('title') && post.title.toLowerCase().includes(term)) {
-          return true;
-        }
-        if (searchIn.includes('content') && 
-            (post.excerpt.toLowerCase().includes(term) || 
-             post.content.toLowerCase().includes(term))) {
-          return true;
-        }
-        if (searchIn.includes('tags') && 
-            post.tags.some(tag => tag.name.toLowerCase().includes(term))) {
-          return true;
-        }
-        return false;
-      }).slice(0, options?.limit || 20);
-    } catch {
-      return [];
-    }
   }
-};
+}
+
+// Create singleton instance
+export const blogApiService = new BlogApiService();
 
 // Export individual functions for backward compatibility
 export const {
@@ -378,4 +314,4 @@ export const {
   getRelatedPosts,
   getPopularPosts,
   searchPosts
-} = blogService; 
+} = blogApiService; 
