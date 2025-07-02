@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import styles from './page.module.scss';
 import MarkdownEditor from '@/app/components/admin/markdown/MarkdownEditor';
 import TitleInput from '@/app/components/admin/markdown/TitleInput';

@@ -57,9 +57,9 @@ export default function TitleInput({ initialTitle = '', onChange, onValidate }: 
   };
   
   // 외부에서 에러 표시를 트리거하는 메소드 (ref를 통해 호출 가능)
-  const showErrorMessage = () => {
-    validateTitle(title, true);
-  };
+  // const showErrorMessage = () => {
+  //   validateTitle(title, true);
+  // };
   
   return (
     <div className={styles.titleInputContainer}>
