@@ -22,6 +22,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
   const [hoverWindowControls, setHoverWindowControls] = useState(false);
   const [hoverCopy, setHoverCopy] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [copyFailed, setCopyFailed] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showFileNameTooltip, setShowFileNameTooltip] = useState(false);
   const [showToggleTooltip, setShowToggleTooltip] = useState(false);
@@ -98,6 +99,13 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
   }, []);
 
   const copyToClipboard = async () => {
+    // Check if it's an empty code block
+    if (!value || value.trim() === '') {
+      setCopyFailed(true);
+      setTimeout(() => setCopyFailed(false), 1500);
+      return;
+    }
+    
     try {
       await navigator.clipboard.writeText(value);
       setCopied(true);
@@ -308,7 +316,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
           onMouseEnter={() => setHoverCopy(true)}
           onMouseLeave={() => setHoverCopy(false)}
           style={{
-            background: hoverCopy ? '#e2e8f0' : 'none',
+            background: copyFailed ? '#fecaca' : (hoverCopy ? '#e2e8f0' : 'none'),
             border: 'none',
             borderRadius: '4px',
             padding: '4px 6px',
@@ -318,14 +326,21 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            transition: 'background-color 0.2s',
+            transition: copyFailed ? 'all 0.3s ease' : 'background-color 0.2s',
             width: '24px',
             height: '22px',
+            animation: copyFailed ? 'shake 0.5s ease-in-out' : 'none',
+            position: 'relative',
           }}
-          title="Copy code"
-          aria-label="Copy code to clipboard"
+          title={(!value || value.trim() === '') ? "Empty code block" : "Copy code"}
+          aria-label={(!value || value.trim() === '') ? "Empty code block" : "Copy code to clipboard"}
         >
-          {copied ? (
+          {copyFailed ? (
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#f87171" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          ) : copied ? (
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22C55E" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polyline points="20 6 9 17 4 12"></polyline>
             </svg>
@@ -335,6 +350,7 @@ const CodeBlockClient: React.FC<CodeBlockClientProps> = ({
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           )}
+
         </button>
         
         {/* Toggle switch for Mermaid diagrams */}

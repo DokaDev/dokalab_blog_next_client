@@ -8,7 +8,6 @@ import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import rehypeRaw from 'rehype-raw';
-import 'katex/dist/katex.min.css';
 import styles from './MarkdownRenderer.module.scss';
 import CodeBlock from './CodeBlock';
 
@@ -165,6 +164,19 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
   
   // Process alert boxes after LaTeX processing
   const processedContent = processAlertBoxes(processedLatex);
+
+  // Load KaTeX CSS dynamically when math content is detected
+  React.useEffect(() => {
+    const hasMath = content && (content.includes('$') || content.includes('\\(') || content.includes('\\['));
+    
+    if (hasMath) {
+      // Dynamically load KaTeX CSS only when needed
+      // @ts-expect-error - CSS files don't have TypeScript definitions
+      import('katex/dist/katex.min.css').catch(error => {
+        console.error('Failed to load KaTeX CSS:', error);
+      });
+    }
+  }, [content]);
   // Safe client-only useEffect - resolving hydration issues
   useEffect(() => {
     // Skip execution in server-side rendering
@@ -286,7 +298,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
               ? children 
               : Array.isArray(children) 
                 ? children.join('') 
-                : String(children);
+                : (children !== undefined && children !== null) 
+                  ? String(children) 
+                  : '';
                 
             // Return final code block component
             return (

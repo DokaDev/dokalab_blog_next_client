@@ -6,7 +6,10 @@ import styles from './MarkdownRenderer.module.scss';
 
 // Dynamically import client components for code rendering
 const CodeBlockClient = dynamic(() => import('./CodeBlockClient'), { ssr: true });
-const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { ssr: true });
+const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { 
+  ssr: false,
+  loading: () => <div className="syntax-loading">Loading syntax highlighter...</div>
+});
 
 // Simple skeleton loading component
 const MermaidSkeletonLoader = ({ code = '' }: { code?: string }) => {
@@ -154,9 +157,8 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', h
   // Set initial showCode state based on if language ends with !
   const [showCode, setShowCode] = useState(!shouldDefaultToDiagram);
   
-  if (!value || value.trim() === '') {
-    return <div className={styles.codeBlockWrapper}><div>Empty code block</div></div>;
-  }
+  // Check if the value is empty, undefined, or null
+  const isEmpty = !value || value.trim() === '' || value === 'undefined' || value === 'null';
 
   // Check if this is a Mermaid diagram
   const isMermaid = baseLanguage === 'mermaid';
@@ -168,7 +170,7 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', h
     <div className={styles.codeBlockWrapper}>
       {/* Header section as client component for interactive features */}
       <CodeBlockClient 
-        value={value} 
+        value={isEmpty ? '' : value} 
         fileName={fileName} 
         language={baseLanguage} 
         isMermaid={isMermaid}
@@ -181,6 +183,22 @@ const CodeBlock: React.FC<CodeBlockProps> = ({ language, value, fileName = '', h
         {/* If it's a Mermaid diagram and we're not showing code, show the diagram */}
         {shouldRenderDiagram ? (
           <MermaidRenderer code={value} />
+        ) : isEmpty ? (
+          /* Show empty block message without syntax highlighting */
+          <div style={{
+            backgroundColor: '#f8fafc',
+            padding: '1rem',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            minHeight: '60px',
+            color: '#64748b',
+            fontSize: '14px',
+            fontStyle: 'italic',
+            fontFamily: 'system-ui, -apple-system, sans-serif'
+          }}>
+            Empty Code Block
+          </div>
         ) : (
           /* Otherwise show the syntax highlighter */
           <SyntaxHighlighterClient 

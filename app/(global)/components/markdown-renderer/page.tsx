@@ -72,21 +72,37 @@ Before diving deep into React Query, it's crucial to understand the distinction 
 
 ### 1. Automatic Background Updates
 
-\`\`\`java
+\`\`\`python
 \`\`\`
 
 \`\`\`java
-{}
-\`\`\`
-
-\`\`\`java
-{
+// Example Java class
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
 }
 \`\`\`
 
 \`\`\`java
-{
+// Object initialization
+Map<String, Integer> scores = new HashMap<>();
+scores.put("Alice", 95);
+scores.put("Bob", 87);
+\`\`\`
+
+\`\`\`java
+// Empty method body example
+public void initialize() {
+    // TODO: Implement initialization logic
+}
+\`\`\`
+
+\`\`\`java
+// Method with implementation
+public int calculateSum(int a, int b) {
     // Your Code is Here
+    return a + b;
 }
 \`\`\`
 
