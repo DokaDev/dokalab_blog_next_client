@@ -7,9 +7,7 @@ import {
   getAdjacentPostsNoAuthor,
   getPostById,
   getAdjacentPosts,
-  getCategoryById,
-  blogPosts,
-  blogPostsNoAuthor
+  getCategoryById
 } from '@/app/data/blogData';
 import MarkdownRenderer from '@/app/components/markdown/MarkdownRenderer';
 import { formatDate } from '@/app/lib/utils';

@@ -3,10 +3,10 @@
  * Currently returns dummy data, but structured to easily switch to real API calls
  */
 
-import { config } from '@/config/env';
+// import { config } from '@/config/env'; // TODO: Use when real API is implemented
 import { BlogPost, BlogPostNoAuthor, Category, Tag } from '@/app/types/blog';
 import { 
-  blogPosts, 
+  // blogPosts, // TODO: Use when author info is needed
   blogPostsNoAuthor, 
   categoryGroups,
   getPostById as getPostByIdDummy,
@@ -22,11 +22,11 @@ interface PaginatedResponse<T> {
   totalPages: number;
 }
 
-interface ApiError {
-  message: string;
-  code: string;
-  status: number;
-}
+// interface ApiError { // TODO: Use when real API is implemented
+//   message: string;
+//   code: string;
+//   status: number;
+// }
 
 // Error handling
 class BlogApiError extends Error {
@@ -44,50 +44,50 @@ class BlogApiError extends Error {
  * Fetch wrapper with error handling
  * TODO: Add retry logic, request cancellation, and caching
  */
-async function fetchApi<T>(
-  endpoint: string,
-  options?: RequestInit
-): Promise<T> {
-  // TODO: When backend is ready, uncomment this block
-  /*
-  try {
-    const url = `${config.apiUrl}${endpoint}`;
-    const response = await fetch(url, {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...options?.headers,
-      },
-    });
+// async function fetchApi<T>(
+//   endpoint: string,
+//   options?: RequestInit
+// ): Promise<T> {
+//   // TODO: When backend is ready, uncomment this block
+//   /*
+//   try {
+//     const url = `${config.apiUrl}${endpoint}`;
+//     const response = await fetch(url, {
+//       ...options,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         ...options?.headers,
+//       },
+//     });
 
-    if (!response.ok) {
-      const error: ApiError = await response.json();
-      throw new BlogApiError(
-        error.message || 'API request failed',
-        error.code || 'UNKNOWN_ERROR',
-        response.status
-      );
-    }
+//     if (!response.ok) {
+//       const error: ApiError = await response.json();
+//       throw new BlogApiError(
+//         error.message || 'API request failed',
+//         error.code || 'UNKNOWN_ERROR',
+//         response.status
+//       );
+//     }
 
-    return response.json();
-  } catch (error) {
-    if (error instanceof BlogApiError) {
-      throw error;
-    }
-    throw new BlogApiError(
-      'Network error or server unavailable',
-      'NETWORK_ERROR',
-      500
-    );
-  }
-  */
+//     return response.json();
+//   } catch (error) {
+//     if (error instanceof BlogApiError) {
+//       throw error;
+//     }
+//     throw new BlogApiError(
+//       'Network error or server unavailable',
+//       'NETWORK_ERROR',
+//       500
+//     );
+//   }
+//   */
 
-  // Simulate API delay for development
-  await new Promise(resolve => setTimeout(resolve, 100));
+//   // Simulate API delay for development
+//   await new Promise(resolve => setTimeout(resolve, 100));
   
-  // Return dummy data for now
-  throw new Error('API not implemented - using dummy data fallback');
-}
+//   // Return dummy data for now
+//   throw new Error('API not implemented - using dummy data fallback');
+// }
 
 /**
  * Blog API Service
@@ -236,7 +236,7 @@ export const blogService = {
       
       // Dummy data implementation
       return categoryGroups.flatMap(group => group.categories);
-    } catch (error) {
+    } catch {
       // Fallback to dummy data
       return categoryGroups.flatMap(group => group.categories);
     }
@@ -260,7 +260,7 @@ export const blogService = {
         });
       });
       return Array.from(tagMap.values());
-    } catch (error) {
+    } catch {
       // Fallback to dummy data
       const tagMap = new Map<number, Tag>();
       blogPostsNoAuthor.forEach(post => {
@@ -297,7 +297,7 @@ export const blogService = {
           p.categoryId === currentPost.categoryId
         )
         .slice(0, limit);
-    } catch (error) {
+    } catch {
       return [];
     }
   },
@@ -321,7 +321,7 @@ export const blogService = {
           new Date(a.publishedAt).getTime()
         )
         .slice(0, limit);
-    } catch (error) {
+    } catch {
       return [];
     }
   },
@@ -363,7 +363,7 @@ export const blogService = {
         }
         return false;
       }).slice(0, options?.limit || 20);
-    } catch (error) {
+    } catch {
       return [];
     }
   }

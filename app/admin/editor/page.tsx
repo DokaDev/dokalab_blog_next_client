@@ -46,7 +46,7 @@ Enjoy writing with markdown!
   // 초기 마크다운 콘텐츠 설정
   useEffect(() => {
     setMarkdownContent(exampleMarkdown);
-  }, []);
+  }, [exampleMarkdown]);
   
   // 변경 감지
   useEffect(() => {

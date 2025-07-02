@@ -101,7 +101,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
   // Check if we have a search query
   const searchQuery = params.q || '';
   const searchType = params.searchType || 'both';
-  const page = params.page ? parseInt(params.page, 10) : 1;
+  // const page = params.page ? parseInt(params.page, 10) : 1; // TODO: Add pagination support
   
   /* 
    * API CALL: Get blog posts with filters
