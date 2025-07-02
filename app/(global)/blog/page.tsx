@@ -33,20 +33,24 @@ import { Metadata } from 'next';
 // Import will be needed when performing the swap
 // import { BlogPostNoAuthor } from '@/app/types/blog';
 
+// Blog list page uses dynamic rendering for search and filtering
+// Next.js will automatically optimize based on usage
+
 type PageProps = {
-  searchParams: { 
+  searchParams: Promise<{ 
     category?: string;
     tag?: string;
     q?: string;
     searchType?: string;
     page?: string;
-  }
+  }>
 };
 
-export function generateMetadata({ searchParams }: PageProps): Metadata {
-  const categoryId = searchParams.category ? parseInt(searchParams.category, 10) : null;
-  const tagId = searchParams.tag ? parseInt(searchParams.tag, 10) : null;
-  const searchQuery = searchParams.q;
+export async function generateMetadata({ searchParams }: PageProps): Promise<Metadata> {
+  const params = await searchParams;
+  const categoryId = params.category ? parseInt(params.category, 10) : null;
+  const tagId = params.tag ? parseInt(params.tag, 10) : null;
+  const searchQuery = params.q;
   
   // Default title for main blog page
   let title = 'Blog';
@@ -85,16 +89,101 @@ export function generateMetadata({ searchParams }: PageProps): Metadata {
   };
 }
 
-export default function BlogPage({ searchParams }: PageProps) {
+export default async function BlogPage({ searchParams }: PageProps) {
+  const params = await searchParams;
+  
   // Check if we have a category filter
-  const categoryId = searchParams.category ? parseInt(searchParams.category, 10) : null;
+  const categoryId = params.category ? parseInt(params.category, 10) : null;
   
   // Check if we have a tag filter
-  const tagId = searchParams.tag ? parseInt(searchParams.tag, 10) : null;
+  const tagId = params.tag ? parseInt(params.tag, 10) : null;
   
   // Check if we have a search query
-  const searchQuery = searchParams.q || '';
-  const searchType = searchParams.searchType || 'both';
+  const searchQuery = params.q || '';
+  const searchType = params.searchType || 'both';
+  const page = params.page ? parseInt(params.page, 10) : 1;
+  
+  /* 
+   * API CALL: Get blog posts with filters
+   * 
+   * GET /api/posts?category={categoryId}&tag={tagId}&q={searchQuery}&searchType={searchType}&page={page}&pageSize=10
+   * 
+   * Response:
+   * {
+   *   "data": [
+   *     {
+   *       "id": 1,
+   *       "title": "Getting Started with Next.js",
+   *       "excerpt": "Learn how to build modern web applications...",
+   *       "content": "Full markdown content here...",
+   *       "coverImage": "https://example.com/image.jpg",
+   *       "categoryId": 1,
+   *       "tags": [
+   *         { "id": 1, "name": "React", "slug": "react" },
+   *         { "id": 2, "name": "Next.js", "slug": "nextjs" }
+   *       ],
+   *       "publishedAt": "2023-09-15T00:00:00Z",
+   *       "updatedAt": "2023-09-16T00:00:00Z",
+   *       "readingTime": 8,
+   *       "views": 1234,
+   *       "likes": 56,
+   *       "slug": "getting-started-with-nextjs"
+   *     }
+   *   ],
+   *   "pagination": {
+   *     "total": 150,
+   *     "page": 1,
+   *     "pageSize": 10,
+   *     "totalPages": 15,
+   *     "hasNext": true,
+   *     "hasPrev": false
+   *   },
+   *   "filters": {
+   *     "category": { "id": 1, "name": "Web Development" },
+   *     "tag": null,
+   *     "searchQuery": ""
+   *   }
+   * }
+   */
+  
+  /*
+   * API CALL: Get all categories (for metadata)
+   * 
+   * GET /api/categories
+   * 
+   * Response:
+   * {
+   *   "data": [
+   *     {
+   *       "id": 1,
+   *       "name": "Web Development",
+   *       "slug": "web-development",
+   *       "description": "Articles about frontend and backend web development",
+   *       "postCount": 45,
+   *       "parentId": null,
+   *       "children": []
+   *     }
+   *   ]
+   * }
+   */
+  
+  /*
+   * API CALL: Get all tags (if needed for metadata)
+   * 
+   * GET /api/tags
+   * 
+   * Response:
+   * {
+   *   "data": [
+   *     {
+   *       "id": 1,
+   *       "name": "React",
+   *       "slug": "react",
+   *       "postCount": 23
+   *     }
+   *   ]
+   * }
+   */
   
   /* COMPONENT SWAP GUIDE:
    * Option 1: For data with author information

@@ -26,6 +26,63 @@ export default function ContactPage() {
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
+    /*
+     * API CALL: Submit contact form
+     * 
+     * POST /api/contact
+     * 
+     * Request Body:
+     * {
+     *   "name": "John Doe",
+     *   "email": "john.doe@example.com",
+     *   "subject": "Inquiry about your blog post",
+     *   "message": "Hi, I really enjoyed your article on React performance...",
+     *   "recaptchaToken": "reCAPTCHA_token_here" // Optional, if reCAPTCHA is enabled
+     * }
+     * 
+     * Success Response (200):
+     * {
+     *   "success": true,
+     *   "message": "Your message has been sent successfully",
+     *   "data": {
+     *     "id": "contact_123456",
+     *     "timestamp": "2023-09-15T12:30:00Z"
+     *   }
+     * }
+     * 
+     * Validation Error Response (400):
+     * {
+     *   "success": false,
+     *   "error": {
+     *     "code": "VALIDATION_ERROR",
+     *     "message": "Invalid form data",
+     *     "fields": {
+     *       "email": "Please provide a valid email address",
+     *       "message": "Message must be at least 10 characters long"
+     *     }
+     *   }
+     * }
+     * 
+     * Rate Limit Error Response (429):
+     * {
+     *   "success": false,
+     *   "error": {
+     *     "code": "RATE_LIMIT",
+     *     "message": "Too many requests. Please try again later.",
+     *     "retryAfter": 60 // seconds
+     *   }
+     * }
+     * 
+     * Server Error Response (500):
+     * {
+     *   "success": false,
+     *   "error": {
+     *     "code": "SERVER_ERROR",
+     *     "message": "Failed to send message. Please try again later."
+     *   }
+     * }
+     */
+
     // Simulate form submission for now
     setTimeout(() => {
       setIsSubmitting(false);
@@ -47,14 +104,14 @@ export default function ContactPage() {
       <div className={styles.contactHeader}>
         <h1>Get In Touch</h1>
         <p>
-          I'd love to hear from you! Whether you have questions about my posts, 
+          I&apos;d love to hear from you! Whether you have questions about my posts, 
           suggestions for topics, or just want to connect, feel free to reach out.
         </p>
       </div>
 
       <div className={styles.contactContent}>
         <div className={styles.contactInfo}>
-          <h2>Let's Connect</h2>
+          <h2>Let&apos;s Connect</h2>
           <div className={styles.contactMethods}>
             <div className={styles.contactMethod}>
               <strong>Email</strong>
@@ -137,7 +194,7 @@ export default function ContactPage() {
 
           {submitStatus === 'success' && (
             <div className={styles.successMessage}>
-              Thank you for your message! I'll get back to you soon.
+              Thank you for your message! I&apos;ll get back to you soon.
             </div>
           )}
 
