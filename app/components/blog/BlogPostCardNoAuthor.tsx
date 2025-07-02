@@ -15,7 +15,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { BlogPostNoAuthor } from '@/app/types/blog';
-import { formatDate } from '../../lib/utils';
+import { formatDate } from '@/lib/utils';
 import styles from './BlogPostCardNoAuthor.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
 

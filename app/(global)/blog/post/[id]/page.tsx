@@ -10,7 +10,7 @@ import {
   getCategoryById
 } from '@/app/data/blogData';
 import MarkdownRenderer from '@/app/components/markdown/MarkdownRenderer';
-import { formatDate } from '@/app/lib/utils';
+import { formatDate } from '@/lib/utils';
 import { BlogPost, BlogPostNoAuthor } from '@/app/types/blog';
 import styles from './page.module.scss';
 
