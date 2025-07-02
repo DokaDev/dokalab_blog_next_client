@@ -200,25 +200,6 @@ export default function PostEditorPage({ params }: { params: Promise<{ id: strin
      */
   };
 
-  const handleDelete = async () => {
-    /*
-     * API CALL: Delete post
-     * 
-     * DELETE /api/admin/posts/{postId}
-     * 
-     * Headers:
-     * {
-     *   "Authorization": "Bearer {admin_token}"
-     * }
-     * 
-     * Success Response (200):
-     * {
-     *   "success": true,
-     *   "message": "Post deleted successfully"
-     * }
-     */
-  };
-
   if (isLoading) {
     return <div>Loading...</div>;
   }

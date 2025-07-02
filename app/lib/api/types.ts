@@ -4,7 +4,7 @@
  */
 
 // Common Response Types
-export interface ApiSuccessResponse<T = any> {
+export interface ApiSuccessResponse<T = unknown> {
   success: true;
   message?: string;
   data: T;
@@ -21,7 +21,7 @@ export interface ApiErrorResponse {
   };
 }
 
-export type ApiResponse<T = any> = ApiSuccessResponse<T> | ApiErrorResponse;
+export type ApiResponse<T = unknown> = ApiSuccessResponse<T> | ApiErrorResponse;
 
 // Pagination Types
 export interface PaginationInfo {
@@ -36,7 +36,7 @@ export interface PaginationInfo {
 export interface PaginatedResponse<T> {
   data: T[];
   pagination: PaginationInfo;
-  filters?: Record<string, any>;
+  filters?: Record<string, unknown>;
 }
 
 // Blog Post Types

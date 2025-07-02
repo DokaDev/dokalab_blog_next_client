@@ -34,7 +34,7 @@ Enjoy writing with markdown!
   // 초기 마크다운 콘텐츠 설정
   useEffect(() => {
     setMarkdownContent(exampleMarkdown);
-  }, []);
+  }, [exampleMarkdown]);
   
   // 마크다운 콘텐츠 변경 핸들러
   const handleMarkdownChange = (content: string) => {
