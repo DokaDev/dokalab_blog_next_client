@@ -1,5 +1,17 @@
 import MarkdownRenderer from '@/app/components/markdown/MarkdownRenderer';
+import { Metadata } from 'next';
+import { config } from '@/config/env';
 import styles from './page.module.scss';
+
+export const metadata: Metadata = {
+  title: `About | ${config.siteName}`,
+  description: 'Learn about DokaLab and the passion behind this technology blog. Discover my mission to share knowledge and build a community of curious learners.',
+  openGraph: {
+    title: `About | ${config.siteName}`,
+    description: 'Learn about DokaLab and the passion behind this technology blog.',
+    url: `${config.siteUrl}/about`,
+  },
+};
 
 export default function AboutPage() {
   const aboutContent = `# Hello
