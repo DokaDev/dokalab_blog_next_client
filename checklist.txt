@@ -4,7 +4,7 @@
 1. [X] Navigation 컴포넌트 로직 분리 - 네비게이션 상태 관리 훅으로 추출
 2. [X] 환경변수 설정 검증 로직 개선 - config/env.ts 타입 안전성 강화  
 3. [X] API 서비스 에러 핸들링 통합 - lib/api/base.ts 생성하여 공통 로직 집중화
-4. [-] 공통 타입 정의 정리 - lib/types/common.ts 생성하여 중복 타입 제거
+4. [X] 공통 타입 정의 정리 - lib/types/common.ts 생성하여 중복 타입 제거
 
 ## 2. 블로그 기능 모듈화
 5. [ ] 블로그 포스트 렌더링 로직 분리 - components/blog/PostRenderer 모듈 생성

@@ -5,6 +5,7 @@
  */
 
 import { BaseApiService, ApiError, ErrorCode, PaginatedResponse } from '@/lib/api/base';
+import { BlogPostParams, BlogSearchOptions } from '@/lib/types/blog';
 import { BlogPost, BlogPostNoAuthor, Category, Tag } from '@/app/types/blog';
 import { 
   blogPostsNoAuthor, 
@@ -12,22 +13,6 @@ import {
   getPostById as getPostByIdDummy,
   getPostNoAuthorById as getPostNoAuthorByIdDummy
 } from '@/app/data/blogData';
-
-// Blog-specific API parameters
-interface BlogPostParams {
-  page?: number;
-  pageSize?: number;
-  categoryId?: number;
-  tagId?: number;
-  search?: string;
-  sortBy?: 'date' | 'views' | 'likes';
-  order?: 'asc' | 'desc';
-}
-
-interface SearchOptions {
-  searchIn?: ('title' | 'content' | 'tags')[];
-  limit?: number;
-}
 
 /**
  * Blog API Service Class
@@ -208,7 +193,7 @@ class BlogApiService extends BaseApiService {
   /**
    * Search posts
    */
-  async searchPosts(query: string, options?: SearchOptions): Promise<BlogPostNoAuthor[]> {
+  async searchPosts(query: string, options?: BlogSearchOptions): Promise<BlogPostNoAuthor[]> {
     return this.safeExecute(
       async () => {
         // TODO: Real API call when backend is ready

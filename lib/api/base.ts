@@ -4,6 +4,7 @@
  */
 
 import { config } from '@/config/env';
+import { ErrorCode } from '@/lib/types/common';
 
 // Common API Error class
 export class ApiError extends Error {
@@ -18,26 +19,11 @@ export class ApiError extends Error {
   }
 }
 
-// Error codes enum for consistent error handling
-export enum ErrorCode {
-  UNKNOWN_ERROR = 'UNKNOWN_ERROR',
-  NETWORK_ERROR = 'NETWORK_ERROR',
-  NOT_FOUND = 'NOT_FOUND',
-  UNAUTHORIZED = 'UNAUTHORIZED',
-  FORBIDDEN = 'FORBIDDEN',
-  VALIDATION_ERROR = 'VALIDATION_ERROR',
-  SERVER_ERROR = 'SERVER_ERROR',
-  TIMEOUT_ERROR = 'TIMEOUT_ERROR',
-  API_NOT_IMPLEMENTED = 'API_NOT_IMPLEMENTED'
-}
+// Re-export common types for convenience
+export type { ApiResponse } from '@/lib/types/common';
+export { ErrorCode } from '@/lib/types/common';
 
-// Response wrapper types
-export interface ApiResponse<T> {
-  data: T;
-  success: boolean;
-  message?: string;
-}
-
+// Legacy PaginatedResponse for backward compatibility
 export interface PaginatedResponse<T> {
   data: T[];
   total: number;
