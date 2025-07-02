@@ -3,12 +3,13 @@
 import React, { useState } from 'react';
 import dynamic from 'next/dynamic';
 import styles from './MarkdownRenderer.module.scss';
+import CodeBlockSkeleton from './CodeBlockSkeleton';
 
 // Dynamically import client components for code rendering
 const CodeBlockClient = dynamic(() => import('./CodeBlockClient'), { ssr: true });
 const SyntaxHighlighterClient = dynamic(() => import('./SyntaxHighlighterClient'), { 
   ssr: false,
-  loading: () => <div className="syntax-loading">Loading syntax highlighter...</div>
+  loading: () => <CodeBlockSkeleton />
 });
 
 // Simple skeleton loading component
