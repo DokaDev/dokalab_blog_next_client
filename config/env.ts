@@ -64,9 +64,11 @@ function getConfig(): EnvConfig {
       .map(([key]) => key);
     
     if (missingVars.length > 0) {
-      throw new Error(
-        `Missing required environment variables: ${missingVars.join(', ')}`
+      console.warn(
+        `⚠️  Missing required environment variables: ${missingVars.join(', ')}`
       );
+      console.warn('Using default values for missing environment variables.');
+      console.warn('Set these variables in production for proper functionality.');
     }
   }
   
@@ -124,7 +126,7 @@ export function getEnv<K extends keyof EnvConfig>(key: K): EnvConfig[K] {
 }
 
 // Debug logger that respects feature flag
-export function debugLog(...args: any[]) {
+export function debugLog(...args: unknown[]) {
   if (config.features.debug) {
     console.log('[DEBUG]', ...args);
   }
