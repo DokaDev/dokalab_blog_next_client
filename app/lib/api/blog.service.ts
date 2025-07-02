@@ -114,6 +114,28 @@ export const blogService = {
       */
       
       // Dummy data implementation
+      return this._getDummyPosts(params);
+    } catch (error) {
+      // Direct fallback to prevent infinite recursion
+      console.error('Error in getPosts:', error);
+      return this._getDummyPosts(params);
+    }
+  },
+
+  /**
+   * Internal method to process dummy data
+   * Extracted to prevent infinite recursion in error handling
+   */
+  _getDummyPosts(params?: {
+    page?: number;
+    pageSize?: number;
+    categoryId?: number;
+    tagId?: number;
+    search?: string;
+    sortBy?: 'date' | 'views' | 'likes';
+    order?: 'asc' | 'desc';
+  }): PaginatedResponse<BlogPostNoAuthor> {
+    try {
       let posts = [...blogPostsNoAuthor];
       
       // Apply filters
@@ -152,8 +174,15 @@ export const blogService = {
         totalPages: Math.ceil(posts.length / pageSize)
       };
     } catch (error) {
-      // Fallback to dummy data on error
-      return this.getPosts(params);
+      // Last resort: return empty result to prevent any recursion
+      console.error('Critical error in _getDummyPosts:', error);
+      return {
+        data: [],
+        total: 0,
+        page: 1,
+        pageSize: 10,
+        totalPages: 0
+      };
     }
   },
 
