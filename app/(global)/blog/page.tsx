@@ -19,6 +19,7 @@ import {
 } from '@/app/data/blogData';
 import CategorySidebar from '@/app/components/blog/CategorySidebar';
 import BlogSearch from '@/app/components/blog/BlogSearch';
+import { generateBlogListingMetadata } from '@/lib/metadata/generator';
 import styles from './page.module.scss';
 import { Metadata } from 'next';
 
@@ -51,42 +52,30 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   const categoryId = params.category ? parseInt(params.category, 10) : null;
   const tagId = params.tag ? parseInt(params.tag, 10) : null;
   const searchQuery = params.q;
+  const searchType = params.searchType;
   
-  // Default title for main blog page
-  let title = 'Blog';
+  // Get category and tag objects for metadata generation
+  const category = categoryId !== null ? getCategoryById(categoryId) : null;
   
-  // If category is specified, update title to include category name
-  if (categoryId !== null) {
-    const category = getCategoryById(categoryId);
-    if (category) {
-      title = `${category.name} - Blog`;
-    }
-  }
-
-  // If tag is specified, update title to include tag name
-  if (tagId !== null) {
-    /* COMPONENT SWAP GUIDE:
-     * Option 1: For data with author information
-     * const tag = blogPosts.flatMap(post => post.tags).find(tag => tag.id === tagId);
-     *
-     * Option 2: For data without author information
-     * const tag = blogPostsNoAuthor.flatMap(post => post.tags).find(tag => tag.id === tagId);
-     */
-    const tag = blogPostsNoAuthor.flatMap(post => post.tags).find(tag => tag.id === tagId);
-    if (tag) {
-      title = categoryId ? `${title} - Tagged with '${tag.name}'` : `Tagged with '${tag.name}' - Blog`;
-    }
-  }
+  /* COMPONENT SWAP GUIDE:
+   * Option 1: For data with author information
+   * const tag = tagId !== null ? blogPosts.flatMap(post => post.tags).find(tag => tag.id === tagId) : null;
+   *
+   * Option 2: For data without author information
+   * const tag = tagId !== null ? blogPostsNoAuthor.flatMap(post => post.tags).find(tag => tag.id === tagId) : null;
+   */
+  const tag = tagId !== null 
+    ? blogPostsNoAuthor.flatMap(post => post.tags).find(tag => tag.id === tagId) 
+    : null;
   
-  // If search query is specified, update title to include search query
-  if (searchQuery) {
-    title = `Search: ${searchQuery} - ${title}`;
-  }
-  
-  return {
-    title,
-    description: 'Explore our latest articles, tutorials, and updates',
-  };
+  return generateBlogListingMetadata({
+    categoryId,
+    tagId,
+    searchQuery,
+    searchType,
+    category,
+    tag
+  });
 }
 
 export default async function BlogPage({ searchParams }: PageProps) {

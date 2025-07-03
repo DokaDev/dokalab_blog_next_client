@@ -8,7 +8,7 @@ import {
   getCategoryById
 } from '@/app/data/blogData';
 import PostRenderer from '@/app/components/blog/PostRenderer';
-import { BlogPost, BlogPostNoAuthor } from '@/app/types/blog';
+import { generateBlogPostMetadata, generateErrorPageMetadata } from '@/lib/metadata/generator';
 
 // Configuration: Set to true to show author information
 const SHOW_AUTHOR_INFO = false;
@@ -17,10 +17,7 @@ const SHOW_AUTHOR_INFO = false;
 // export const revalidate = 3600; // Revalidate every hour
 // export const dynamicParams = true; // Allow pages not in generateStaticParams
 
-// Type guard to check if post has author
-function hasAuthor(post: BlogPost | BlogPostNoAuthor): post is BlogPost {
-  return 'author' in post;
-}
+// Type guard removed - now handled in metadata generator
 
 type PageProps = {
   params: Promise<{ id: string }>
@@ -43,48 +40,29 @@ type PageProps = {
 //    - Always fresh data but slower
 //    - Use only if real-time updates are critical
 
-// Generate metadata for SEO
+// Generate metadata for SEO using centralised generator
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
   const postId = parseInt(id, 10);
+  
+  // Validate ID format
+  if (isNaN(postId)) {
+    return generateErrorPageMetadata(404);
+  }
+  
   const post = SHOW_AUTHOR_INFO ? getPostById(postId) : getPostNoAuthorById(postId);
   
   if (!post) {
-    return {
-      title: 'Post Not Found',
-      description: 'The requested blog post could not be found.'
-    };
+    return generateErrorPageMetadata(404);
   }
   
   const category = getCategoryById(post.categoryId);
   
-  return {
-    title: `${post.title} - DokaLab Blog`,
-    description: post.excerpt,
-    openGraph: {
-      title: post.title,
-      description: post.excerpt,
-      type: 'article',
-      publishedTime: post.publishedAt,
-      authors: SHOW_AUTHOR_INFO && hasAuthor(post) ? [post.author.name] : ['DokaLab'],
-      tags: post.tags.map(tag => tag.name),
-      images: post.coverImage ? [{ url: post.coverImage, alt: post.title }] : undefined,
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: post.title,
-      description: post.excerpt,
-      images: post.coverImage ? [post.coverImage] : undefined,
-    },
-    keywords: [
-      ...post.tags.map(tag => tag.name),
-      category?.name || '',
-      'DokaLab',
-      'Tech Blog',
-      'Programming',
-      'Development'
-    ].filter(Boolean),
-  };
+  return generateBlogPostMetadata({
+    post,
+    category,
+    showAuthor: SHOW_AUTHOR_INFO
+  });
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
