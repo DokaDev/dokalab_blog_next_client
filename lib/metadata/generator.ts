@@ -46,16 +46,16 @@ export function generateBaseMetadata(options: BaseMetadataOptions): Metadata {
     noIndex = false
   } = options;
 
-  const fullTitle = title.includes(config.siteName) ? title : `${title} | ${config.siteName}`;
+  // Let Next.js handle siteName via template in root layout
   const url = `${config.siteUrl}${path}`;
   const ogImage = image || `${config.siteUrl}/images/og-default.jpg`;
 
   return {
-    title: fullTitle,
+    title,
     description,
     robots: noIndex ? 'noindex,nofollow' : 'index,follow',
     openGraph: {
-      title: fullTitle,
+      title,
       description,
       url,
       siteName: config.siteName,
@@ -71,7 +71,7 @@ export function generateBaseMetadata(options: BaseMetadataOptions): Metadata {
     },
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
+      title,
       description,
       images: [ogImage],
     },
@@ -90,7 +90,8 @@ export function generateBlogPostMetadata(options: BlogPostMetadataOptions): Meta
   // Handle type guard for author information
   const hasAuthor = (p: BlogPost | BlogPostNoAuthor): p is BlogPost => 'author' in p;
   
-  const title = `${post.title} - ${config.siteName}`;
+  // Let Next.js handle siteName via template in root layout
+  const title = post.title;
   const description = post.excerpt || 'Read this insightful article on our tech blog.';
   const url = `${config.siteUrl}/blog/post/${post.id}`;
   const publishedTime = new Date(post.publishedAt).toISOString();
@@ -164,29 +165,27 @@ export function generateBlogListingMetadata(options: BlogListingMetadataOptions 
     tag
   } = options;
 
-  // Build dynamic title based on filters
+  // Build dynamic title based on filters (without siteName to avoid duplication)
   let title = 'Blog';
   let description = 'Explore our latest articles, tutorials, and insights on technology, programming, and development.';
   
   // Category-specific metadata
   if (categoryId && category) {
-    title = `${category.name} - Blog`;
+    title = `${category.name}`;
     description = `Discover articles about ${category.name.toLowerCase()}. ${description}`;
   }
 
   // Tag-specific metadata
   if (tagId && tag) {
-    const tagTitle = categoryId && category 
+    title = categoryId && category 
       ? `${category.name} - Tagged with '${tag.name}'`
-      : `Tagged with '${tag.name}' - Blog`;
-    title = tagTitle;
+      : `Tagged with '${tag.name}'`;
     description = `Articles tagged with ${tag.name}. ${description}`;
   }
   
   // Search-specific metadata
   if (searchQuery) {
-    const searchTitle = `Search: ${searchQuery} - ${title}`;
-    title = searchTitle;
+    title = `Search: ${searchQuery}${title !== 'Blog' ? ` - ${title}` : ''}`;
     description = `Search results for "${searchQuery}". ${description}`;
   }
 
