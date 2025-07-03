@@ -7,7 +7,7 @@
 4. [X] 공통 타입 정의 정리 - lib/types/common.ts 생성하여 중복 타입 제거
 
 ## 2. 블로그 기능 모듈화
-5. [ ] 블로그 포스트 렌더링 로직 분리 - components/blog/PostRenderer 모듈 생성
+5. [X] 블로그 포스트 렌더링 로직 분리 - components/blog/PostRenderer 모듈 생성
 6. [ ] 메타데이터 생성 로직 모듈화 - lib/metadata/generator.ts 생성
 7. [ ] 블로그 서비스 레이어 개선 - lib/api/blog.ts의 에러 핸들링 및 캐싱 로직 강화
 8. [ ] 카테고리 관리 로직 분리 - lib/blog/categories.ts 모듈 생성
