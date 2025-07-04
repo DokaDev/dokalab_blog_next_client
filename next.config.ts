@@ -69,17 +69,10 @@ const nextConfig: NextConfig = {
   compress: true,
   poweredByHeader: false,
   
-  // Bundle analysis (only in development with ANALYZE=true)
-  ...(process.env.ANALYZE === 'true' && {
-    webpack: (config: any) => {
-      const { BundleAnalyzerPlugin } = require('@next/bundle-analyzer')({
-        enabled: true
-      });
-      
-      config.plugins.push(new BundleAnalyzerPlugin());
-      return config;
-    }
-  }),
+  // Bundle analysis configuration
+  env: {
+    ANALYZE: process.env.ANALYZE || 'false',
+  },
 };
 
 export default nextConfig;

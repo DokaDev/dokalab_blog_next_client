@@ -53,7 +53,7 @@ export default function MarkdownEditor({ initialContent = '', onChange }: Markdo
     const loadExtensions = async () => {
       try {
         const { createMarkdownExtensions } = await import('./CodeMirrorExtensions');
-        const extensionList = createMarkdownExtensions();
+        const extensionList = await createMarkdownExtensions();
         setExtensions(extensionList);
         setIsLoading(false);
       } catch (error) {

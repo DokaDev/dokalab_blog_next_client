@@ -1,9 +1,22 @@
-import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
-import { languages } from '@codemirror/language-data';
-import { EditorView } from '@codemirror/view';
-import { Extension } from '@codemirror/state';
+/**
+ * Dynamically loaded CodeMirror Extensions
+ * All imports are done dynamically to prevent bundle inclusion
+ */
 
-export const createMarkdownExtensions = (): Extension[] => {
+import type { Extension } from '@codemirror/state';
+
+export const createMarkdownExtensions = async (): Promise<Extension[]> => {
+  // Dynamic imports to prevent inclusion in main bundle
+  const [
+    { markdown, markdownLanguage },
+    { languages },
+    { EditorView }
+  ] = await Promise.all([
+    import('@codemirror/lang-markdown'),
+    import('@codemirror/language-data'),
+    import('@codemirror/view')
+  ]);
+
   return [
     markdown({ 
       base: markdownLanguage, 

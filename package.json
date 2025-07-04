@@ -18,13 +18,13 @@
   },
   "homepage": "https://github.com/DokaDev/dokalab_blog_next_client#readme",
   "scripts": {
-    "dev": "next dev --turbopack",
+    "dev": "next dev",
+    "dev:clean": "rm -rf .next && npm run dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
-    "@codemirror/basic-setup": "^0.20.0",
     "@codemirror/lang-markdown": "^6.3.2",
     "@codemirror/language-data": "^6.5.1",
     "@codemirror/state": "^6.5.2",
@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@next/bundle-analyzer": "^15.3.4",
+    "@next/bundle-analyzer": "^15.3.5",
     "@types/katex": "^0.16.7",
     "@types/node": "^20",
     "@types/react": "^19",
