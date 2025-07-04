@@ -10,7 +10,7 @@
 5. [X] 블로그 포스트 렌더링 로직 분리 - components/blog/PostRenderer 모듈 생성
 6. [X] 메타데이터 생성 로직 모듈화 - lib/metadata/generator.ts 생성
 7. [X] 블로그 서비스 레이어 개선 - lib/api/blog.ts의 에러 핸들링 및 캐싱 로직 강화
-8. [ ] 카테고리 관리 로직 분리 - lib/blog/categories.ts 모듈 생성
+8. [X] 카테고리 관리 로직 분리 - lib/blog/categories.ts 모듈 생성
 
 ## 3. 마크다운 및 에디터 최적화  
 9. [ ] CodeMirror 동적 로딩 완료 - admin 에디터 번들 사이즈 최적화

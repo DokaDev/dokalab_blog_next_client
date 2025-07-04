@@ -13,10 +13,9 @@ import {
    * getPostsNoAuthorByCategoryId
    */
   blogPostsNoAuthor, 
-  categoryGroups, 
-  getCategoryById, 
-  getPostsNoAuthorByCategoryId
+  categoryGroups
 } from '@/app/data/blogData';
+import { categoryService } from '@/lib/blog/categories';
 import CategorySidebar from '@/app/components/blog/CategorySidebar';
 import BlogSearch from '@/app/components/blog/BlogSearch';
 import { generateBlogListingMetadata } from '@/lib/metadata/generator';
@@ -55,7 +54,7 @@ export async function generateMetadata({ searchParams }: PageProps): Promise<Met
   const searchType = params.searchType;
   
   // Get category and tag objects for metadata generation
-  const category = categoryId !== null ? getCategoryById(categoryId) : null;
+  const category = categoryId !== null ? categoryService.getCategoryById(categoryId) : null;
   
   /* COMPONENT SWAP GUIDE:
    * Option 1: For data with author information
@@ -186,7 +185,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
   
   // First, filter posts by category if specified
   if (categoryId !== null) {
-    const category = getCategoryById(categoryId);
+    const category = categoryService.getCategoryById(categoryId);
     if (category) {
       /* COMPONENT SWAP GUIDE:
        * Option 1: For data with author information
@@ -195,7 +194,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
        * Option 2: For data without author information
        * filteredPosts = getPostsNoAuthorByCategoryId(categoryId);
        */
-      filteredPosts = getPostsNoAuthorByCategoryId(categoryId);
+      filteredPosts = categoryService.getPostsByCategory(categoryId, false) as typeof blogPostsNoAuthor;
       categoryName = category.name;
     }
   }

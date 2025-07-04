@@ -4,9 +4,9 @@ import {
   getPostNoAuthorById, 
   getAdjacentPostsNoAuthor,
   getPostById,
-  getAdjacentPosts,
-  getCategoryById
+  getAdjacentPosts
 } from '@/app/data/blogData';
+import { categoryService } from '@/lib/blog/categories';
 import PostRenderer from '@/app/components/blog/PostRenderer';
 import { generateBlogPostMetadata, generateErrorPageMetadata } from '@/lib/metadata/generator';
 
@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     return generateErrorPageMetadata(404);
   }
   
-  const category = getCategoryById(post.categoryId);
+  const category = categoryService.getCategoryById(post.categoryId);
   
   return generateBlogPostMetadata({
     post,
@@ -150,7 +150,7 @@ export default async function BlogPostPage({ params }: PageProps) {
     notFound();
   }
   
-  const category = getCategoryById(post.categoryId);
+  const category = categoryService.getCategoryById(post.categoryId);
   
   /*
    * API CALL: Get adjacent posts (previous and next)

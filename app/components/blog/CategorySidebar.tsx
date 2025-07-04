@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { CategoryGroup } from '@/app/types/blog';
-import { getPostsByCategoryId, blogPosts } from '@/app/data/blogData';
+import { categoryService } from '@/lib/blog/categories';
 import styles from './CategorySidebar.module.scss';
 
 interface CategorySidebarProps {
@@ -41,7 +41,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
 
   // Get post count for each category
   const getCategoryPostCount = (categoryId: number): number => {
-    return getPostsByCategoryId(categoryId).length;
+    return categoryService.getPostCount(categoryId, false);
   };
 
   return (
@@ -59,7 +59,7 @@ const CategorySidebar: React.FC<CategorySidebarProps> = ({
           >
             All Posts
             <span className={styles.categoryCount}>
-              {blogPosts.length}
+              {categoryService.getCategoryStatsSummary(false).totalPosts}
             </span>
           </Link>
         </div>
