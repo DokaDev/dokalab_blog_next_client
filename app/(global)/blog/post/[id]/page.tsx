@@ -9,6 +9,11 @@ import {
 import { categoryService } from '@/lib/blog/categories';
 import PostRenderer from '@/app/components/blog/PostRenderer';
 import { generateBlogPostMetadata, generateErrorPageMetadata } from '@/lib/metadata/generator';
+import StructuredData, { 
+  generateBlogPostSchema, 
+  generateBreadcrumbSchema,
+  generateOrganizationSchema 
+} from '@/app/components/seo/StructuredData';
 
 // Configuration: Set to true to show author information
 const SHOW_AUTHOR_INFO = false;
@@ -179,12 +184,34 @@ export default async function BlogPostPage({ params }: PageProps) {
    */
   const { previous, next } = SHOW_AUTHOR_INFO ? getAdjacentPosts(postId) : getAdjacentPostsNoAuthor(postId);
   
+  // Generate structured data for SEO
+  const blogPostSchema = generateBlogPostSchema(post, category);
+  const organizationSchema = generateOrganizationSchema();
+  
+  // Generate breadcrumb navigation
+  const breadcrumbs = [
+    { name: 'Home', url: '/' },
+    { name: 'Blog', url: '/blog' },
+    ...(category ? [{ name: category.name, url: `/blog?category=${category.id}` }] : []),
+    { name: post.title } // Current page, no URL
+  ];
+  const breadcrumbSchema = generateBreadcrumbSchema(breadcrumbs);
+  
   return (
-    <PostRenderer
-      post={post}
-      category={category}
-      adjacentPosts={{ previous, next }}
-      showAuthor={SHOW_AUTHOR_INFO}
-    />
+    <>
+      {/* Inject structured data for SEO */}
+      <StructuredData data={[
+        blogPostSchema,
+        organizationSchema,
+        breadcrumbSchema
+      ]} />
+      
+      <PostRenderer
+        post={post}
+        category={category}
+        adjacentPosts={{ previous, next }}
+        showAuthor={SHOW_AUTHOR_INFO}
+      />
+    </>
   );
 } 

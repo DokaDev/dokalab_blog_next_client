@@ -7,6 +7,12 @@
 import { Metadata } from 'next';
 import { config } from '@/config/env';
 import { BlogPost, BlogPostNoAuthor, Category, Tag } from '@/app/types/blog';
+import { 
+  generateOrganizationSchema, 
+  generateWebsiteSchema, 
+  generateBlogPostSchema,
+  generateBreadcrumbSchema 
+} from '@/app/components/seo/StructuredData';
 
 // Base metadata configuration
 interface BaseMetadataOptions {
@@ -54,29 +60,47 @@ export function generateBaseMetadata(options: BaseMetadataOptions): Metadata {
     title,
     description,
     robots: noIndex ? 'noindex,nofollow' : 'index,follow',
+    keywords: 'DokaLab, tech blog, programming, development, web development, AI, machine learning, tutorials',
+    authors: [{ name: config.siteName }],
+    creator: config.siteName,
+    publisher: config.siteName,
+    formatDetection: {
+      telephone: false, // Disable automatic telephone number detection
+    },
     openGraph: {
       title,
       description,
       url,
       siteName: config.siteName,
       type: 'website',
+      locale: 'en_US',
       images: [
         {
           url: ogImage,
           width: 1200,
           height: 630,
           alt: title,
+          type: 'image/png',
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
+      site: '@dokadev',
+      creator: '@dokadev',
       title,
       description,
       images: [ogImage],
     },
     alternates: {
       canonical: url,
+    },
+    other: {
+      'theme-color': '#644AC9', // Brand primary color
+      'msapplication-TileColor': '#644AC9',
+      'apple-mobile-web-app-capable': 'yes',
+      'apple-mobile-web-app-status-bar-style': 'default',
+      'mobile-web-app-capable': 'yes',
     },
   };
 }
@@ -117,29 +141,44 @@ export function generateBlogPostMetadata(options: BlogPostMetadataOptions): Meta
     description,
     keywords: keywords.join(', '),
     authors: authors.map(name => ({ name })),
+    creator: showAuthor && hasAuthor(post) ? post.author.name : config.siteName,
+    publisher: config.siteName,
+    category: category?.name,
     openGraph: {
       title: post.title,
       description,
       type: 'article',
       url,
       siteName: config.siteName,
+      locale: 'en_US',
       publishedTime,
+      modifiedTime: publishedTime, // Update when backend provides updatedAt
       authors,
       tags: post.tags.map(tag => tag.name),
+      section: category?.name,
       images: post.coverImage 
         ? [{ 
             url: post.coverImage, 
             alt: post.title,
             width: 1200,
             height: 630,
+            type: 'image/jpeg',
           }] 
-        : undefined,
+        : [{
+            url: `${config.siteUrl}/og-image.png`,
+            alt: config.siteName,
+            width: 1200,
+            height: 630,
+            type: 'image/png',
+          }],
     },
     twitter: {
       card: 'summary_large_image',
+      site: '@dokadev',
+      creator: '@dokadev', // Default to site creator
       title: post.title,
       description,
-      images: post.coverImage ? [post.coverImage] : undefined,
+      images: post.coverImage ? [post.coverImage] : [`${config.siteUrl}/og-image.png`],
     },
     alternates: {
       canonical: url,
@@ -148,6 +187,9 @@ export function generateBlogPostMetadata(options: BlogPostMetadataOptions): Meta
       'article:reading_time': `${post.readingTime} minutes`,
       'article:published_time': publishedTime,
       'article:section': category?.name || '',
+      'article:tag': post.tags.map(tag => tag.name).join(', '),
+      'theme-color': '#644AC9',
+      'msapplication-TileColor': '#644AC9',
     },
   };
 }

@@ -4,6 +4,10 @@ import MainWrapper from '../components/MainWrapper';
 import { MobileMenuProvider } from '@/lib/contexts/MobileMenuContext';
 import { config } from '@/config/env';
 import { getFontVariables } from '@/lib/fonts';
+import StructuredData, { 
+  generateOrganizationSchema, 
+  generateWebsiteSchema 
+} from '../components/seo/StructuredData';
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -58,8 +62,16 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Generate base structured data for all pages
+  const organizationSchema = generateOrganizationSchema();
+  const websiteSchema = generateWebsiteSchema();
+  
   return (
     <html lang="en" className={getFontVariables()} suppressHydrationWarning>
+      <head>
+        {/* Global structured data for SEO */}
+        <StructuredData data={[organizationSchema, websiteSchema]} />
+      </head>
       <body suppressHydrationWarning>
         {/* 
           MobileMenuProvider wraps Header and MainWrapper to enable
