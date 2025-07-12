@@ -7,12 +7,7 @@
 import { Metadata } from 'next';
 import { config } from '@/config/env';
 import { BlogPost, BlogPostNoAuthor, Category, Tag } from '@/app/types/blog';
-import { 
-  generateOrganizationSchema, 
-  generateWebsiteSchema, 
-  generateBlogPostSchema,
-  generateBreadcrumbSchema 
-} from '@/app/components/seo/StructuredData';
+// Note: Structured data schemas are imported where needed to avoid unused imports
 
 // Base metadata configuration
 interface BaseMetadataOptions {

@@ -532,6 +532,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
                 >
                   <span className={styles.faviconContainer}>
                     {domain && (
+                      // eslint-disable-next-line @next/next/no-img-element
                       <img 
                         src={`https://www.google.com/s2/favicons?domain=${domain}&sz=32`}
                         alt=""
@@ -613,6 +614,7 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ content, className 
             // Wrap image in figure element to separate from content flow
             return (
               <span className={containerClassName} style={containerStyle}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img 
                   className={imageClassName} 
                   src={src} 

@@ -13,7 +13,6 @@ import { MetadataRoute } from 'next';
 import { config } from '@/config/env';
 
 export default function robots(): MetadataRoute.Robots {
-  const isProduction = config.isProduction;
   
   return {
     rules: [

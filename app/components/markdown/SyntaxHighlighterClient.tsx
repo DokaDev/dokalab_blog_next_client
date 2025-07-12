@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import SyntaxHighlighter from 'react-syntax-highlighter/dist/cjs/prism';
 import { oneLight } from 'react-syntax-highlighter/dist/cjs/styles/prism';
 
@@ -61,7 +61,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   }, []);
   
   // Scroll event handler
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     setIsScrolling(true);
     
     // Set scroll timer - applies to both mobile and desktop
@@ -73,7 +73,7 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
       // Also allow scrollbar to hide after scrolling stops on desktop
       setIsScrolling(false);
     }, isMobile ? 1000 : 2000); // Keep visible longer on desktop
-  };
+  }, [isMobile]);
   
   // Mouse hover event handler
   const handleMouseEnter = () => {
@@ -81,14 +81,14 @@ const SyntaxHighlighterClient: React.FC<SyntaxHighlighterClientProps> = ({
   };
   
   // Mouse leave event handler
-  const handleMouseLeave = () => {
+  const handleMouseLeave = useCallback(() => {
     if (scrollTimer.current) {
       clearTimeout(scrollTimer.current);
     }
     scrollTimer.current = setTimeout(() => {
       setIsScrolling(false);
     }, isMobile ? 300 : 1000); // Keep visible longer on desktop
-  };
+  }, [isMobile]);
   
   // Check for overflow conditions
   useEffect(() => {
