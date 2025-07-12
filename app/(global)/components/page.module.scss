@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -22,7 +24,7 @@
     top: 10px;
     width: 4px;
     height: 70%;
-    background: #644AC9;
+    background: $color-brand-primary;
     border-radius: 2px;
   }
 }
@@ -62,7 +64,7 @@
     font-weight: 600;
     margin-bottom: 0.75rem;
     color: #1F1F1F;
-    background: linear-gradient(135deg, #644AC9, #A3144D);
+    background: linear-gradient(135deg, $color-brand-primary, $color-brand-secondary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;

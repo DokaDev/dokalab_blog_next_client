@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .footer {
   width: 100%;
   background-color: #FAFAFA;
@@ -26,7 +28,7 @@
   .logoText {
     font-size: 1.8rem;
     font-weight: 700;
-    background: linear-gradient(135deg, #644AC9 0%, #A3144D 100%);
+    background: linear-gradient(135deg, $color-brand-primary 0%, $color-brand-secondary 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -66,7 +68,7 @@
   transition: color 0.3s ease;
   
   &:hover {
-    color: #644AC9;
+    color: $color-brand-primary;
   }
 }
 
@@ -84,11 +86,11 @@
   height: 36px;
   border-radius: 50%;
   background-color: rgba(100, 74, 201, 0.1);
-  color: #644AC9;
+  color: $color-brand-primary;
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #644AC9;
+    background-color: $color-brand-primary;
     color: white;
     transform: translateY(-2px);
   }

@@ -621,7 +621,7 @@ p > .katex {  /* KaTeX directly inside paragraph */
 :not(.katex-display) > .katex:hover,
 span:not(.katex-display) .katex:hover,
 p > .katex:hover {
-  color: #644AC9;
+  color: $color-brand-primary;
 }
 
 /* Block math hover effect - removed transform, kept subtle effects */
@@ -652,7 +652,7 @@ p > .katex:hover {
 
 /* Restore hover effect for math content - change color only */
 .katex-display:hover .katex {
-  color: #644AC9;
+  color: $color-brand-primary;
 }
 
 /* Ensure code blocks display LaTeX properly too */

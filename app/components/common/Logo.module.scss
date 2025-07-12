@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .logo {
   display: flex;
   align-items: center;
@@ -7,19 +9,18 @@
   font-size: 1.8rem;
   font-weight: 800;
   letter-spacing: -0.5px;
-  background: linear-gradient(135deg, #644AC9, #A3144D);
+  background: linear-gradient(135deg, $color-brand-primary, $color-brand-secondary);
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1),
+              filter 0.4s ease;
+  cursor: pointer;
   
   &:hover {
-    transform: translateY(-1px);
-    background: linear-gradient(135deg, #644AC9, #CB3A2A);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+    transform: translateY(-2px);
+    filter: hue-rotate(15deg) saturate(1.1) brightness(1.05);
   }
 }
 

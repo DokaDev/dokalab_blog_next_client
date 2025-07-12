@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .sectionsContainer {
   height: 100vh;
   overflow-y: auto;
@@ -94,7 +96,7 @@
   span {
     display: inline-block;
     color: transparent;
-    background: linear-gradient(135deg, #644AC9, #A3144D);
+    background: linear-gradient(135deg, $color-brand-primary, $color-brand-secondary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -107,7 +109,7 @@
       left: 0;
       width: 100%;
       height: 6px;
-      background: linear-gradient(90deg, #644AC9, #A3144D);
+      background: linear-gradient(90deg, $color-brand-primary, $color-brand-secondary);
       border-radius: 3px;
       opacity: 0.2;
     }
@@ -132,7 +134,7 @@
   max-width: 600px;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 0px 12px 12px 0px;
-  border-left: 4px solid #644AC9;
+  border-left: 4px solid $color-brand-primary;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
   
   &::after {
@@ -173,11 +175,11 @@
   height: 40px;
   border-radius: 50%;
   background-color: rgba(100, 74, 201, 0.1);
-  color: #644AC9;
+  color: $color-brand-primary;
   transition: all 0.3s ease;
   
   &:hover {
-    background-color: #644AC9;
+    background-color: $color-brand-primary;
     color: white;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(100, 74, 201, 0.2);
@@ -215,7 +217,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  color: #644AC9;
+  color: $color-brand-primary;
   cursor: pointer;
   opacity: 0.7;
   transition: opacity 0.3s, transform 0.3s;
@@ -279,7 +281,7 @@
     bottom: -10px;
     width: 60px;
     height: 4px;
-    background: linear-gradient(90deg, #644AC9, #A3144D);
+    background: linear-gradient(90deg, $color-brand-primary, $color-brand-secondary);
     border-radius: 2px;
   }
 }
@@ -313,7 +315,7 @@
     font-size: 1.5rem;
     font-weight: 600;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, #644AC9, #A3144D);
+    background: linear-gradient(135deg, $color-brand-primary, $color-brand-secondary);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -332,7 +334,7 @@
   display: inline-flex;
   align-items: center;
   font-weight: 600;
-  color: #644AC9;
+  color: $color-brand-primary;
   text-decoration: none;
   transition: color 0.3s;
   
@@ -342,7 +344,7 @@
   }
   
   &:hover {
-    color: #A3144D;
+    color: $color-brand-secondary;
     
     svg {
       transform: translateX(4px);

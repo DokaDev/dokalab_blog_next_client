@@ -100,7 +100,7 @@
   &.active {
     span:first-child {
       transform: rotate(45deg) translate(4px, 4px);
-      background-color: #A3144D;
+      background-color: $color-brand-secondary;
     }
     
     span:nth-child(2) {
@@ -110,7 +110,7 @@
     
     span:last-child {
       transform: rotate(-45deg) translate(4px, -4px);
-      background-color: #A3144D;
+      background-color: $color-brand-secondary;
     }
   }
 }
