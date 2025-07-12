@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .tagsInputContainer {
   margin-bottom: 1.5rem;
   width: 100%;
@@ -186,7 +188,7 @@
     border-radius: 3px;
     border: 1px solid #e2e8f0;
     font-size: 0.8rem;
-    font-family: monospace;
+    font-family: $font-family-code;
     color: #64748b;
   }
 }

@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .editorContainer {
   width: 100%;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -179,7 +181,7 @@
   }
   
   :global(.cm-scroller) {
-    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-family: $font-family-code;
     font-size: 0.95rem;
     line-height: 1.7;
   }
@@ -322,7 +324,7 @@
     background-color: #f1f5f9;
     padding: 0.2rem 0.4rem;
     border-radius: 4px;
-    font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+    font-family: $font-family-code;
     font-size: 0.9rem;
     color: #334155;
   }
@@ -346,7 +348,7 @@
     code {
       background-color: transparent;
       padding: 0;
-      font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+      font-family: $font-family-code;
       font-size: 0.9rem;
       color: #334155;
       line-height: 1.6;

@@ -3,6 +3,7 @@ import Header from '../components/layout/Header';
 import MainWrapper from '../components/MainWrapper';
 import { MobileMenuProvider } from '@/lib/contexts/MobileMenuContext';
 import { config } from '@/config/env';
+import { getFontVariables } from '@/lib/fonts';
 import "./globals.scss";
 
 export const metadata: Metadata = {
@@ -58,7 +59,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className={getFontVariables()} suppressHydrationWarning>
       <body suppressHydrationWarning>
         {/* 
           MobileMenuProvider wraps Header and MainWrapper to enable

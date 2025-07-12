@@ -76,4 +76,45 @@ $color-info-border: #e9ecef;      // Info border colour - informational elements
 // Warning colours
 $color-warning-bg: #fff3cd;       // Warning background colour - cautionary content
 $color-warning-text: #856404;     // Warning text colour - cautionary messages
-$color-warning-border: #ffeaa7;   // Warning border colour - cautionary elements 
+$color-warning-border: #ffeaa7;   // Warning border colour - cautionary elements
+
+// =============================================================================
+// FONT SYSTEM
+// =============================================================================
+
+// Font families - CSS variables from Next.js font optimization
+$font-family-primary: var(--font-inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif);
+$font-family-code: var(--font-jetbrains-mono, 'Monaco', 'Menlo', 'Consolas', 'Courier New', monospace);
+
+// Font weights - standardised across the application
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+$font-weight-extrabold: 800;
+
+// Font sizes - typographic scale
+$font-size-xs: 0.75rem;     // 12px
+$font-size-sm: 0.875rem;    // 14px
+$font-size-base: 1rem;      // 16px
+$font-size-lg: 1.125rem;    // 18px
+$font-size-xl: 1.25rem;     // 20px
+$font-size-2xl: 1.5rem;     // 24px
+$font-size-3xl: 1.875rem;   // 30px
+$font-size-4xl: 2.25rem;    // 36px
+$font-size-5xl: 3rem;       // 48px
+$font-size-6xl: 4rem;       // 64px
+
+// Line heights - optimised for readability
+$line-height-tight: 1.25;
+$line-height-snug: 1.375;
+$line-height-normal: 1.5;
+$line-height-relaxed: 1.625;
+$line-height-loose: 2;
+
+// Font display and loading optimizations
+$font-display: swap;
+$font-variation-settings: normal;
+
+// Font fallback metrics to reduce CLS
+$font-size-adjust: 0.5; 

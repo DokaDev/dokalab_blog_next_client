@@ -92,7 +92,7 @@
   padding: 1rem;
   border: 1px solid #e2e8f0;
   border-radius: 8px;
-  font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-family: $font-family-code;
   font-size: 0.9rem;
   line-height: 1.6;
   resize: vertical;
@@ -224,7 +224,7 @@
     overflow-x: auto;
     
     code {
-      font-family: 'Menlo', 'Monaco', 'Consolas', monospace;
+      font-family: $font-family-code;
       font-size: 0.9rem;
       line-height: 1.6;
       white-space: pre;

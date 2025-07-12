@@ -26,8 +26,8 @@
 16. [X] 글로벌 스타일 변수 정리 - SCSS 변수 체계 재정비
 
 ## 5. 성능 및 SEO 최적화
-17. [ ] 이미지 최적화 컴포넌트 생성 - Next.js Image 래퍼 with lazy loading
-18. [ ] 폰트 로딩 최적화 - 웹폰트 preload 및 fallback 설정
+17. [X] 이미지 최적화 컴포넌트 생성 - Next.js Image 래퍼 with lazy loading
+18. [X] 폰트 로딩 최적화 - 웹폰트 preload 및 fallback 설정
 19. [ ] 메타태그 생성 로직 개선 - SEO 최적화를 위한 structured data 추가
 20. [ ] 번들 분석 및 최적화 - webpack-bundle-analyzer 설정 및 코드 스플리팅 개선
 
