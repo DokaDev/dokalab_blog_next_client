@@ -9,3 +9,71 @@
 
 $color-brand-primary: #644AC9;    // Main brand purple - used for primary actions, highlights, accents
 $color-brand-secondary: #A3144D;  // Brand red - used for hover states, gradients, active states 
+
+// =============================================================================
+// TEXT COLOURS
+// =============================================================================
+
+$color-text-primary: #1F1F1F;     // Primary text colour - main headings, important content
+$color-text-secondary: #333;      // Secondary text colour - body text, descriptions
+$color-text-tertiary: #666;       // Tertiary text colour - captions, metadata
+$color-text-quaternary: #555;     // Quaternary text colour - supporting text
+$color-text-muted: #888;          // Muted text colour - disabled state, placeholders
+$color-text-light: #999;          // Light text colour - subtle information
+$color-text-very-light: #adb5bd;  // Very light text colour - less important info
+$color-text-disabled: #ccc;       // Disabled text colour - inactive elements
+
+// =============================================================================
+// BACKGROUND COLOURS
+// =============================================================================
+
+$color-bg-primary: #ffffff;       // Primary background colour - main content areas
+$color-bg-secondary: #f8f9fa;     // Secondary background colour - sections, cards
+$color-bg-tertiary: #f5f5f5;      // Tertiary background colour - alternate sections
+$color-bg-quaternary: #f0f0f0;    // Quaternary background colour - subtle backgrounds
+$color-bg-muted: #e0e0e0;         // Muted background colour - inactive areas
+$color-bg-code: #f8fafc;          // Code block background colour
+$color-bg-highlight: #fef7f7;     // Highlight background colour - special emphasis
+
+// =============================================================================
+// BORDER COLOURS
+// =============================================================================
+
+$color-border-primary: #e2e8f0;   // Primary border colour - main dividers
+$color-border-secondary: #e9ecef; // Secondary border colour - form elements
+$color-border-tertiary: #eee;     // Tertiary border colour - subtle divisions
+$color-border-quaternary: #ddd;   // Quaternary border colour - less prominent borders
+
+// =============================================================================
+// ACCENT COLOURS
+// =============================================================================
+
+$color-accent-pink: #fda4af;      // Pink accent colour - links, highlights
+$color-accent-pink-light: #f8b4d3; // Light pink accent colour - subtle highlights
+$color-accent-blue: #036A96;      // Blue accent colour - secondary actions
+$color-accent-red: #f87171;       // Red accent colour - warnings, alerts
+$color-accent-magenta: #e91e63;   // Magenta accent colour - special actions
+
+// =============================================================================
+// STATUS COLOURS
+// =============================================================================
+
+// Success colours
+$color-success-bg: #d4edda;       // Success background colour - positive feedback
+$color-success-text: #155724;     // Success text colour - positive messages
+$color-success-border: #c3e6cb;   // Success border colour - positive elements
+
+// Error colours
+$color-error-bg: #f8d7da;         // Error background colour - negative feedback
+$color-error-text: #721c24;       // Error text colour - error messages
+$color-error-border: #f5c6cb;     // Error border colour - error elements
+
+// Info colours
+$color-info-bg: #fdf2f8;          // Info background colour - informational content
+$color-info-text: #6c757d;        // Info text colour - informational messages
+$color-info-border: #e9ecef;      // Info border colour - informational elements
+
+// Warning colours
+$color-warning-bg: #fff3cd;       // Warning background colour - cautionary content
+$color-warning-text: #856404;     // Warning text colour - cautionary messages
+$color-warning-border: #ffeaa7;   // Warning border colour - cautionary elements 

@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .globals {
   /* Local class to meet CSS Module requirements */
 }
@@ -20,7 +22,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   margin: 0 0 1rem;
-  color: #333;
+  color: $color-text-secondary;
   
   @media (max-width: 768px) {
     font-size: 2rem;
@@ -29,7 +31,7 @@
 
 .description {
   font-size: 1.1rem;
-  color: #666;
+  color: $color-text-tertiary;
   max-width: 600px;
   margin: 0 auto;
   
@@ -84,7 +86,7 @@
   gap: 1rem;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 1px solid #f5f5f5;
+  border-bottom: 1px solid $color-bg-tertiary;
 }
 
 .titleSection {
@@ -97,11 +99,11 @@
   font-size: 1.75rem;
   font-weight: 600;
   margin: 0;
-  color: #333;
+  color: $color-text-secondary;
 }
 
 .postsCount {
-  color: #666;
+  color: $color-text-tertiary;
   font-size: 0.9rem;
   font-weight: 400;
 }
@@ -128,14 +130,14 @@
   border: none;
   border-bottom: 1px solid transparent;
   font-size: 0.85rem;
-  color: #666;
+  color: $color-text-tertiary;
   cursor: pointer;
   transition: all 0.2s ease;
   
   &:hover, &:focus {
     outline: none;
-    color: #fda4af;
-    border-bottom-color: #fda4af;
+    color: $color-accent-pink;
+    border-bottom-color: $color-accent-pink;
   }
   
   &:focus {
@@ -147,22 +149,22 @@
   flex-grow: 1;
   padding: 0.4rem 0.25rem;
   border: none;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $color-border-tertiary;
   font-size: 0.9rem;
-  color: #333;
+  color: $color-text-secondary;
   background-color: transparent;
   transition: all 0.2s ease;
   
   &:focus {
     outline: none;
-    border-bottom-color: #fda4af;
+    border-bottom-color: $color-accent-pink;
   }
 }
 
 .searchButton {
   border: none;
   background: transparent;
-  color: #666;
+  color: $color-text-tertiary;
   cursor: pointer;
   font-size: 0.9rem;
   padding: 0.4rem 0.75rem;
@@ -173,7 +175,7 @@
   transition: all 0.2s ease;
   
   &:hover {
-    color: #fda4af;
+    color: $color-accent-pink;
   }
   
   &:focus {
@@ -203,15 +205,15 @@
   align-items: center;
   gap: 0.5rem;
   box-shadow: none;
-  color: #333;
+  color: $color-text-secondary;
   box-sizing: border-box;
   
   &:hover:not(:disabled) {
     transform: none;
     box-shadow: none;
     text-decoration: none;
-    border: 1px solid #ddd;
-    color: #fda4af;
+    border: 1px solid $color-border-quaternary;
+    color: $color-accent-pink;
   }
   
   &:disabled {
@@ -251,7 +253,7 @@
   left: 50%;
   transform: translateX(-50%);
   font-size: 0.9rem;
-  color: #666;
+  color: $color-text-tertiary;
   padding: 0.2rem 0.8rem;
   background-color: transparent;
   border-radius: 4px;
@@ -276,13 +278,13 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  color: #333;
+  color: $color-text-secondary;
   box-sizing: border-box;
   
   &:hover:not(:disabled) {
-    border: 1px solid #ddd;
+    border: 1px solid $color-border-quaternary;
     text-decoration: none;
-    color: #fda4af;
+    color: $color-accent-pink;
   }
   
   &:disabled {
@@ -292,13 +294,13 @@
 }
 
 .pageInfo {
-  color: #666;
+  color: $color-text-tertiary;
 }
 
 .emptyState {
   text-align: center;
   padding: 3rem 1rem;
-  color: #666;
+  color: $color-text-tertiary;
   
   p {
     font-size: 1.1rem;
@@ -367,7 +369,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: #e0e0e0;
+  background-color: $color-bg-muted;
   animation: pulse 1.5s infinite ease-in-out;
   
   &:nth-child(2) {

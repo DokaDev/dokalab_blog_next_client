@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .container {
   max-width: 800px;
   margin: 0 auto;
@@ -15,27 +17,27 @@
   gap: 0.5rem;
   margin-bottom: 2rem;
   font-size: 0.9rem;
-  color: #666;
+  color: $color-text-tertiary;
   flex-wrap: wrap;
 }
 
 .breadcrumbLink {
-  color: #666;
+  color: $color-text-tertiary;
   text-decoration: none;
   transition: color 0.2s ease;
   
   &:hover {
-    color: #fda4af;
+    color: $color-accent-pink;
   }
 }
 
 .breadcrumbSeparator {
-  color: #ccc;
+  color: $color-text-disabled;
   margin: 0 0.25rem;
 }
 
 .breadcrumbCurrent {
-  color: #333;
+  color: $color-text-secondary;
   font-weight: 500;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -62,12 +64,12 @@
   gap: 0.5rem;
   margin-bottom: 2rem;
   padding-bottom: 1.5rem;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid $color-border-tertiary;
 }
 
 .tag {
-  background-color: #f8f9fa;
-  color: #555;
+  background-color: $color-bg-secondary;
+  color: $color-text-quaternary;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
   font-size: 0.8rem;
@@ -77,9 +79,9 @@
   border: 1px solid transparent;
   
   &:hover {
-    background-color: #fda4af;
+    background-color: $color-accent-pink;
     color: white;
-    border-color: #fda4af;
+    border-color: $color-accent-pink;
   }
 }
 
@@ -87,7 +89,7 @@
   font-size: 2.5rem;
   font-weight: 700;
   line-height: 1.2;
-  color: #1a1a1a;
+  color: $color-text-primary;
   margin: 0 0 1.5rem;
   
   @media (max-width: 768px) {
@@ -119,7 +121,7 @@
 
 .metaLabel {
   font-size: 0.75rem;
-  color: #888;
+  color: $color-text-muted;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   font-weight: 600;
@@ -127,7 +129,7 @@
 
 .metaValue {
   font-size: 0.9rem;
-  color: #333;
+  color: $color-text-secondary;
   font-weight: 500;
 }
 
@@ -144,13 +146,13 @@
 
 .categoryLink {
   font-size: 0.9rem;
-  color: #fda4af;
+  color: $color-accent-pink;
   text-decoration: none;
   font-weight: 500;
   transition: color 0.2s ease;
   
   &:hover {
-    color: #f87171;
+    color: $color-accent-red;
   }
 }
 
@@ -214,8 +216,8 @@
     blockquote {
       margin: 2rem 0;
       padding: 1rem 1.5rem;
-      border-left: 4px solid #fda4af;
-      background-color: #fef7f7;
+      border-left: 4px solid $color-accent-pink;
+      background-color: $color-bg-highlight;
       border-radius: 0 8px 8px 0;
     }
     
@@ -235,7 +237,7 @@
 .postNavigation {
   margin-bottom: 3rem;
   padding-top: 2rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid $color-border-tertiary;
 }
 
 .navigationGrid {
@@ -252,45 +254,45 @@
 .navCard {
   display: block;
   padding: 1.5rem;
-  border: 1px solid #eee;
+  border: 1px solid $color-border-tertiary;
   border-radius: 12px;
   text-decoration: none;
   transition: all 0.3s ease;
-  background-color: #fff;
+  background-color: $color-bg-primary;
   
   &:hover {
-    border-color: #fda4af;
+    border-color: $color-accent-pink;
     box-shadow: 0 4px 12px rgba(253, 164, 175, 0.1);
   }
 }
 
 .navCardDisabled {
-  background-color: #f8f9fa;
-  border-color: #e9ecef;
+  background-color: $color-bg-secondary;
+  border-color: $color-border-secondary;
   cursor: not-allowed;
   opacity: 0.6;
   
   &:hover {
-    border-color: #e9ecef;
+    border-color: $color-border-secondary;
     box-shadow: none;
   }
   
   .navDirection {
-    color: #adb5bd;
+    color: $color-text-very-light;
   }
   
   .navTitle {
-    color: #6c757d;
+    color: $color-info-text;
   }
   
   .navMeta {
-    color: #adb5bd;
+    color: $color-text-very-light;
   }
 }
 
 .navDirection {
   font-size: 0.8rem;
-  color: #fda4af;
+  color: $color-accent-pink;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -300,7 +302,7 @@
 .navTitle {
   font-size: 1rem;
   font-weight: 600;
-  color: #333;
+  color: $color-text-secondary;
   margin-bottom: 0.5rem;
   line-height: 1.4;
   display: -webkit-box;
@@ -311,5 +313,5 @@
 
 .navMeta {
   font-size: 0.8rem;
-  color: #666;
+  color: $color-text-tertiary;
 } 
