@@ -4,11 +4,11 @@
  * Supports optional author information display
  */
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { BlogPost, BlogPostNoAuthor, Category } from '@/app/types/blog';
 import { formatDate } from '@/lib/utils';
 import styles from './PostRenderer.module.scss';
+import OptimizedImage from '@/app/components/common/OptimizedImage';
 
 interface PostHeaderProps {
   post: BlogPost | BlogPostNoAuthor;
@@ -33,11 +33,13 @@ export default function PostHeader({ post, category, showAuthor = false }: PostH
           <div className={styles.metaItem}>
             <span className={styles.metaLabel}>Author</span>
             <div className={styles.authorInfo}>
-              <Image
+              <OptimizedImage
                 src={post.author.avatar}
                 alt={post.author.name}
+                variant="avatar"
                 width={24}
                 height={24}
+                priority="low"
                 className={styles.authorAvatar}
               />
               <span className={styles.metaValue}>{post.author.name}</span>

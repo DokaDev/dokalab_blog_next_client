@@ -194,7 +194,7 @@ export default async function BlogPage({ searchParams }: PageProps) {
        * Option 2: For data without author information
        * filteredPosts = getPostsNoAuthorByCategoryId(categoryId);
        */
-      filteredPosts = categoryService.getPostsByCategory(categoryId, false) as typeof blogPostsNoAuthor;
+      filteredPosts = categoryService.getPostsByCategory(categoryId, true) as typeof blogPostsNoAuthor;
       categoryName = category.name;
     }
   }

@@ -30,9 +30,8 @@
     grid-column: span 1;
   }
   
-  .imageContainer {
-    height: 260px;
-  }
+  // Remove fixed height for featured images too
+  // Let OptimizedImage handle aspect-ratio consistently
   
   .title {
     font-size: 1.5rem;
@@ -62,8 +61,10 @@
 
 .imageContainer {
   position: relative;
-  height: 200px;
+  width: 100%;
   overflow: hidden;
+  // Remove fixed height to allow aspect-ratio to work properly
+  // OptimizedImage component handles aspect-ratio internally
 }
 
 .coverImage {

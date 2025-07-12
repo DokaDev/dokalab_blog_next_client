@@ -1,0 +1,299 @@
+@import '@/styles/mixins.scss';
+
+// =============================================================================
+// CONTAINER STYLES
+// =============================================================================
+
+.container {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  
+  &--loading {
+    background-color: $color-bg-secondary;
+  }
+  
+  &--error {
+    background-color: $color-bg-muted;
+  }
+}
+
+// Container variants
+.container--cover {
+  position: relative;
+  width: 100%;
+  border-radius: 8px;
+  overflow: hidden;
+  // Remove fixed height - let aspect-ratio handle dimensions
+}
+
+.container--avatar {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  overflow: hidden;
+  flex-shrink: 0;
+  
+  @include tablet {
+    width: 40px;
+    height: 40px;
+  }
+  
+  @include mobile {
+    width: 32px;
+    height: 32px;
+  }
+}
+
+.container--thumbnail {
+  position: relative;
+  width: 200px;
+  height: 200px;
+  border-radius: 8px;
+  overflow: hidden;
+  
+  @include tablet {
+    width: 150px;
+    height: 150px;
+  }
+  
+  @include mobile {
+    width: 120px;
+    height: 120px;
+  }
+}
+
+.container--inline {
+  position: relative;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+// Aspect ratio containers for cover images
+.container--16-9 {
+  aspect-ratio: 16 / 9;
+  height: auto;
+}
+
+.container--4-3 {
+  aspect-ratio: 4 / 3;
+  height: auto;
+}
+
+.container--1-1 {
+  aspect-ratio: 1 / 1;
+  height: auto;
+}
+
+.container--3-2 {
+  aspect-ratio: 3 / 2;
+  height: auto;
+}
+
+// =============================================================================
+// IMAGE STYLES
+// =============================================================================
+
+.image {
+  transition: all 0.3s ease;
+  
+  &--loading {
+    opacity: 0;
+  }
+  
+  &--error {
+    opacity: 0.3;
+  }
+}
+
+// Image variants
+.image--cover {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+.image--avatar {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+}
+
+.image--thumbnail {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.02);
+  }
+}
+
+.image--inline {
+  object-fit: cover;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+}
+
+// =============================================================================
+// LOADING PLACEHOLDER
+// =============================================================================
+
+.placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-secondary;
+  z-index: 1;
+}
+
+.spinner {
+  width: 24px;
+  height: 24px;
+  border: 2px solid $color-border-secondary;
+  border-top: 2px solid $color-accent-pink;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// =============================================================================
+// ERROR FALLBACK
+// =============================================================================
+
+.fallback {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: $color-bg-muted;
+  color: $color-text-muted;
+  z-index: 1;
+  padding: 1rem;
+  text-align: center;
+}
+
+.fallbackIcon {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  opacity: 0.5;
+}
+
+.fallbackText {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  font-weight: 500;
+}
+
+// =============================================================================
+// RESPONSIVE ADJUSTMENTS
+// =============================================================================
+
+@include tablet {
+  .container--cover {
+    border-radius: 6px;
+  }
+  
+  .container--thumbnail {
+    border-radius: 6px;
+  }
+  
+  .container--inline {
+    border-radius: 6px;
+  }
+  
+  .spinner {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .fallbackIcon {
+    font-size: 1.5rem;
+  }
+  
+  .fallbackText {
+    font-size: 0.75rem;
+  }
+}
+
+@include mobile {
+  .container--cover {
+    border-radius: 4px;
+  }
+  
+  .container--thumbnail {
+    border-radius: 4px;
+  }
+  
+  .container--inline {
+    border-radius: 4px;
+  }
+  
+  .spinner {
+    width: 16px;
+    height: 16px;
+  }
+  
+  .fallbackIcon {
+    font-size: 1.2rem;
+  }
+  
+  .fallbackText {
+    font-size: 0.7rem;
+  }
+}
+
+// =============================================================================
+// ACCESSIBILITY
+// =============================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .image--cover:hover,
+  .image--thumbnail:hover {
+    transform: none;
+  }
+  
+  .spinner {
+    animation: none;
+  }
+}
+
+// =============================================================================
+// PRINT STYLES
+// =============================================================================
+
+@media print {
+  .placeholder,
+  .fallback {
+    display: none;
+  }
+  
+  .image {
+    opacity: 1 !important;
+  }
+} 

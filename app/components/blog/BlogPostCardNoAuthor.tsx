@@ -13,11 +13,11 @@
  */
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { BlogPostNoAuthor } from '@/app/types/blog';
 import { formatDate } from '@/lib/utils';
 import styles from './BlogPostCardNoAuthor.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
+import OptimizedImage from '@/app/components/common/OptimizedImage';
 
 interface BlogPostCardNoAuthorProps {
   post: BlogPostNoAuthor;
@@ -67,11 +67,12 @@ const BlogPostCardNoAuthor: React.FC<BlogPostCardNoAuthorProps> = ({ post, featu
       <Link href={`/blog/post/${post.id}`} className={styles.postLink}>
         {hasImage && (
           <div className={styles.imageContainer}>
-            <Image
+            <OptimizedImage
               src={post.coverImage as string}
               alt={post.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              variant="cover"
+              aspectRatio="16:9"
+              priority="medium"
               className={styles.coverImage}
             />
             

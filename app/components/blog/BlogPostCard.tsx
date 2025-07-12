@@ -1,11 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import Image from 'next/image';
 import { BlogPost } from '@/app/types/blog';
 import { formatDate } from '@/lib/utils';
 import styles from './BlogPostCard.module.scss';
 import { useRouter, useSearchParams } from 'next/navigation';
+import OptimizedImage from '@/app/components/common/OptimizedImage';
 
 interface BlogPostCardProps {
   post: BlogPost;
@@ -55,11 +55,12 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
       <Link href={`/blog/post/${post.id}`} className={styles.postLink}>
         {hasImage && (
           <div className={styles.imageContainer}>
-            <Image
+            <OptimizedImage
               src={post.coverImage as string}
               alt={post.title}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              variant="cover"
+              aspectRatio="16:9"
+              priority="medium"
               className={styles.coverImage}
             />
             
@@ -104,11 +105,13 @@ const BlogPostCard: React.FC<BlogPostCardProps> = ({ post, featured = false }) =
           <div className={styles.meta}>
             <div className={styles.author}>
               <div className={styles.avatarContainer}>
-                <Image
+                <OptimizedImage
                   src={post.author.avatar}
                   alt={post.author.name}
+                  variant="avatar"
                   width={32}
                   height={32}
+                  priority="low"
                   className={styles.avatar}
                 />
               </div>
