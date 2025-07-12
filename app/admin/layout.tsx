@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "../(global)/globals.css";
+import "../(global)/globals.scss";
 import AdminLayout from "../components/admin/layout/Layout";
 
 export const metadata: Metadata = {

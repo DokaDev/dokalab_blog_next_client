@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -33,7 +35,8 @@ main.subPage {
   padding-top: 70px; /* Add padding equal to header height, additional spacing is managed within containers */
 }
 
-@media (max-width: 768px) {
+// Responsive main styles using centralised mixins
+@include tablet {
   main.homePage {
     margin-top: 0;
     padding-top: 0;
@@ -67,7 +70,7 @@ a {
 }
 
 /* Always show scrollbars in desktop environments */
-@media (min-width: 769px) {
+@include tablet-up {
   .code-scroll-container::-webkit-scrollbar-thumb {
     background: rgba(100, 116, 139, 0.6) !important;
     visibility: visible !important;
@@ -173,7 +176,7 @@ a {
   visibility: visible !important;
 }
 /* Force display of scrollbars in code blocks on desktop environments */
-@media (min-width: 769px) {
+@include tablet-up {
   /* Overflow detection through data attributes - only applied when overflow exists */
   .code-scroll-container.has-overflow-x::-webkit-scrollbar-thumb,
   .code-scroll-container[data-has-overflow="true"]::-webkit-scrollbar-thumb,
@@ -234,7 +237,7 @@ a {
 }
 
 /* Desktop scrollbar visibility for Firefox - only when overflow exists */
-@media (min-width: 769px) {
+@include tablet-up {
   .code-scroll-container.has-overflow-x,
   .code-scroll-container[data-has-overflow="true"],
   .desktop-scrollbar {
@@ -250,7 +253,7 @@ a {
 }
 
 /* Mobile code block styling */
-@media (max-width: 768px) {
+@include mobile {
   /* Adjust scrollbar size for mobile devices */
   .code-scroll-container::-webkit-scrollbar {
     width: 6px;
@@ -519,7 +522,7 @@ code .token-line.highlighted-line:hover .linenumber,
 }
 
 /* Mobile-specific highlighted line style adjustments */
-@media (max-width: 768px) {
+@include mobile {
   .highlighted-line {
     margin-left: -2px !important;
     border-left-width: 2px !important;

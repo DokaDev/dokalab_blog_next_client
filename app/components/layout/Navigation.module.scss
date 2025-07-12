@@ -1,3 +1,5 @@
+@import '@/styles/mixins.scss';
+
 .navigation {
   display: flex;
   align-items: center;
@@ -77,8 +79,8 @@
   }
 }
 
-// Media queries for responsive navigation
-@media (max-width: 768px) {
+// Responsive navigation using centralised mixins
+@include tablet {
   .navigation {
     position: fixed;
     top: 60px;

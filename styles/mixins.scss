@@ -1,0 +1,230 @@
+/**
+ * Responsive Design Mixins
+ * 
+ * Centralised media query management for consistent responsive design
+ * across the entire application. Provides both mobile-first and desktop-first
+ * approaches with semantic breakpoint names.
+ * 
+ * Usage:
+ * @include mobile { ... }           // max-width: 640px
+ * @include tablet { ... }           // max-width: 768px  
+ * @include mobile-up { ... }        // min-width: 641px
+ * @include tablet-up { ... }        // min-width: 769px
+ */
+
+// ==========================================================================
+// BREAKPOINT VARIABLES
+// ==========================================================================
+
+$breakpoint-mobile-xs: 480px;   // Extra small mobile devices
+$breakpoint-mobile: 640px;      // Standard mobile devices  
+$breakpoint-tablet: 768px;      // Tablet devices (most common breakpoint)
+$breakpoint-desktop-sm: 992px;  // Small desktop screens
+$breakpoint-desktop: 1024px;    // Standard desktop screens
+$breakpoint-desktop-lg: 1200px; // Large desktop screens
+
+// ==========================================================================
+// DESKTOP-FIRST MIXINS (max-width)
+// ==========================================================================
+// Use these when you want to override desktop styles for smaller screens
+
+/**
+ * Extra small mobile devices and below
+ * @media (max-width: 480px)
+ */
+@mixin mobile-xs {
+  @media (max-width: #{$breakpoint-mobile-xs}) {
+    @content;
+  }
+}
+
+/**
+ * Mobile devices and below  
+ * @media (max-width: 640px)
+ */
+@mixin mobile {
+  @media (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+/**
+ * Tablet devices and below (most commonly used)
+ * @media (max-width: 768px)
+ */
+@mixin tablet {
+  @media (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+/**
+ * Small desktop screens and below
+ * @media (max-width: 992px)
+ */
+@mixin desktop-sm {
+  @media (max-width: #{$breakpoint-desktop-sm}) {
+    @content;
+  }
+}
+
+/**
+ * Standard desktop screens and below
+ * @media (max-width: 1024px)
+ */
+@mixin desktop {
+  @media (max-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+/**
+ * Large desktop screens and below
+ * @media (max-width: 1200px)
+ */
+@mixin desktop-lg {
+  @media (max-width: #{$breakpoint-desktop-lg}) {
+    @content;
+  }
+}
+
+// ==========================================================================
+// MOBILE-FIRST MIXINS (min-width)
+// ==========================================================================
+// Use these when you want to progressively enhance from mobile
+
+/**
+ * Mobile devices and up
+ * @media (min-width: 481px)
+ */
+@mixin mobile-xs-up {
+  @media (min-width: #{$breakpoint-mobile-xs + 1px}) {
+    @content;
+  }
+}
+
+/**
+ * Standard mobile devices and up
+ * @media (min-width: 641px)
+ */
+@mixin mobile-up {
+  @media (min-width: #{$breakpoint-mobile + 1px}) {
+    @content;
+  }
+}
+
+/**
+ * Tablet devices and up
+ * @media (min-width: 769px) 
+ */
+@mixin tablet-up {
+  @media (min-width: #{$breakpoint-tablet + 1px}) {
+    @content;
+  }
+}
+
+/**
+ * Small desktop screens and up
+ * @media (min-width: 993px)
+ */
+@mixin desktop-sm-up {
+  @media (min-width: #{$breakpoint-desktop-sm + 1px}) {
+    @content;
+  }
+}
+
+/**
+ * Standard desktop screens and up
+ * @media (min-width: 1025px)
+ */
+@mixin desktop-up {
+  @media (min-width: #{$breakpoint-desktop + 1px}) {
+    @content;
+  }
+}
+
+/**
+ * Large desktop screens and up
+ * @media (min-width: 1201px)
+ */
+@mixin desktop-lg-up {
+  @media (min-width: #{$breakpoint-desktop-lg + 1px}) {
+    @content;
+  }
+}
+
+// ==========================================================================
+// RANGE MIXINS
+// ==========================================================================
+// Use these for targeting specific device ranges
+
+/**
+ * Only mobile devices (between mobile-xs and mobile breakpoints)
+ * @media (min-width: 481px) and (max-width: 640px)
+ */
+@mixin mobile-only {
+  @media (min-width: #{$breakpoint-mobile-xs + 1px}) and (max-width: #{$breakpoint-mobile}) {
+    @content;
+  }
+}
+
+/**
+ * Only tablet devices (between mobile and tablet breakpoints)
+ * @media (min-width: 641px) and (max-width: 768px)
+ */
+@mixin tablet-only {
+  @media (min-width: #{$breakpoint-mobile + 1px}) and (max-width: #{$breakpoint-tablet}) {
+    @content;
+  }
+}
+
+/**
+ * Only desktop devices (between tablet and desktop breakpoints)  
+ * @media (min-width: 769px) and (max-width: 1024px)
+ */
+@mixin desktop-only {
+  @media (min-width: #{$breakpoint-tablet + 1px}) and (max-width: #{$breakpoint-desktop}) {
+    @content;
+  }
+}
+
+// ==========================================================================
+// UTILITY MIXINS
+// ==========================================================================
+
+/**
+ * Custom breakpoint mixin for one-off cases
+ * @param {String} $breakpoint - The breakpoint value (e.g., '850px')
+ * @param {String} $direction - 'up' for min-width, 'down' for max-width
+ */
+@mixin breakpoint($breakpoint, $direction: 'down') {
+  @if $direction == 'up' {
+    @media (min-width: #{$breakpoint}) {
+      @content;
+    }
+  } @else {
+    @media (max-width: #{$breakpoint}) {
+      @content;
+    }
+  }
+}
+
+/**
+ * High-density display (Retina) targeting
+ * @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi)
+ */
+@mixin retina {
+  @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi), (min-resolution: 2dppx) {
+    @content;
+  }
+}
+
+/**
+ * Print media targeting
+ * @media print
+ */
+@mixin print {
+  @media print {
+    @content;
+  }
+} 

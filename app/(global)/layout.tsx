@@ -3,7 +3,7 @@ import Header from '../components/layout/Header';
 import MainWrapper from '../components/MainWrapper';
 import { MobileMenuProvider } from '@/lib/contexts/MobileMenuContext';
 import { config } from '@/config/env';
-import "./globals.css";
+import "./globals.scss";
 
 export const metadata: Metadata = {
   title: {
