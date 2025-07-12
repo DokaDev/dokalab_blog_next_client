@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from '../components/layout/Header';
 import MainWrapper from '../components/MainWrapper';
+import { MobileMenuProvider } from '@/lib/contexts/MobileMenuContext';
 import { config } from '@/config/env';
 import "./globals.css";
 
@@ -36,6 +37,21 @@ export const metadata: Metadata = {
 // Each page should decide its own rendering strategy
 // Static pages (blog posts) should use SSG, dynamic pages can use SSR
 
+/**
+ * Root Layout for Global Pages
+ * 
+ * Provides the foundational structure for all pages outside of admin section.
+ * Includes global mobile menu state management via MobileMenuProvider.
+ * 
+ * Architecture:
+ * - MobileMenuProvider: Enables global mobile menu state sharing between Header and Navigation
+ * - Header: Fixed navigation header with mobile menu button
+ * - MainWrapper: Client component that applies CSS classes based on current route
+ * 
+ * @param {Object} props - Layout props
+ * @param {React.ReactNode} props.children - Page content to render
+ * @returns {JSX.Element} Root layout structure
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -44,9 +60,15 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Header />
-        {/* Client Component wrapper will handle the className based on path */}
-        <MainWrapper>{children}</MainWrapper>
+        {/* 
+          MobileMenuProvider wraps Header and MainWrapper to enable
+          global mobile menu state sharing without prop drilling 
+        */}
+        <MobileMenuProvider>
+          <Header />
+          {/* Client Component wrapper will handle the className based on path */}
+          <MainWrapper>{children}</MainWrapper>
+        </MobileMenuProvider>
       </body>
     </html>
   );

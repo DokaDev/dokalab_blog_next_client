@@ -1,60 +1,92 @@
 import { useState, useEffect, useRef } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
+import { useMobileMenu } from '@/lib/contexts/MobileMenuContext';
 
-interface UseNavigationProps {
-  isMobileMenuOpen: boolean;
-  setIsMobileMenuOpen?: (isOpen: boolean) => void;
-}
+/**
+ * Navigation Hook
+ * 
+ * Custom hook that handles all navigation-related functionality including:
+ * - Client-side navigation with automatic mobile menu closing
+ * - Active route detection for styling
+ * - Body scroll locking when mobile menu is open
+ * - Hydration-safe mounting detection
+ * 
+ * Previously received mobile menu state via props, now uses global context
+ * for better separation of concerns and reduced coupling.
+ * 
+ * @returns {UseNavigationReturn} Navigation state and handlers
+ */
 
 interface UseNavigationReturn {
+  /** Whether component has mounted (prevents hydration issues) */
   mounted: boolean;
+  /** Current pathname from Next.js router */
   pathname: string;
+  /** Next.js router instance */
   router: ReturnType<typeof useRouter>;
+  /** Ref for navigation element */
   navRef: React.RefObject<HTMLElement | null>;
+  /** Handler for navigation link clicks */
   handleNavigation: (e: React.MouseEvent<HTMLAnchorElement>, path: string) => void;
+  /** Function to check if a route is currently active */
   isActive: (path: string) => boolean;
 }
 
-export const useNavigation = ({ 
-  isMobileMenuOpen, 
-  setIsMobileMenuOpen 
-}: UseNavigationProps): UseNavigationReturn => {
+export const useNavigation = (): UseNavigationReturn => {
+  // Get mobile menu state and actions from global context
+  const { isMobileMenuOpen, closeMobileMenu } = useMobileMenu();
+  
   const pathname = usePathname() || '';
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const prevPathRef = useRef(pathname);
   const navRef = useRef<HTMLElement>(null);
   
-  // Only use client-side state after component is mounted
+  // Track component mount state for hydration safety
   useEffect(() => {
     setMounted(true);
   }, []);
   
-  // Close menu only when path changes - compare current and previous paths
+  /**
+   * Auto-close mobile menu on route changes
+   * 
+   * Compares current and previous pathnames to detect navigation.
+   * Only closes menu if the path actually changed to avoid unnecessary actions.
+   */
   useEffect(() => {
-    if (prevPathRef.current !== pathname && setIsMobileMenuOpen && isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
+    if (prevPathRef.current !== pathname && isMobileMenuOpen) {
+      closeMobileMenu();
     }
     prevPathRef.current = pathname;
-  }, [pathname, setIsMobileMenuOpen, isMobileMenuOpen]);
+  }, [pathname, closeMobileMenu, isMobileMenuOpen]);
   
-  // Prevent body scrolling when mobile menu is open
+  /**
+   * Body scroll lock when mobile menu is open
+   * 
+   * Implements comprehensive scroll locking across different browsers:
+   * - Sets body overflow and position styles
+   * - Preserves scroll position during lock
+   * - Handles iOS Safari quirks with html element locking
+   * - Restores scroll position when unlocked
+   * 
+   * This prevents background scrolling while mobile menu is open.
+   */
   useEffect(() => {
     if (typeof document !== 'undefined') {
       if (isMobileMenuOpen) {
-        // Store current scroll position
+        // Store current scroll position before locking
         const scrollY = window.scrollY;
         
-        // Apply multiple scroll lock methods for better browser compatibility
+        // Apply multiple scroll lock methods for cross-browser compatibility
         document.body.style.overflow = 'hidden';
         document.body.style.position = 'fixed';
         document.body.style.top = `-${scrollY}px`;
         document.body.style.width = '100%';
         
-        // Also lock html element for iOS Safari
+        // Additional iOS Safari scroll lock
         document.documentElement.style.overflow = 'hidden';
       } else {
-        // Restore scroll position and remove locks
+        // Restore original styles and scroll position
         const scrollY = document.body.style.top;
         document.body.style.overflow = '';
         document.body.style.position = '';
@@ -62,14 +94,14 @@ export const useNavigation = ({
         document.body.style.width = '';
         document.documentElement.style.overflow = '';
         
-        // Restore scroll position
+        // Restore scroll position if it was preserved
         if (scrollY) {
           window.scrollTo(0, parseInt(scrollY || '0') * -1);
         }
       }
     }
     
-    // Restore scroll on component unmount
+    // Cleanup on unmount to prevent style leaks
     return () => {
       if (typeof document !== 'undefined') {
         document.body.style.overflow = '';
@@ -81,27 +113,46 @@ export const useNavigation = ({
     };
   }, [isMobileMenuOpen]);
 
-  // Client-side navigation handler
+  /**
+   * Handle navigation link clicks
+   * 
+   * Provides smooth UX by closing mobile menu before navigation.
+   * Uses client-side routing for better performance.
+   * 
+   * @param {React.MouseEvent<HTMLAnchorElement>} e - Click event
+   * @param {string} path - Target route path
+   */
   const handleNavigation = (e: React.MouseEvent<HTMLAnchorElement>, path: string) => {
     e.preventDefault();
     
-    // Close mobile menu before page navigation
-    if (setIsMobileMenuOpen && isMobileMenuOpen) {
-      setIsMobileMenuOpen(false);
+    // Close mobile menu before navigation for better UX
+    if (isMobileMenuOpen) {
+      closeMobileMenu();
     }
     
     router.push(path);
   };
   
-  // Helper function to determine if a nav item should be active
+  /**
+   * Determine if a navigation item should be highlighted as active
+   * 
+   * Root path ('/') only matches exactly to prevent always being active.
+   * Other paths use startsWith for matching nested routes.
+   * 
+   * @param {string} path - Path to check
+   * @returns {boolean} Whether the path should be considered active
+   * 
+   * @example
+   * isActive('/blog') returns true for '/blog', '/blog/post-1', etc.
+   * isActive('/') returns true only for exact '/' match
+   */
   const isActive = (path: string) => {
-    // Root path ('/') is active only when it exactly matches
+    // Root path requires exact match
     if (path === '/') {
       return pathname === '/';
     }
     
-    // Other menu items check if the pathname starts with their path
-    // Example: Components menu is active for all paths starting with '/components'
+    // Other paths match if current pathname starts with the path
     return pathname.startsWith(path);
   };
 
