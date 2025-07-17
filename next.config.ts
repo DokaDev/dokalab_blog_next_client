@@ -1,5 +1,13 @@
 import type { NextConfig } from "next";
 
+// Conditionally import bundle analyzer only when ANALYZE environment variable is set
+const withBundleAnalyzer = process.env.ANALYZE === 'true' 
+  ? require('@next/bundle-analyzer')({
+      enabled: true,
+      openAnalyzer: true,
+    })
+  : (config: NextConfig) => config;
+
 const nextConfig: NextConfig = {
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
@@ -53,6 +61,48 @@ const nextConfig: NextConfig = {
         ...config.optimization,
         sideEffects: false,
         usedExports: true,
+        // Improved code splitting configuration
+        splitChunks: {
+          chunks: 'all',
+          cacheGroups: {
+            // Framework chunks (React, Next.js)
+            framework: {
+              name: 'framework',
+              test: /[\\/]node_modules[\\/](react|react-dom|next)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            // UI libraries chunk
+            ui: {
+              name: 'ui-lib',
+              test: /[\\/]node_modules[\\/](@codemirror|react-markdown|remark-|rehype-)[\\/]/,
+              priority: 30,
+              enforce: true,
+            },
+            // Math and diagram libraries
+            math: {
+              name: 'math-lib', 
+              test: /[\\/]node_modules[\\/](katex|mermaid|prismjs)[\\/]/,
+              priority: 25,
+              enforce: true,
+            },
+            // Default vendor chunk for other libraries
+            vendor: {
+              name: 'vendor',
+              test: /[\\/]node_modules[\\/]/,
+              priority: 20,
+              minChunks: 1,
+              reuseExistingChunk: true,
+            },
+            // Common chunks for shared code
+            common: {
+              name: 'common',
+              minChunks: 2,
+              priority: 10,
+              reuseExistingChunk: true,
+            },
+          },
+        },
       };
     }
 
@@ -61,6 +111,11 @@ const nextConfig: NextConfig = {
       ...config.resolve.alias,
       moment$: 'moment/moment.js',
     };
+
+    // Enable webpack bundle analysis in development
+    if (process.env.ANALYZE === 'true') {
+      console.log('🔍 Bundle analysis enabled - detailed webpack stats will be generated');
+    }
 
     return config;
   },
@@ -75,4 +130,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default nextConfig;
+// Apply bundle analyzer wrapper if enabled
+export default withBundleAnalyzer(nextConfig);

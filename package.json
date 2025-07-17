@@ -21,6 +21,9 @@
     "dev": "next dev",
     "dev:clean": "rm -rf .next && npm run dev",
     "build": "next build",
+    "build:analyze": "ANALYZE=true npm run build",
+    "analyze": "ANALYZE=true npm run build",
+    "analyze:server": "ANALYZE=true npm run build && npx serve out",
     "start": "next start",
     "lint": "next lint"
   },
