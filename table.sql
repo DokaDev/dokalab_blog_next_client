@@ -1,4 +1,4 @@
--- 1. 카테고리 그룹 테이블
+-- 1. CATEGORY GROUP TABLE
 CREATE TABLE tbl_category_group (
     category_group_id INT PRIMARY KEY AUTO_INCREMENT,
     category_group_name VARCHAR(255) NOT NULL UNIQUE,
@@ -6,7 +6,7 @@ CREATE TABLE tbl_category_group (
     FOREIGN KEY (next_category_group_id) REFERENCES tbl_category_group(category_group_id)
 );
 
--- 2. 카테고리 테이블
+-- 2. CATEGORY TABLE
 CREATE TABLE tbl_category (
     category_id INT PRIMARY KEY AUTO_INCREMENT,
     category_name VARCHAR(255) NOT NULL,
@@ -16,13 +16,13 @@ CREATE TABLE tbl_category (
     INDEX idx_category_name(category_name)
 );
 
--- 3. 태그 테이블
+-- 3. TAG TABLE
 CREATE TABLE tbl_tag (
     tag_id INT AUTO_INCREMENT PRIMARY KEY,
     tag_name VARCHAR(255) NOT NULL UNIQUE
 );
 
--- 4. 게시글 테이블
+-- 4. POST TABLE
 CREATE TABLE tbl_post (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     post_title TEXT NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE tbl_post (
     FULLTEXT INDEX idx_post_title_content(post_title, post_content)
 );
 
--- 5. 게시글-태그 관계 테이블 (다대다 관계)
+-- 5. POST-TAG RELATION TABLE (MANY-TO-MANY)
 CREATE TABLE tbl_post_tags (
     post_id INT NOT NULL,
     tag_id INT NOT NULL,
@@ -46,7 +46,7 @@ CREATE TABLE tbl_post_tags (
     FOREIGN KEY (tag_id) REFERENCES tbl_tag(tag_id)
 );
 
--- 6. 게시글에 포함된 이미지 테이블
+-- 6. POST-EMBED IMAGE TABLE
 CREATE TABLE tbl_post_embed_image (
     image_id INT PRIMARY KEY AUTO_INCREMENT,
     image_file_name VARCHAR(255) NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE tbl_post_embed_image (
     FOREIGN KEY (post_id) REFERENCES tbl_post(post_id)
 );
 
--- 7. 게시글에 첨부된 파일 테이블
+-- 7. POST-UPLOADED FILE TABLE
 CREATE TABLE tbl_post_uploaded_file (
     file_id INT AUTO_INCREMENT PRIMARY KEY,
     file_name VARCHAR(255) NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE tbl_post_uploaded_file (
     FOREIGN KEY (post_id) REFERENCES tbl_post(post_id)
 );
 
--- 8. 사용자 계정 테이블
+-- 8. ACCOUNT TABLE
 CREATE TABLE tbl_account (
     account_id INT AUTO_INCREMENT PRIMARY KEY,
     user_email VARCHAR(255) NOT NULL UNIQUE,
